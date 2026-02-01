@@ -1,118 +1,183 @@
-import { Link } from "react-router-dom";
-import { FileText, Gift, MessageSquare, TrendingUp } from "lucide-react";
+import { motion } from "framer-motion";
+import ImageSlider from "../components/ImageSlider.jsx";
+import Marquee from "../components/Marquee.jsx";
+import InfoCard from "../components/InfoCard.jsx";
+import StepCard from "../components/StepCard.jsx";
 
 const Home = () => {
+  const infoCards = [
+    {
+      icon: "📋",
+      title: "Scheme Information",
+      description:
+        "Explore detailed information about all government schemes and their benefits",
+      link: "/schemes",
+    },
+    {
+      icon: "✅",
+      title: "Eligibility Criteria",
+      description:
+        "Check if you qualify for various government schemes and programs",
+      link: "/schemes",
+    },
+    {
+      icon: "👥",
+      title: "Beneficiaries",
+      description: "Learn about who can benefit from different welfare schemes",
+      link: "/schemes",
+    },
+    {
+      icon: "📝",
+      title: "Application Process",
+      description: "Step-by-step guide to apply for government schemes online",
+      link: "/schemes",
+    },
+  ];
+
+  const steps = [
+    {
+      step: 1,
+      icon: "📝",
+      title: "Enter Details",
+      description:
+        "Fill in your basic information and documents required for the scheme application",
+    },
+    {
+      step: 2,
+      icon: "🔍",
+      title: "Find Scheme",
+      description:
+        "Browse through available schemes and find the ones you are eligible for",
+    },
+    {
+      step: 3,
+      icon: "✨",
+      title: "Select & Apply",
+      description:
+        "Choose your scheme and submit your application with all necessary documents",
+    },
+  ];
+
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-5xl font-bold mb-6">Welcome to SeralSeva</h1>
-          <p className="text-xl mb-8 max-w-3xl mx-auto">
-            Your one-stop solution for lodging grievances, accessing government
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--txt)]">
+      {/* Hero Section with Slider */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <ImageSlider />
+      </section>
+
+      {/* Marquee Section */}
+      <section className="mb-12">
+        <Marquee />
+      </section>
+
+      {/* Info Cards Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold text-[var(--txt)] mb-4">
+            Explore Government Schemes
+          </h2>
+          <p className="text-[var(--txt-dim)] text-lg">
+            Everything you need to know about available schemes and benefits
           </p>
-          <div className="flex gap-4 justify-center flex-wrap">
-            <Link
-              to="/signup"
-              className="bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+          {infoCards.map((card, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              className="
+        h-full
+        flex
+        bg-[var(--bg-sec)]
+        border border-[var(--bg-ter)]
+        rounded-[var(--radius)]
+      "
             >
-              Create Free Account
-            </Link>
-            <Link
-              to="/login"
-              className="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary-600 transition-colors"
-            >
-              Login
-            </Link>
+              <InfoCard {...card} className="flex-1" />
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="bg-[var(--bg-sec)] py-16 mt-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-[var(--txt)] mb-4">
+              HOW IT WORKS
+            </h2>
+            <p className="text-[var(--txt-dim)] text-xl">
+              Government Schemes, Simplified in 3 Steps
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mt-12">
+            {steps.map((step, index) => (
+              <StepCard key={index} {...step} delay={index * 0.2} />
+            ))}
           </div>
         </div>
-      </div>
-
-      {/* Features Section */}
-      <div className="max-w-7xl mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold text-center mb-12">
-          Features of SeralSeva
-        </h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {[
-            {
-              icon: FileText,
-              title: "Grievance Redressal",
-              desc: "Easily lodge and track your grievances with our user-friendly platform.",
-            },
-            {
-              icon: Gift,
-              title: "Government Schemes",
-              desc: "Access information about all government schemes and benefits available to you.",
-            },
-            {
-              icon: MessageSquare,
-              title: "AI Assistant",
-              desc: "Get instant assistance with your queries using our AI-powered chatbot.",
-            },
-            {
-              icon: TrendingUp,
-              title: "Track Progress",
-              desc: "Monitor the status and resolution of your grievances in real-time.",
-            },
-          ].map((feature, idx) => {
-            const Icon = feature.icon;
-            return (
-              <div
-                key={idx}
-                className="card text-center hover:shadow-lg transition-shadow"
-              >
-                <Icon className="w-12 h-12 text-primary-600 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.desc}</p>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Stats Section */}
-      <div className="bg-gray-100 py-12">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8 text-center">
-            <div>
-              <div className="text-4xl font-bold text-primary-600 mb-2">
-                10,000+
-              </div>
-              <div className="text-gray-600">Grievances Lodged</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-primary-600 mb-2">
-                50,000+
-              </div>
-              <div className="text-gray-600">Active Users</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-primary-600 mb-2">
-                100+
-              </div>
-              <div className="text-gray-600">Government Schemes</div>
-            </div>
-          </div>
-        </div>
-      </div>
+      </section>
 
       {/* CTA Section */}
-      <div className="bg-primary-600 text-white py-16">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to get started?</h2>
-          <p className="text-xl mb-8">
-            Join thousands of citizens who are already using SaralSeva to access
-            government services
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="
+        bg-gradient-to-r 
+        from-[var(--btn)] 
+        to-[var(--btn-hover)]
+        p-12 
+        rounded-[var(--radius)] 
+        text-center
+        shadow-[0_12px_40px_rgba(var(--shadow-rgb),0.35)]
+      "
+        >
+          <h2 className="text-4xl font-bold text-white mb-4">
+            Ready to Get Started?
+          </h2>
+
+          <p className="text-white/90 text-lg mb-8">
+            Apply for government schemes and track your applications easily
           </p>
-          <Link
-            to="/signup"
-            className="bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-block"
+
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => (window.location.href = "/schemes")}
+            className="
+          bg-[var(--bg-primary)]
+          text-[var(--btn)]
+          px-8 py-3
+          rounded-[var(--radius)]
+          font-bold text-lg
+          hover:shadow-[0_8px_24px_rgba(var(--shadow-rgb),0.35)]
+          transition-all duration-200
+        "
           >
-            Create Free Account
-          </Link>
-        </div>
-      </div>
+            Browse Schemes
+          </motion.button>
+        </motion.div>
+      </section>
     </div>
   );
 };
