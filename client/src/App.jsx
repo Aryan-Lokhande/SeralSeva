@@ -14,6 +14,10 @@ import Dashboard from './pages/Dashboard.jsx';
 import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
 import ApplyScheme from './pages/ApplyScheme.jsx';
+import LodgeGrievance from './pages/LodgeGrievance.jsx';
+import TrackGrievance from './pages/TrackGrievance.jsx';
+import Contact from './pages/Contact.jsx';
+import SuccessStories from './pages/SuccessStories.jsx'
 
 function App() {
   return (
@@ -31,11 +35,11 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/apply-scheme" element={<ApplyScheme />} />
+              <Route path="/lodge-grievance" element={<LodgeGrievance />} />
+              <Route path="/track-grievance" element={<TrackGrievance />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/success-stories" element={<SuccessStories />} />
               
-              {/* Placeholder routes for future pages */}
-              <Route path="/lodge-grievance" element={<div className="min-h-screen flex items-center justify-center"><h1 className="text-3xl text-txt">Lodge Grievance - Coming Soon</h1></div>} />
-              <Route path="/track-grievance" element={<div className="min-h-screen flex items-center justify-center"><h1 className="text-3xl text-txt">Track Grievance - Coming Soon</h1></div>} />
-              <Route path="/contact" element={<div className="min-h-screen flex items-center justify-center"><h1 className="text-3xl text-txt">Contact Us - Coming Soon</h1></div>} />
             </Routes>
           </main>
 

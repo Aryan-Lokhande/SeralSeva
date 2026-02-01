@@ -36,8 +36,7 @@ const Footer = () => {
                   className="
                   text-[var(--txt-dim)]
                   hover:text-[var(--btn)]
-                  transition-colors duration-200
-                "
+                  transition-colors duration-200"
                 >
                   Home
                 </Link>
@@ -48,8 +47,7 @@ const Footer = () => {
                   className="
                   text-[var(--txt-dim)]
                   hover:text-[var(--btn)]
-                  transition-colors duration-200
-                "
+                  transition-colors duration-200"
                 >
                   Schemes
                 </Link>
@@ -60,10 +58,19 @@ const Footer = () => {
                   className="
                   text-[var(--txt-dim)]
                   hover:text-[var(--btn)]
-                  transition-colors duration-200
-                "
+                  transition-colors duration-200"
                 >
                   Grievances
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/success-stories"
+                  className="
+                  text-[var(--txt-dim)] hover:text-[var(--btn)]
+                  transition-colors duration-200"
+                >
+                  Success Stories
                 </Link>
               </li>
             </ul>
@@ -98,6 +105,16 @@ const Footer = () => {
               Contact
             </h4>
             <ul className="space-y-2 text-[var(--txt-dim)] text-sm">
+              <li>
+                <Link
+                  to="/contact"
+                  className="
+                  text-[var(--txt-dim)] hover:text-[var(--btn)]
+                  transition-colors duration-200"
+                >
+                  Contact
+                </Link>
+              </li>
               <li>Email: support@saralseva.gov.in</li>
               <li>Helpline: 1800-XXX-XXXX</li>
               <li>Timings: 9 AM – 6 PM (Mon–Fri)</li>

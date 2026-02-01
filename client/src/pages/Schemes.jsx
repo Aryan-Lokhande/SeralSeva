@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { schemesData } from "../data/mockData";
+import img from "../assets/images/slider2.jpg";
 
 const Schemes = () => {
   const navigate = useNavigate();
@@ -17,8 +18,24 @@ const Schemes = () => {
   return (
     <div className="min-h-screen">
       {/* Banner Section */}
-      <section className="bg-gradient-to-r from-btn to-btn-hover py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="relative py-20 overflow-hidden">
+        {/* Background Image */}
+        <img
+          src={img}
+          alt=""
+          aria-hidden="true"
+          className="
+      absolute inset-0 w-full h-full object-cover"
+        />
+
+        {/* Gradient Overlay */}
+        <div
+          className="
+      absolute inset-0 bg-gradient-to-r
+      from-[var(--btn)]/10 to-[var(--btn-hover)]/40
+      opacity-90"
+        />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center ">
           <motion.h1
             initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -96,7 +113,10 @@ const Schemes = () => {
                     </td>
                     <td className="px-6 py-4">
                       <div>
-                        <div className="text-txt font-medium">
+                        <div
+                          className="text-txt font-medium hover:text-btn cursor-pointer"
+                          onClick={() => navigate(`/scheme/${scheme.id}`)}
+                        >
                           {scheme.title}
                         </div>
                         <div className="text-txt-dim text-sm mt-1">
