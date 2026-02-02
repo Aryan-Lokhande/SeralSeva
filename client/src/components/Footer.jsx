@@ -110,7 +110,7 @@ const Footer = () => {
                   to="/contact"
                   className="
                   text-[var(--txt-dim)] hover:text-[var(--btn)]
-                  transition-colors duration-200"
+                  transition-colors duration-200 text-base"
                 >
                   Contact
                 </Link>

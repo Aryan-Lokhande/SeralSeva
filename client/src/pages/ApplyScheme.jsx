@@ -344,7 +344,7 @@ const ApplyScheme = () => {
                 type="submit"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="flex-1 bg-[var(--btn)] rounded-[var(--radius)] text-white py-3 rounded-custom font-semibold transition-colors duration-200"
+                className="flex-1 bg-gradient-to-r from-[var(--btn-hover)] to-[var(--btn)] rounded-[var(--radius)] text-white py-3 rounded-custom font-semibold transition-colors duration-200"
               >
                 Submit Application
               </motion.button>
