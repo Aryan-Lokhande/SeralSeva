@@ -1,177 +1,250 @@
-import React, { useState } from "react";
-import sms from "../assets/register-sms.png";
-// import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-
-/* Indian States (Static) */
-const STATES = [
-  { code: "MH", name: "Maharashtra" },
-  { code: "DL", name: "Delhi" },
-  { code: "KA", name: "Karnataka" },
-  { code: "UP", name: "Uttar Pradesh" },
-  { code: "RJ", name: "Rajasthan" },
-  { code: "TN", name: "Tamil Nadu" },
-  { code: "GJ", name: "Gujarat" },
-  { code: "WB", name: "West Bengal" },
-  { code: "MP", name: "Madhya Pradesh" },
-  { code: "PB", name: "Punjab" },
-];
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 const Signup = () => {
-  // const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     password: "",
     confirmPassword: "",
-    mobile: "",
-    gender: "",
-    state: "",
   });
-
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { signup } = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+
+    // Validation
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.password ||
+      !formData.confirmPassword
+    ) {
+      toast.error("Please fill in all fields");
+      return;
+    }
 
     if (formData.password !== formData.confirmPassword) {
-      return setError("Passwords do not match");
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return;
     }
 
     try {
-      setLoading(true);
-      await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/v1/user/registerUser`,
-        formData
-      );
-      alert("Account created successfully");
-      // navigate("/userlogin");
-    } catch (err) {
-      setError(err.response?.data?.message || "Registration failed");
-    } finally {
-      setLoading(false);
+      const userData = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password,
+      };
+
+      const result = await signup(userData);
+
+      if (result.success) {
+        toast.success("Account created successfully!");
+        navigate("/dashboard");
+      } else {
+        toast.error(result.message || "Signup failed");
+      }
+    } catch (error) {
+      toast.error("An error occurred. Please try again.");
     }
   };
 
-  const inputClasses =
-    "w-full p-3 border rounded-md outline-none focus:ring-2 focus:ring-orange-500";
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-orange-50">
-      <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-10 p-8 bg-white rounded-xl shadow-lg">
+    <div className="min-h-screen flex items-center justify-center px-4 py-12">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="max-w-md w-full"
+      >
+        <div className="bg-bg-sec rounded-custom shadow-custom-lg p-8">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-txt mb-2">Create Account</h2>
+            <p className="text-txt-dim">
+              Sign up to get started with SaralSeva
+            </p>
+          </div>
 
-        {/* Left Section */}
-        <div className="text-center">
-          <img src={sms} alt="Signup" className="mx-auto w-64" />
-          <h2 className="text-3xl font-bold mt-6 text-orange-800">
-            Create SeralSeva Account
-          </h2>
-          <p className="mt-2 text-gray-600">
-            Already registered?{" "}
-            {/* <Link to="/userlogin" className="text-orange-600 font-semibold"> */}
-            <button  className="text-orange-600 font-semibold">
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Full Name */}
+            <div>
+              <label htmlFor="name" className="block text-txt font-medium mb-2">
+                Full Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-bg-ter text-txt rounded-custom border border-bg-ter focus:border-btn focus:outline-none transition-colors duration-200"
+                placeholder="Enter your full name"
+                required
+              />
+            </div>
+
+            {/* Email */}
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-txt font-medium mb-2"
+              >
+                Email Address
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-bg-ter text-txt rounded-custom border border-bg-ter focus:border-btn focus:outline-none transition-colors duration-200"
+                placeholder="your.email@example.com"
+                required
+              />
+            </div>
+
+            {/* Phone */}
+            <div>
+              <label
+                htmlFor="phone"
+                className="block text-txt font-medium mb-2"
+              >
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-bg-ter text-txt rounded-custom border border-bg-ter focus:border-btn focus:outline-none transition-colors duration-200"
+                placeholder="10-digit mobile number"
+                pattern="[0-9]{10}"
+                required
+              />
+            </div>
+
+            {/* Password */}
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-txt font-medium mb-2"
+              >
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-bg-ter text-txt rounded-custom border border-bg-ter focus:border-btn focus:outline-none transition-colors duration-200"
+                placeholder="Create a strong password"
+                required
+              />
+            </div>
+
+            {/* Confirm Password */}
+            <div>
+              <label
+                htmlFor="confirmPassword"
+                className="block text-txt font-medium mb-2"
+              >
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-bg-ter text-txt rounded-custom border border-bg-ter focus:border-btn focus:outline-none transition-colors duration-200"
+                placeholder="Re-enter your password"
+                required
+              />
+            </div>
+
+            {/* Terms & Conditions */}
+            <div className="flex items-start">
+              <input
+                type="checkbox"
+                id="terms"
+                className="mt-1 w-4 h-4 rounded border-bg-ter focus:ring-btn"
+                required
+              />
+              <label htmlFor="terms" className="ml-2 text-txt-dim text-sm">
+                I agree to the{" "}
+                <a href="#" className="text-btn hover:text-btn-hover">
+                  Terms & Conditions
+                </a>{" "}
+                and{" "}
+                <a href="#" className="text-btn hover:text-btn-hover">
+                  Privacy Policy
+                </a>
+              </label>
+            </div>
+
+            {/* Submit Button */}
+            <motion.button
+              type="submit"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full bg-btn hover:bg-btn-hover text-white py-3 rounded-custom font-semibold transition-colors duration-200"
+            >
+              Create Account
+            </motion.button>
+          </form>
+
+          {/* Divider */}
+          <div className="my-6 flex items-center">
+            <div className="flex-1 border-t border-bg-ter"></div>
+            <span className="px-4 text-txt-dim text-sm">OR</span>
+            <div className="flex-1 border-t border-bg-ter"></div>
+          </div>
+
+          {/* Login Link */}
+          <p className="text-center text-txt-dim">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="text-btn hover:text-btn-hover font-medium transition-colors duration-200"
+            >
               Login
-            </button>
+            </Link>
           </p>
         </div>
 
-        {/* Right Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {error && <p className="text-red-600">{error}</p>}
-
-          <input
-            name="name"
-            placeholder="Full Name"
-            value={formData.name}
-            onChange={handleChange}
-            className={inputClasses}
-            required
-          />
-
-          <select
-            name="gender"
-            value={formData.gender}
-            onChange={handleChange}
-            className={inputClasses}
-            required
+        {/* Back to Home */}
+        <div className="text-center mt-6">
+          <Link
+            to="/"
+            className="text-txt-dim hover:text-txt transition-colors duration-200"
           >
-            <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-
-          <input
-            type="email"
-            name="email"
-            placeholder="Email Address"
-            value={formData.email}
-            onChange={handleChange}
-            className={inputClasses}
-            required
-          />
-
-          <input
-            type="password"
-            name="password"
-            placeholder="Create Password"
-            value={formData.password}
-            onChange={handleChange}
-            className={inputClasses}
-            required
-          />
-
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            className={inputClasses}
-            required
-          />
-
-          <input
-            type="tel"
-            name="mobile"
-            placeholder="Mobile Number"
-            value={formData.mobile}
-            onChange={handleChange}
-            className={inputClasses}
-            required
-          />
-
-          {/* State Selection */}
-          <select
-            name="state"
-            value={formData.state}
-            onChange={handleChange}
-            className={inputClasses}
-            required
-          >
-            <option value="">Select State</option>
-            {STATES.map((state) => (
-              <option key={state.code} value={state.name}>
-                {state.name}
-              </option>
-            ))}
-          </select>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-orange-600 text-white py-3 rounded-md hover:bg-orange-700 transition"
-          >
-            {loading ? "Creating Account..." : "Create Account"}
-          </button>
-        </form>
-      </div>
+            ← Back to Home
+          </Link>
+        </div>
+      </motion.div>
     </div>
   );
 };
