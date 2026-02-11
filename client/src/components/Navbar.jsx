@@ -28,7 +28,7 @@ const Navbar = () => {
   animate={{ y: 0 }}
   className="
     bg-[var(--bg-sec)]
-    border-b border-[var(--bg-ter)]
+    border-b-4 border-[var(--btn)]/60
     shadow-[0_6px_20px_rgba(var(--shadow-rgb),0.15)]
     sticky top-0 z-50
   "

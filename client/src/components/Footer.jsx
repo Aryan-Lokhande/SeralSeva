@@ -6,10 +6,13 @@ const Footer = () => {
   return (
     <footer
       className="
-      bg-[var(--bg-sec)]
-      mt-auto
-      border-t border-[var(--bg-ter)]
-    "
+        bg-gradient-to-tr
+        from-[var(--btn)]/50
+        via-[var(--bg-ter)]/50
+        to-[var(--btn)]/50
+        mt-auto
+        border-t-4 border-[var(--btn)]/60
+      "
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -34,9 +37,10 @@ const Footer = () => {
                 <Link
                   to="/"
                   className="
-                  text-[var(--txt-dim)]
-                  hover:text-[var(--btn)]
-                  transition-colors duration-200"
+                    text-[var(--txt-dim)]
+                    hover:text-[var(--btn)]
+                    transition-colors duration-200
+                  "
                 >
                   Home
                 </Link>
@@ -45,9 +49,10 @@ const Footer = () => {
                 <Link
                   to="/schemes"
                   className="
-                  text-[var(--txt-dim)]
-                  hover:text-[var(--btn)]
-                  transition-colors duration-200"
+                    text-[var(--txt-dim)]
+                    hover:text-[var(--btn)]
+                    transition-colors duration-200
+                  "
                 >
                   Schemes
                 </Link>
@@ -56,9 +61,10 @@ const Footer = () => {
                 <Link
                   to="/grievances"
                   className="
-                  text-[var(--txt-dim)]
-                  hover:text-[var(--btn)]
-                  transition-colors duration-200"
+                    text-[var(--txt-dim)]
+                    hover:text-[var(--btn)]
+                    transition-colors duration-200
+                  "
                 >
                   Grievances
                 </Link>
@@ -67,8 +73,10 @@ const Footer = () => {
                 <Link
                   to="/success-stories"
                   className="
-                  text-[var(--txt-dim)] hover:text-[var(--btn)]
-                  transition-colors duration-200"
+                    text-[var(--txt-dim)]
+                    hover:text-[var(--btn)]
+                    transition-colors duration-200
+                  "
                 >
                   Success Stories
                 </Link>
@@ -87,10 +95,10 @@ const Footer = () => {
                   <a
                     href="#"
                     className="
-                    text-[var(--txt-dim)]
-                    hover:text-[var(--btn)]
-                    transition-colors duration-200
-                  "
+                      text-[var(--txt-dim)]
+                      hover:text-[var(--btn)]
+                      transition-colors duration-200
+                    "
                   >
                     {item}
                   </a>
@@ -109,10 +117,13 @@ const Footer = () => {
                 <Link
                   to="/contact"
                   className="
-                  text-[var(--txt-dim)] hover:text-[var(--btn)]
-                  transition-colors duration-200 text-base"
+                    text-[var(--txt-dim)]
+                    hover:text-[var(--btn)]
+                    transition-colors duration-200
+                    text-base
+                  "
                 >
-                  Contact
+                  Contact US
                 </Link>
               </li>
               <li>Email: support@saralseva.gov.in</li>
@@ -136,11 +147,11 @@ const Footer = () => {
                     key={item}
                     href="#"
                     className="
-                    text-[var(--txt-dim)]
-                    hover:text-[var(--btn)]
-                    transition-colors duration-200
-                    text-sm
-                  "
+                      text-[var(--txt-dim)]
+                      hover:text-[var(--btn)]
+                      transition-colors duration-200
+                      text-sm
+                    "
                   >
                     {item}
                   </a>

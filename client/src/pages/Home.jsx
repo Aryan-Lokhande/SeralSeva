@@ -4,30 +4,40 @@ import Marquee from "../components/Marquee.jsx";
 import InfoCard from "../components/InfoCard.jsx";
 import StepCard from "../components/StepCard.jsx";
 
+import {
+  ClipboardList,
+  BadgeCheck,
+  Users,
+  FileText,
+  PenLine,
+  Search,
+  Sparkles,
+} from "lucide-react";
+
 const Home = () => {
   const infoCards = [
     {
-      icon: "📋",
+      icon: <ClipboardList size={50} className="text-[var(--btn)]" />,
       title: "Scheme Information",
       description:
         "Explore detailed information about all government schemes and their benefits",
       link: "/schemes",
     },
     {
-      icon: "✅",
+      icon: <BadgeCheck size={50} className="text-[var(--btn)]" />,
       title: "Eligibility Criteria",
       description:
         "Check if you qualify for various government schemes and programs",
       link: "/schemes",
     },
     {
-      icon: "👥",
+      icon: <Users size={50} className="text-[var(--btn)]" />,
       title: "Beneficiaries",
       description: "Learn about who can benefit from different welfare schemes",
       link: "/schemes",
     },
     {
-      icon: "📝",
+      icon: <FileText size={50} className="text-[var(--btn)]" />,
       title: "Application Process",
       description: "Step-by-step guide to apply for government schemes online",
       link: "/schemes",
@@ -37,21 +47,21 @@ const Home = () => {
   const steps = [
     {
       step: 1,
-      icon: "📝",
+      icon: <PenLine size={60} className="text-[var(--btn)]" />,
       title: "Enter Details",
       description:
         "Fill in your basic information and documents required for the scheme application",
     },
     {
       step: 2,
-      icon: "🔍",
+      icon: <Search size={60} className="text-[var(--btn)]" />,
       title: "Find Scheme",
       description:
         "Browse through available schemes and find the ones you are eligible for",
     },
     {
       step: 3,
-      icon: "✨",
+      icon: <Sparkles size={60} className="text-[var(--btn)]" />,
       title: "Select & Apply",
       description:
         "Choose your scheme and submit your application with all necessary documents",
@@ -96,12 +106,12 @@ const Home = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
               className="
-        h-full
-        flex
-        bg-[var(--bg-sec)]
-        border border-[var(--bg-ter)]
-        rounded-[var(--radius)]
-      "
+                h-full
+                flex
+                bg-[var(--bg-sec)]
+                border border-[var(--bg-ter)]
+                rounded-[var(--radius)]
+              "
             >
               <InfoCard {...card} className="flex-1" />
             </motion.div>
@@ -143,14 +153,11 @@ const Home = () => {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
           className="
-        bg-gradient-to-r 
-        from-[var(--btn)] 
-        to-[var(--btn-hover)]
-        p-12 
-        rounded-[var(--radius)] 
-        text-center
-        shadow-[0_12px_40px_rgba(var(--shadow-rgb),0.35)]
-      "
+            bg-gradient-to-r from-[var(--btn)] 
+            to-[var(--btn-hover)] p-12 
+            rounded-[var(--radius)] text-center
+            shadow-[0_12px_40px_rgba(var(--shadow-rgb),0.35)]
+          "
         >
           <h2 className="text-4xl font-bold text-white mb-4">
             Ready to Get Started?
@@ -165,14 +172,11 @@ const Home = () => {
             whileTap={{ scale: 0.95 }}
             onClick={() => (window.location.href = "/schemes")}
             className="
-          bg-[var(--bg-primary)]
-          text-[var(--btn)]
-          px-8 py-3
-          rounded-[var(--radius)]
-          font-bold text-lg
-          hover:shadow-[0_8px_24px_rgba(var(--shadow-rgb),0.35)]
-          transition-all duration-200
-        "
+              bg-[var(--bg-primary)] text-[var(--btn)]
+              px-8 py-3 rounded-[var(--radius)] font-bold text-lg
+              hover:shadow-[0_8px_24px_rgba(var(--shadow-rgb),0.35)]
+              transition-all duration-200
+            "
           >
             Browse Schemes
           </motion.button>

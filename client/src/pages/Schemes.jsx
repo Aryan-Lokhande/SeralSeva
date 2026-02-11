@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { getSchemes } from "../utils/api";
 import toast from "react-hot-toast";
+import { Download, Info } from "lucide-react";
 
 const Schemes = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const Schemes = () => {
     try {
       setLoading(true);
       const response = await getSchemes({ isActive: true });
+
       if (response.success) {
         setSchemes(response.data);
       }
@@ -33,22 +35,23 @@ const Schemes = () => {
   };
 
   const handleDownloadBrochure = (scheme) => {
-    // Mock download - in real app, this would download actual PDF
     toast.success(`Downloading brochure for ${scheme.title}`);
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-txt text-xl">Loading schemes...</div>
+      <div className="min-h-screen flex items-center justify-center bg-[var(--bg-primary)]">
+        <div className="text-[var(--txt)] text-xl font-medium">
+          Loading schemes...
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--txt)]">
       {/* Banner Section */}
-      <section className="bg-gradient-to-r from-btn to-btn-hover py-20">
+      <section className="bg-gradient-to-r from-[var(--btn)]/90 to-[var(--btn-hover)]/50 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.h1
             initial={{ opacity: 0, y: -30 }}
@@ -58,11 +61,12 @@ const Schemes = () => {
           >
             Government Schemes
           </motion.h1>
+
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl text-gray-100 mt-4"
+            className="text-xl text-white/90 mt-4"
           >
             Explore and apply for various government welfare programmes
           </motion.p>
@@ -77,10 +81,10 @@ const Schemes = () => {
           transition={{ duration: 0.6 }}
           className="mb-8"
         >
-          <h2 className="text-3xl font-bold text-txt mb-2">
+          <h2 className="text-3xl font-bold text-[var(--txt)] mb-2">
             Available Schemes & Programmes
           </h2>
-          <p className="text-txt-dim">
+          <p className="text-[var(--txt-dim)]">
             Browse through all available government schemes and apply online
           </p>
         </motion.div>
@@ -90,11 +94,11 @@ const Schemes = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-bg-sec rounded-custom shadow-custom-lg overflow-hidden"
+          className="bg-[var(--bg-sec)] rounded-[var(--radius)] shadow-[0_12px_40px_rgba(var(--shadow-rgb),0.25)] overflow-hidden"
         >
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-btn text-white">
+              <thead className="bg-[var(--btn)]/90 text-white">
                 <tr>
                   <th className="px-6 py-4 text-left text-sm font-bold uppercase tracking-wider">
                     Sr. No
@@ -113,63 +117,56 @@ const Schemes = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-bg-ter">
+
+              <tbody className="divide-y divide-[var(--bg-ter)]">
                 {schemes.map((scheme, index) => (
                   <motion.tr
                     key={scheme._id}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.05 }}
-                    className="hover:bg-bg-ter transition-colors duration-200"
+                    className="hover:bg-[var(--bg-ter)] transition-colors duration-200"
                   >
-                    <td className="px-6 py-4 whitespace-nowrap text-txt">
+                    <td className="px-6 py-4 whitespace-nowrap text-[var(--txt)]">
                       {index + 1}
                     </td>
+
                     <td className="px-6 py-4">
                       <div>
                         <div
-                          className="text-txt font-medium hover:text-btn cursor-pointer"
+                          className="text-[var(--txt)] font-medium hover:text-[var(--btn)] cursor-pointer transition-colors duration-200"
                           onClick={() => navigate(`/scheme/${scheme._id}`)}
                         >
                           {scheme.title}
                         </div>
-                        <div className="text-txt-dim text-sm mt-1">
+                        <div className="text-[var(--txt-dim)] text-sm mt-1">
                           {scheme.description}
                         </div>
                       </div>
                     </td>
+
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="px-3 py-1 text-xs font-semibold rounded-full bg-btn/20 text-btn">
+                      <span className="px-3 py-1 text-xs font-semibold rounded-full bg-[var(--btn)]/20 text-[var(--btn)]">
                         {scheme.category}
                       </span>
                     </td>
+
                     <td className="px-6 py-4 whitespace-nowrap">
                       <button
                         onClick={() => handleDownloadBrochure(scheme)}
-                        className="text-btn hover:text-btn-hover font-medium flex items-center space-x-1 transition-colors duration-200"
+                        className="text-[var(--btn)] hover:text-[var(--btn-hover)] font-medium flex items-center gap-2 transition-colors duration-200"
                       >
-                        <svg
-                          className="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                          />
-                        </svg>
+                        <Download size={18} />
                         <span>Download</span>
                       </button>
                     </td>
+
                     <td className="px-6 py-4 whitespace-nowrap">
                       <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => handleApply(scheme)}
-                        className="bg-btn hover:bg-btn-hover text-white px-6 py-2 rounded-custom font-medium transition-colors duration-200"
+                        className="bg-[var(--btn)] hover:bg-[var(--btn-hover)] text-white px-6 py-2 rounded-[var(--radius)] font-medium transition-colors duration-200"
                       >
                         Apply Now
                       </motion.button>
@@ -186,25 +183,15 @@ const Schemes = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-8 bg-btn/10 border border-btn rounded-custom p-6"
+          className="mt-8 bg-[var(--btn)]/10 border border-[var(--btn)] rounded-[var(--radius)] p-6"
         >
-          <div className="flex items-start space-x-3">
-            <svg
-              className="w-6 h-6 text-btn flex-shrink-0 mt-1"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                fillRule="evenodd"
-                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                clipRule="evenodd"
-              />
-            </svg>
+          <div className="flex items-start gap-3">
+            <Info size={22} className="text-[var(--btn)] mt-1" />
             <div>
-              <h3 className="text-txt font-semibold mb-1">
+              <h3 className="text-[var(--txt)] font-semibold mb-1">
                 Important Information
               </h3>
-              <p className="text-txt-dim text-sm">
+              <p className="text-[var(--txt-dim)] text-sm">
                 Please read the scheme brochure carefully before applying.
                 Ensure you meet all eligibility criteria and have all required
                 documents ready.
