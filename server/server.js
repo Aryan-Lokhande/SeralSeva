@@ -68,12 +68,8 @@ app.get("/api/health", (req, res) => {
 });
 
 // Root route
-app.get("/", (req, res) => {
-  res.json({
-    message: "Welcome to SaralSeva API",
-    version: "1.0.0",
-    documentation: "/api/docs",
-  });
+app.get('/', (req,res)=>{
+    res.send("API is working");
 });
 
 // 404 handler
