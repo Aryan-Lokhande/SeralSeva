@@ -14,7 +14,7 @@ import {
   MessageSquare,
   Star,
 } from "lucide-react";
-import AdminDashboard from "./AdminDashboard";
+import AdminDashboard from "./Admindashboard";
 
 const Dashboard = () => {
   const navigate = useNavigate();
