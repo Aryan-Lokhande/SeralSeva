@@ -1,4 +1,7 @@
 import img1 from "../assets/images/slider1.jpg";
+import img2 from "../assets/images/slider2.png";
+import img3 from "../assets/images/slider3.png";
+import img4 from "../assets/images/slider4.jpg";
 export const schemesData = [
   {
     id: 1,
@@ -103,24 +106,24 @@ export const sliderImages = [
   {
     id: 1,
     url: img1,
-    alt: "Pradhan Mantri Awas Yojana Banner",
+    alt: "Pradhan Mantri Awaas Yojana-Gramin",
     title: "Housing for All"
   },
   {
     id: 2,
-    url: "/src/assets/images/slider2.jpg",
+    url: img2,
     alt: "Ayushman Bharat Scheme",
     title: "Healthcare for Everyone"
   },
   {
     id: 3,
-    url: "/src/assets/images/slider3.jpg",
+    url: img3,
     alt: "Digital India Mission",
     title: "Digital Empowerment"
   },
   {
     id: 4,
-    url: "/src/assets/images/slider4.jpg",
+    url: img4,
     alt: "PM Kisan Scheme",
     title: "Support for Farmers"
   }

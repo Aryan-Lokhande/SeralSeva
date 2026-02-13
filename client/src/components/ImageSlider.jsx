@@ -54,7 +54,7 @@ const ImageSlider = () => {
           />
 
           {/* Overlay */}
-          <div className="absolute inset-0 bg-[var(--txt)]/40" />
+          <div className="absolute inset-0 bg-[var(--txt)]/30" />
 
           {/* Text Content */}
           <div className="absolute inset-0 flex items-center justify-center">
