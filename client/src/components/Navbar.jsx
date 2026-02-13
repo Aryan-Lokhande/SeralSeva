@@ -80,7 +80,7 @@ const Navbar = () => {
                 <Link
                   to="/dashboard"
                   className={`
-                  relative text-[15px] font-medium tracking-wide
+                  relative text-lg font-medium tracking-wide
                   transition-all duration-200
                   ${
                     isActive("/dashboard")

@@ -1,4 +1,4 @@
-
+import img1 from "../assets/images/slider1.jpg";
 export const schemesData = [
   {
     id: 1,
@@ -102,7 +102,7 @@ export const latestUpdates = [
 export const sliderImages = [
   {
     id: 1,
-    url: "/src/assets/images/slider1.jpg",
+    url: img1,
     alt: "Pradhan Mantri Awas Yojana Banner",
     title: "Housing for All"
   },

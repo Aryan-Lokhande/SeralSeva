@@ -9,6 +9,14 @@ import {
   getSchemeStats,
 } from "../utils/api";
 import toast from "react-hot-toast";
+import {
+  ShieldCheck,
+  Settings,
+  FileText,
+  CheckCircle2,
+  MessageCircle,
+  LayoutDashboard,
+} from "lucide-react";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -178,114 +186,109 @@ const AdminDashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-[var(--bg-primary)]">
         <div className="text-center">
-          <div className="text-5xl mb-4">⚙️</div>
-          <div className="text-txt text-xl">Loading admin dashboard...</div>
+          <Settings className="w-14 h-14 mx-auto mb-4 text-[var(--btn)] animate-spin" />
+          <div className="text-[var(--txt)] text-xl font-medium">
+            Loading admin dashboard...
+          </div>
+          <p className="text-[var(--txt-dim)] text-sm mt-2">
+            Please wait while we fetch data
+          </p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-12">
+    <div className="min-h-screen py-12 bg-[var(--bg-primary)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mb-8"
+          className="mb-10"
         >
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div>
-              <h1 className="text-4xl font-bold text-txt mb-2">
-                Admin Dashboard 🛡️
+              <h1 className="text-4xl font-extrabold text-[var(--txt)] mb-2">
+                Admin Dashboard
               </h1>
-              <p className="text-txt-dim text-lg">
+              <p className="text-[var(--txt-dim)] text-lg font-medium">
                 Manage applications, grievances, and schemes
               </p>
             </div>
-            <div className="flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-purple-800 px-4 py-2 rounded-custom">
-              <svg
-                className="w-5 h-5 text-white"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span className="text-white font-semibold">Admin</span>
+
+            <div
+              className="
+              flex items-center gap-2
+              bg-gradient-to-r from-[var(--btn)] to-[var(--btn-hover)]
+              px-5 py-2 rounded-[var(--radius)]
+              shadow-[0_10px_25px_rgba(var(--shadow-rgb),0.25)]
+            "
+            >
+              <ShieldCheck className="w-5 h-5 text-white" />
+              <span className="text-white font-semibold tracking-wide">
+                ADMIN PANEL
+              </span>
             </div>
           </div>
         </motion.div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+          {/* Total Applications */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="bg-gradient-to-br from-blue-600 to-blue-800 p-6 rounded-custom shadow-custom-lg"
+            className="
+            bg-[var(--accent)]/90 border border-[var(--bg-ter)]
+            rounded-[var(--radius)] p-6 
+            shadow-[0_12px_30px_rgba(var(--shadow-rgb),0.12)]"
           >
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-white font-semibold">Total Applications</h3>
-              <div className="bg-white/20 p-2 rounded-lg">
-                <svg
-                  className="w-6 h-6 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  />
-                </svg>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-[var(--txt)] text-lg font-bold">
+                Total Applications
+              </h3>
+              <div className="bg-[var(--btn)]/15 p-2 rounded-lg">
+                <FileText className="w-6 h-6 text-[var(--btn)]" />
               </div>
             </div>
-            <div className="text-4xl font-bold text-white mb-2">
+
+            <div className="text-4xl font-bold text-[var(--txt)] mb-2">
               {stats.totalApplications}
             </div>
-            <div className="text-blue-100 text-sm">
+
+            <div className="text-[var(--txt-dim)]/80 text-sm">
               {stats.submittedApplications} new • {stats.approvedApplications}{" "}
               approved
             </div>
           </motion.div>
 
+          {/* Approved */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-gradient-to-br from-green-600 to-green-800 p-6 rounded-custom shadow-custom-lg"
+            className="
+            bg-[var(--accent)]/90 border border-[var(--bg-ter)]
+            rounded-[var(--radius)] p-6 
+            shadow-[0_12px_30px_rgba(var(--shadow-rgb),0.12)]"
           >
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-white font-semibold">Approved</h3>
-              <div className="bg-white/20 p-2 rounded-lg">
-                <svg
-                  className="w-6 h-6 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-[var(--txt)] text-lg font-bold">Approved</h3>
+              <div className="bg-green-500/15 p-2 rounded-lg">
+                <CheckCircle2 className="w-6 h-6 text-green-600" />
               </div>
             </div>
-            <div className="text-4xl font-bold text-white mb-2">
+
+            <div className="text-4xl font-bold text-[var(--txt)] mb-2">
               {stats.approvedApplications}
             </div>
-            <div className="text-green-100 text-sm">
+
+            <div className="text-[var(--txt-dim)]/80 text-sm">
               {Math.round(
                 (stats.approvedApplications / stats.totalApplications) * 100,
               ) || 0}
@@ -293,108 +296,114 @@ const AdminDashboard = () => {
             </div>
           </motion.div>
 
+          {/* Total Grievances */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="bg-gradient-to-br from-purple-600 to-purple-800 p-6 rounded-custom shadow-custom-lg"
+            className="
+            bg-[var(--accent)]/90 border border-[var(--bg-ter)]
+            rounded-[var(--radius)] p-6 
+            shadow-[0_12px_30px_rgba(var(--shadow-rgb),0.12)]"
           >
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-white font-semibold">Total Grievances</h3>
-              <div className="bg-white/20 p-2 rounded-lg">
-                <svg
-                  className="w-6 h-6 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-[var(--txt)] text-lg font-bold">
+                Total Grievances
+              </h3>
+              <div className="bg-orange-500/15 p-2 rounded-lg">
+                <MessageCircle className="w-6 h-6 text-orange-600" />
               </div>
             </div>
-            <div className="text-4xl font-bold text-white mb-2">
+
+            <div className="text-4xl font-bold text-[var(--txt)] mb-2">
               {stats.totalGrievances}
             </div>
-            <div className="text-purple-100 text-sm">
+
+            <div className="text-[var(--txt-dim)]/80 text-sm">
               {stats.resolvedGrievances} resolved • {stats.inProgressGrievances}{" "}
               active
             </div>
           </motion.div>
 
+          {/* Active Schemes */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="bg-gradient-to-br from-orange-600 to-orange-800 p-6 rounded-custom shadow-custom-lg"
+            className="
+            bg-[var(--accent)]/90 border border-[var(--bg-ter)]
+            rounded-[var(--radius)] p-6 
+            shadow-[0_12px_30px_rgba(var(--shadow-rgb),0.12)]"
           >
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-white font-semibold">Active Schemes</h3>
-              <div className="bg-white/20 p-2 rounded-lg">
-                <svg
-                  className="w-6 h-6 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-                  />
-                </svg>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-[var(--txt)] text-lg font-bold">
+                Active Schemes
+              </h3>
+              <div className="bg-[var(--btn)]/15 p-2 rounded-lg">
+                <LayoutDashboard className="w-6 h-6 text-[var(--btn)]" />
               </div>
             </div>
-            <div className="text-4xl font-bold text-white mb-2">
+
+            <div className="text-4xl font-bold text-[var(--txt)] mb-2">
               {stats.activeSchemes}
             </div>
-            <div className="text-orange-100 text-sm">
+
+            <div className="text-[var(--txt-dim)]/80 text-sm">
               {stats.totalSchemes} total schemes
             </div>
           </motion.div>
         </div>
 
         {/* Tabs */}
-        <div className="flex space-x-2 mb-8 border-b border-bg-ter">
+        <div className="flex gap-2 mb-10 border-b border-[var(--bg-ter)]">
           {[
-            { id: "overview", label: "Overview", icon: "📊" },
+            { id: "overview", label: "Overview", icon: LayoutDashboard },
             {
               id: "applications",
               label: "Applications",
-              icon: "📝",
+              icon: FileText,
               count: stats.submittedApplications,
             },
             {
               id: "grievances",
               label: "Grievances",
-              icon: "💬",
+              icon: MessageCircle,
               count: stats.inProgressGrievances,
             },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-6 py-3 font-semibold transition-all duration-200 border-b-2 ${
-                activeTab === tab.id
-                  ? "border-btn text-btn"
-                  : "border-transparent text-txt-dim hover:text-txt"
-              }`}
-            >
-              {tab.icon} {tab.label}
-              {tab.count > 0 && (
-                <span className="ml-2 bg-btn text-white text-xs px-2 py-1 rounded-full">
-                  {tab.count}
-                </span>
-              )}
-            </button>
-          ))}
-        </div>
+          ].map((tab) => {
+            const Icon = tab.icon;
 
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`
+                flex items-center gap-2 px-6 py-3 font-semibold
+                border-b-2 transition-all duration-200
+                ${
+                  activeTab === tab.id
+                    ? "border-[var(--btn)] text-[var(--btn)]"
+                    : "border-transparent text-[var(--txt-dim)] hover:text-[var(--txt)]"
+                }
+              `}
+              >
+                <Icon className="w-5 h-5" />
+                {tab.label}
+
+                {tab.count > 0 && (
+                  <span
+                    className="
+                    ml-2 bg-[var(--btn)]
+                    text-white text-xs px-2 py-1 rounded-full
+                  "
+                  >
+                    {tab.count}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
         {/* Overview Tab */}
         {activeTab === "overview" && (
           <motion.div
@@ -404,30 +413,49 @@ const AdminDashboard = () => {
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Recent Applications */}
-              <div className="bg-bg-sec rounded-custom shadow-custom-lg p-6">
-                <h3 className="text-xl font-bold text-txt mb-4">
+              <div
+                className="
+                bg-[var(--bg-primary)] border border-[var(--bg-ter)]
+                rounded-[var(--radius)] p-6
+                shadow-[0_12px_30px_rgba(var(--shadow-rgb),0.12)]"
+              >
+                <h3 className="text-2xl font-bold text-[var(--txt)] mb-5">
                   Recent Applications
                 </h3>
-                <div className="space-y-3">
+
+                <div className="space-y-4">
                   {applications.slice(0, 5).map((app) => (
-                    <div key={app._id} className="bg-bg-ter p-4 rounded-custom">
+                    <div
+                      key={app._id}
+                      className="
+                      bg-[var(--bg-sec)] border border-[var(--bg-primary)]
+                      rounded-[var(--radius)] p-4 transition-all duration-200
+                      hover:shadow-[0_10px_25px_rgba(var(--shadow-rgb),0.12)]"
+                    >
                       <div className="flex items-start justify-between mb-2">
-                        <div className="flex-1">
-                          <div className="text-txt font-medium">
+                        <div>
+                          <div className="text-[var(--txt)] text-lg font-bold">
                             {app.user?.name}
                           </div>
-                          <div className="text-txt-dim text-sm">
+                          <div className="text-[var(--txt-dim)] text-sm">
                             {app.scheme?.title}
                           </div>
                         </div>
+
                         <span
-                          className={`px-3 py-1 text-xs font-semibold rounded-full border ${getStatusColor(app.status)}`}
+                          className={`px-3 py-1 text-xs font-semibold rounded-full border ${getStatusColor(
+                            app.status,
+                          )}`}
                         >
                           {app.status}
                         </span>
                       </div>
-                      <div className="text-txt-dim text-xs">
-                        {formatDate(app.createdAt)} • {app.applicationId}
+
+                      <div className="text-[var(--txt-dim)] text-xs">
+                        {formatDate(app.createdAt)} •{" "}
+                        <span className="font-mono text-[var(--txt)]">
+                          {app.applicationId}
+                        </span>
                       </div>
                     </div>
                   ))}
@@ -435,30 +463,48 @@ const AdminDashboard = () => {
               </div>
 
               {/* Recent Grievances */}
-              <div className="bg-bg-sec rounded-custom shadow-custom-lg p-6">
-                <h3 className="text-xl font-bold text-txt mb-4">
+              <div
+                className="
+                bg-[var(--bg-primary)] border border-[var(--bg-ter)] rounded-[var(--radius)] 
+                p-6 shadow-[0_12px_30px_rgba(var(--shadow-rgb),0.12)]"
+              >
+                <h3 className="text-2xl font-bold text-[var(--txt)] mb-5">
                   Recent Grievances
                 </h3>
-                <div className="space-y-3">
+
+                <div className="space-y-4">
                   {grievances.slice(0, 5).map((grv) => (
-                    <div key={grv._id} className="bg-bg-ter p-4 rounded-custom">
+                    <div
+                      key={grv._id}
+                      className="
+                      bg-[var(--bg-sec)] border border-[var(--bg-primary)] rounded-[var(--radius)]
+                      p-4 hover:shadow-[0_10px_25px_rgba(var(--shadow-rgb),0.12)]
+                      transition-all duration-200"
+                    >
                       <div className="flex items-start justify-between mb-2">
-                        <div className="flex-1">
-                          <div className="text-txt font-medium">
+                        <div>
+                          <div className="text-[var(--txt)] text-lg font-bold">
                             {grv.subject}
                           </div>
-                          <div className="text-txt-dim text-sm">
+                          <div className="text-[var(--txt-dim)] text-sm">
                             {grv.category}
                           </div>
                         </div>
+
                         <span
-                          className={`px-3 py-1 text-xs font-semibold rounded-full border ${getStatusColor(grv.status)}`}
+                          className={`px-3 py-1 text-xs font-semibold rounded-full border ${getStatusColor(
+                            grv.status,
+                          )}`}
                         >
                           {grv.status}
                         </span>
                       </div>
-                      <div className="text-txt-dim text-xs">
-                        {formatDate(grv.createdAt)} • {grv.trackingId}
+
+                      <div className="text-[var(--txt-dim)] text-xs">
+                        {formatDate(grv.createdAt)} •{" "}
+                        <span className="font-mono text-[var(--txt)]">
+                          {grv.trackingId}
+                        </span>
                       </div>
                     </div>
                   ))}
@@ -474,14 +520,31 @@ const AdminDashboard = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-bg-sec rounded-custom shadow-custom-lg p-6"
+            className="
+            bg-[var(--bg-primary)]
+            border border-[var(--bg-ter)]
+            rounded-[var(--radius)]
+            shadow-[0_12px_30px_rgba(var(--shadow-rgb),0.12)]
+            p-6
+          "
           >
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold text-txt">All Applications</h3>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+              <h3 className="text-2xl font-bold text-[var(--txt)]">
+                All Applications
+              </h3>
+
               <select
                 value={applicationFilter}
                 onChange={(e) => setApplicationFilter(e.target.value)}
-                className="px-4 py-2 bg-bg-ter text-txt rounded-custom border border-bg-ter focus:border-btn focus:outline-none"
+                className="
+                px-4 py-2
+                bg-[var(--bg-ter)]
+                text-[var(--txt)]
+                rounded-[var(--radius)]
+                border border-[var(--bg-primary)]
+                focus:border-[var(--btn)]
+                focus:outline-none
+              "
               >
                 <option value="all">All Status</option>
                 <option value="Submitted">Submitted</option>
@@ -492,63 +555,78 @@ const AdminDashboard = () => {
               </select>
             </div>
 
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto rounded-[var(--radius)] border border-[var(--bg-ter)]">
               <table className="w-full">
-                <thead>
-                  <tr className="border-b border-bg-ter">
-                    <th className="text-left py-3 px-4 text-txt-dim font-medium text-sm">
+                <thead className="bg-[var(--bg-ter)]">
+                  <tr>
+                    <th className="text-left py-3 px-4 text-[var(--txt-dim)] font-semibold text-sm">
                       Application ID
                     </th>
-                    <th className="text-left py-3 px-4 text-txt-dim font-medium text-sm">
+                    <th className="text-left py-3 px-4 text-[var(--txt-dim)] font-semibold text-sm">
                       User
                     </th>
-                    <th className="text-left py-3 px-4 text-txt-dim font-medium text-sm">
+                    <th className="text-left py-3 px-4 text-[var(--txt-dim)] font-semibold text-sm">
                       Scheme
                     </th>
-                    <th className="text-left py-3 px-4 text-txt-dim font-medium text-sm">
+                    <th className="text-left py-3 px-4 text-[var(--txt-dim)] font-semibold text-sm">
                       Date
                     </th>
-                    <th className="text-left py-3 px-4 text-txt-dim font-medium text-sm">
+                    <th className="text-left py-3 px-4 text-[var(--txt-dim)] font-semibold text-sm">
                       Status
                     </th>
-                    <th className="text-left py-3 px-4 text-txt-dim font-medium text-sm">
+                    <th className="text-left py-3 px-4 text-[var(--txt-dim)] font-semibold text-sm">
                       Actions
                     </th>
                   </tr>
                 </thead>
-                <tbody>
+
+                <tbody className="divide-y divide-[var(--bg-primary)]">
                   {filteredApplications.map((app) => (
                     <tr
                       key={app._id}
-                      className="border-b border-bg-ter hover:bg-bg-ter"
+                      className="
+                      hover:bg-[var(--bg-ter)]/70
+                      transition-colors duration-200
+                    "
                     >
                       <td className="py-4 px-4">
-                        <span className="text-txt font-mono text-sm">
+                        <span className="text-[var(--txt)] font-mono text-sm">
                           {app.applicationId}
                         </span>
                       </td>
+
                       <td className="py-4 px-4">
-                        <div className="text-txt">{app.user?.name}</div>
-                        <div className="text-txt-dim text-xs">
+                        <div className="text-[var(--txt)] font-medium">
+                          {app.user?.name}
+                        </div>
+                        <div className="text-[var(--txt-dim)] text-xs">
                           {app.user?.email}
                         </div>
                       </td>
+
                       <td className="py-4 px-4">
-                        <div className="text-txt">{app.scheme?.title}</div>
-                        <div className="text-txt-dim text-xs">
+                        <div className="text-[var(--txt)] font-medium">
+                          {app.scheme?.title}
+                        </div>
+                        <div className="text-[var(--txt-dim)] text-xs">
                           {app.scheme?.code}
                         </div>
                       </td>
-                      <td className="py-4 px-4 text-txt-dim text-sm">
+
+                      <td className="py-4 px-4 text-[var(--txt-dim)] text-sm">
                         {formatDate(app.createdAt)}
                       </td>
+
                       <td className="py-4 px-4">
                         <span
-                          className={`px-3 py-1 text-xs font-semibold rounded-full border ${getStatusColor(app.status)}`}
+                          className={`px-3 py-1 text-xs font-semibold rounded-full border ${getStatusColor(
+                            app.status,
+                          )}`}
                         >
                           {app.status}
                         </span>
                       </td>
+
                       <td className="py-4 px-4">
                         <select
                           value={app.status}
@@ -558,7 +636,15 @@ const AdminDashboard = () => {
                               e.target.value,
                             )
                           }
-                          className="px-3 py-1 text-sm bg-bg-primary text-txt rounded border border-bg-ter focus:border-btn focus:outline-none"
+                          className="
+                          px-3 py-2 text-sm
+                          bg-[var(--bg-ter)]
+                          text-[var(--txt)]
+                          rounded-[var(--radius)]
+                          border border-[var(--bg-primary)]
+                          focus:border-[var(--btn)]
+                          focus:outline-none
+                        "
                         >
                           <option value="Submitted">Submitted</option>
                           <option value="Under Review">Under Review</option>
@@ -583,14 +669,31 @@ const AdminDashboard = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-bg-sec rounded-custom shadow-custom-lg p-6"
+            className="
+            bg-[var(--bg-primary)]
+            border border-[var(--bg-ter)]
+            rounded-[var(--radius)]
+            shadow-[0_12px_30px_rgba(var(--shadow-rgb),0.12)]
+            p-6
+          "
           >
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold text-txt">All Grievances</h3>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+              <h3 className="text-2xl font-bold text-[var(--txt)]">
+                All Grievances
+              </h3>
+
               <select
                 value={grievanceFilter}
                 onChange={(e) => setGrievanceFilter(e.target.value)}
-                className="px-4 py-2 bg-bg-ter text-txt rounded-custom border border-bg-ter focus:border-btn focus:outline-none"
+                className="
+                px-4 py-2
+                bg-[var(--bg-ter)]
+                text-[var(--txt)]
+                rounded-[var(--radius)]
+                border border-[var(--bg-primary)]
+                focus:border-[var(--btn)]
+                focus:outline-none
+              "
               >
                 <option value="all">All Status</option>
                 <option value="Submitted">Submitted</option>
@@ -601,31 +704,47 @@ const AdminDashboard = () => {
               </select>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-5">
               {filteredGrievances.map((grv) => (
-                <div key={grv._id} className="bg-bg-ter p-6 rounded-custom">
-                  <div className="flex items-start justify-between mb-4">
+                <div
+                  key={grv._id}
+                  className="
+                  bg-[var(--bg-sec)]
+                  border border-[var(--bg-primary)]
+                  p-6 rounded-[var(--radius)]
+                  hover:shadow-[0_12px_28px_rgba(var(--shadow-rgb),0.12)]
+                  transition-all duration-200
+                "
+                >
+                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
                     <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-2">
-                        <span className="text-txt font-mono text-sm font-semibold">
+                      <div className="flex flex-wrap items-center gap-2 mb-2">
+                        <span className="text-[var(--txt)] font-mono text-sm font-semibold">
                           {grv.trackingId}
                         </span>
+
                         <span
-                          className={`px-3 py-1 text-xs font-semibold rounded-full border ${getStatusColor(grv.status)}`}
+                          className={`px-3 py-1 text-xs font-semibold rounded-full border ${getStatusColor(
+                            grv.status,
+                          )}`}
                         >
                           {grv.status}
                         </span>
-                        <span className="px-3 py-1 text-xs font-semibold rounded-full bg-gray-500/20 text-gray-400">
+
+                        <span className="px-3 py-1 text-xs font-semibold rounded-full bg-[var(--btn)]/15 text-[var(--btn)]">
                           {grv.category}
                         </span>
                       </div>
-                      <h4 className="text-txt font-semibold text-lg mb-2">
+
+                      <h4 className="text-[var(--txt)] text-lg font-bold text-lg mb-2">
                         {grv.subject}
                       </h4>
-                      <p className="text-txt-dim text-sm mb-3">
+
+                      <p className="text-[var(--txt-dim)] text-sm leading-relaxed">
                         {grv.description}
                       </p>
-                      <div className="flex items-center space-x-4 text-xs text-txt-dim">
+
+                      <div className="flex flex-wrap items-center gap-2 text-xs text-[var(--txt-dim)] mt-3">
                         <span>Submitted: {formatDate(grv.createdAt)}</span>
                         {grv.personalInfo?.fullName && (
                           <>
@@ -636,13 +755,22 @@ const AdminDashboard = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-3 pt-4 border-t border-bg-primary">
+
+                  <div className="flex flex-col md:flex-row md:items-center gap-4 pt-4 border-t border-[var(--bg-primary)]">
                     <select
                       value={grv.status}
                       onChange={(e) =>
                         handleUpdateGrievanceStatus(grv._id, e.target.value)
                       }
-                      className="px-4 py-2 bg-bg-primary text-txt rounded border border-bg-ter focus:border-btn focus:outline-none"
+                      className="
+                      px-4 py-2
+                      bg-[var(--bg-sec)]
+                      text-[var(--txt)]
+                      rounded-[var(--radius)]
+                      border border-[var(--bg-primary)]
+                      focus:border-[var(--btn)]
+                      focus:outline-none
+                    "
                     >
                       <option value="Submitted">Submitted</option>
                       <option value="Under Review">Under Review</option>
@@ -650,13 +778,19 @@ const AdminDashboard = () => {
                       <option value="Resolved">Resolved</option>
                       <option value="Closed">Closed</option>
                     </select>
+
                     <button
                       onClick={() =>
                         navigate("/track-grievance", {
                           state: { trackingId: grv.trackingId },
                         })
                       }
-                      className="text-btn hover:text-btn-hover font-medium text-sm"
+                      className="
+                      text-[var(--btn)]
+                      hover:text-[var(--btn-hover)]
+                      font-semibold text-sm
+                      transition-colors duration-200
+                    "
                     >
                       View Details →
                     </button>
