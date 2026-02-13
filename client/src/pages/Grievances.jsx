@@ -96,10 +96,10 @@ const Grievances = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-14"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-[var(--txt)] mb-4">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--txt)] mb-4">
             How It Works
           </h2>
-          <p className="text-[var(--txt-dim)] text-lg">
+          <p className="text-[var(--txt-dim)] font-medium text-lg">
             Resolve your grievance in three simple steps
           </p>
         </motion.div>
@@ -115,25 +115,17 @@ const Grievances = () => {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15 }}
                 className="
-                  relative
-                  bg-[var(--bg-sec)]
-                  border border-[var(--bg-ter)]
-                  rounded-[var(--radius)]
-                  p-8
-                  shadow-[0_10px_30px_rgba(var(--shadow-rgb),0.25)]
-                "
+                  relative bg-[var(--accent)] border p-8
+                  border-[var(--bg-ter)] rounded-[var(--radius)] 
+                  shadow-[0_10px_30px_rgba(var(--shadow-rgb),0.25)]"
               >
                 {/* Step Badge */}
                 <div
                   className="
-                    absolute -top-6 -left-6
-                    w-14 h-14
-                    rounded-full
-                    bg-[var(--btn)]
-                    flex items-center justify-center
-                    text-white font-bold text-xl
-                    shadow-[0_8px_24px_rgba(var(--shadow-rgb),0.45)]
-                  "
+                    absolute -top-6 -left-6 w-14 h-14 rounded-full 
+                    bg-[var(--btn)] flex items-center justify-center
+                    text-white font-bold text-xl 
+                    shadow-[0_8px_24px_rgba(var(--shadow-rgb),0.45)]"
                 >
                   {step.step}
                 </div>
@@ -141,13 +133,9 @@ const Grievances = () => {
                 <div className="flex justify-center mt-6 mb-6">
                   <div
                     className="
-                      w-20 h-20
-                      rounded-full
-                      bg-[rgba(var(--shadow-rgb),0.15)]
-                      flex items-center justify-center
-                    "
+                      w-20 h-20 rounded-full flex items-center justify-center"
                   >
-                    <Icon size={36} className="text-[var(--btn)]" />
+                    <Icon size={306} className="text-[var(--btn)]" />
                   </div>
                 </div>
 
@@ -173,7 +161,7 @@ const Grievances = () => {
             transition={{ duration: 0.6 }}
             className="text-center mb-14"
           >
-            <h2 className="text-4xl font-bold text-[var(--txt)] mb-4">
+            <h2 className="text-4xl font-extrabold text-[var(--txt)] mb-4">
               What Would You Like To Do?
             </h2>
             <p className="text-[var(--txt-dim)] text-lg">
@@ -193,23 +181,17 @@ const Grievances = () => {
                   transition={{ delay: i * 0.15 }}
                   whileHover={{ y: -8 }}
                   className="
-                    bg-gradient-to-br
-                    from-[var(--btn)]
-                    to-[var(--btn-hover)]
-                    p-8
-                    rounded-[var(--radius)]
+                    bg-gradient-to-br from-[var(--btn)]/90
+                    to-[var(--btn-hover)] rounded-[var(--radius)]
+                    text-center p-8
                     shadow-[0_14px_40px_rgba(var(--shadow-rgb),0.45)]
-                    text-center
                   "
                 >
                   <div className="flex justify-center mb-6">
                     <div
                       className="
-                        w-16 h-16
-                        rounded-full
-                        bg-white/20
-                        flex items-center justify-center
-                      "
+                        w-16 h-16 rounded-full bg-white/20
+                        flex items-center justify-center"
                     >
                       <Icon size={32} className="text-white" />
                     </div>
@@ -255,10 +237,10 @@ const Grievances = () => {
             p-8 text-center
           "
         >
-          <h3 className="text-2xl font-bold text-[var(--txt)] mb-4">
+          <h3 className="text-4xl font-extrabold text-[var(--txt)] mb-4">
             Need Assistance?
           </h3>
-          <p className="text-[var(--txt-dim)] mb-6">
+          <p className="text-[var(--txt-dim)] mb-6 font-medium">
             Our support team is here to help you
           </p>
 

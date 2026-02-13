@@ -99,7 +99,7 @@ const TrackGrievance = () => {
             to-[var(--btn-hover)] p-8 rounded-[var(--radius)]
             shadow-[0_12px_40px_rgba(var(--shadow-rgb),0.45)]"
         >
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-4xl font-bold text-white mb-2">
             Track Your Grievance
           </h1>
           <p className="text-white/90">

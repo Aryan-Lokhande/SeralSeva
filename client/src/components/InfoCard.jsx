@@ -10,27 +10,19 @@ const InfoCard = ({ icon, title, description, link }) => {
       whileTap={{ scale: 0.98 }}
       onClick={() => navigate(link)}
       className="
-    bg-[var(--bg-sec)]
-    hover:bg-[var(--bg-ter)]
-    p-8
-    rounded-[var(--radius)]
-    cursor-pointer
-    transition-all duration-300
-    border border-[var(--bg-ter)]
+    bg-[var(--accent)] hover:bg-[var(--bg-ter)]
+    p-8 rounded-[var(--radius)] cursor-pointer
+    transition-all duration-300 border border-[var(--bg-ter)]
     hover:border-[var(--btn)]
     shadow-[0_10px_30px_rgba(var(--shadow-rgb),0.18)]
-    hover:shadow-[0_16px_45px_rgba(var(--shadow-rgb),0.35)]
-  "
+    hover:shadow-[0_16px_45px_rgba(var(--shadow-rgb),0.35)]"
     >
       <div className="flex flex-col items-center text-center space-y-4">
         {/* Icon */}
         <div
           className="
-        w-20 h-20
-        rounded-full
-        flex items-center justify-center
-        bg-[rgba(var(--shadow-rgb),0.15)]
-      "
+        w-20 h-20 rounded-full 
+        flex items-center justify-center"
         >
           <span className="text-5xl text-[var(--btn)]">{icon}</span>
         </div>

@@ -24,135 +24,152 @@ const Navbar = () => {
 
   return (
     <motion.nav
-  initial={{ y: -100 }}
-  animate={{ y: 0 }}
-  className="
-    bg-[var(--bg-sec)]
-    border-b-4 border-[var(--btn)]/60
-    shadow-[0_6px_20px_rgba(var(--shadow-rgb),0.15)]
-    sticky top-0 z-50
-  "
->
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div className="flex justify-between items-center h-16">
-
-      {/* Left - Navigation Links */}
-      <div className="flex items-center space-x-8">
-        {navLinks.map((link) => (
-          <Link
-            key={link.path}
-            to={link.path}
-            className={`
-              text-lg font-medium transition-all duration-200
-              ${
-                isActive(link.path)
-                  ? "text-[var(--btn)] border-b-2 border-[var(--btn)]"
-                  : "text-[var(--txt)] hover:text-[var(--btn)]"
-              }
-            `}
-          >
-            {link.label}
-          </Link>
-        ))}
-
-        {/* Dashboard (Authenticated Only) */}
-        {isAuthenticated && (
-          <Link
-            to="/dashboard"
-            className={`
-              text-lg font-medium transition-all duration-200
-              ${
-                isActive("/dashboard")
-                  ? "text-[var(--btn)] border-b-2 border-[var(--btn)]"
-                  : "text-[var(--txt)] hover:text-[var(--btn)]"
-              }
-            `}
-          >
-            Dashboard
-          </Link>
-        )}
-      </div>
-
-      {/* Right - Auth Buttons */}
-      <div className="flex items-center space-x-4">
-        {isAuthenticated ? (
-          <div className="flex items-center space-x-4">
-            <span className="text-[var(--txt-dim)]">
-              Welcome,{" "}
-              <span className="text-[var(--txt)] font-medium">
-                {user?.name || "User"}
-              </span>
-            </span>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleLogout}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      className="
+      sticky top-0 z-50
+      bg-gradient-to-r from-[var(--nav)] via-[var(--nav)] to-[var(--nav-hover)]
+      border-b border-white/10
+      shadow-[0_8px_30px_rgba(0,0,0,0.25)]
+      backdrop-blur-md"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Left - Logo + Links */}
+          <div className="flex items-center gap-10">
+            {/* Logo */}
+            <Link
+              to="/"
               className="
-                px-6 py-2
-                bg-[var(--btn)]
-                hover:bg-[var(--btn-hover)]
-                text-white
-                rounded-[var(--radius)]
-                font-medium
-                transition-all duration-200
-                shadow-[0_4px_14px_rgba(var(--shadow-rgb),0.35)]
-              "
+              text-2xl font-extrabold tracking-wide text-white
+              hover:text-[var(--bg-primary)] transition-colors duration-200 "
             >
-              Logout
-            </motion.button>
-          </div>
-        ) : (
-          <div className="flex items-center space-x-4">
-
-            {/* Login */}
-            <Link to="/login">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="
-                  px-6 py-2
-                  bg-transparent
-                  border-2 border-[var(--btn)]
-                  text-[var(--btn)]
-                  hover:bg-[var(--btn)]
-                  hover:text-white
-                  rounded-[var(--radius)]
-                  font-medium
-                  transition-all duration-200
-                "
-              >
-                Login
-              </motion.button>
+              SaralSeva
             </Link>
 
-            {/* Signup */}
-            <Link to="/signup">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="
-                  px-6 py-2
-                  bg-[var(--btn)]
-                  hover:bg-[var(--btn-hover)]
-                  text-white
-                  rounded-[var(--radius)]
-                  font-medium
-                  transition-all duration-200
-                  shadow-[0_4px_14px_rgba(var(--shadow-rgb),0.35)]
-                "
-              >
-                Sign Up
-              </motion.button>
-            </Link>
+            {/* Links */}
+            <div className="hidden md:flex items-center gap-8">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`
+                  relative text-lg font-medium tracking-wide transition-all duration-200
+                  ${
+                    isActive(link.path)
+                      ? "text-[var(--bg-primary)]"
+                      : "text-white/80 hover:text-[var(--bg-ter)]"
+                  }
+                `}
+                >
+                  {link.label}
 
+                  {/* underline active */}
+                  {isActive(link.path) && (
+                    <span
+                      className="
+                      absolute left-0 -bottom-[6px] w-full h-[2px]
+                      bg-[var(--btn)] rounded-full"
+                    />
+                  )}
+                </Link>
+              ))}
+
+              {/* Dashboard */}
+              {isAuthenticated && (
+                <Link
+                  to="/dashboard"
+                  className={`
+                  relative text-[15px] font-medium tracking-wide
+                  transition-all duration-200
+                  ${
+                    isActive("/dashboard")
+                      ? "text-[var(--bg-primary)]"
+                      : "text-white/80 hover:text-[var(--bg-ter)]"
+                  }
+                `}
+                >
+                  Dashboard
+                  {isActive("/dashboard") && (
+                    <span
+                      className="
+                      absolute left-0 -bottom-[6px] w-full h-[2px]
+                      bg-[var(--btn)] rounded-full"
+                    />
+                  )}
+                </Link>
+              )}
+            </div>
           </div>
-        )}
+
+          {/* Right - Auth Section */}
+          <div className="flex items-center gap-4">
+            {isAuthenticated ? (
+              <div className="flex items-center gap-4">
+                {/* Welcome Text */}
+                <span className="hidden sm:block text-white/80 text-sm">
+                  Welcome,{" "}
+                  <span className="text-white font-semibold">
+                    {user?.name || "User"}
+                  </span>
+                </span>
+
+                {/* Logout */}
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleLogout}
+                  className="
+                  px-5 py-2 bg-[var(--btn)] hover:bg-[var(--btn-hover)]
+                  text-white rounded-[var(--radius)]
+                  font-semibold text-sm transition-all duration-200
+                  shadow-[0_6px_18px_rgba(var(--shadow-rgb),0.35)]"
+                >
+                  Logout
+                </motion.button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3">
+                {/* Login */}
+                <Link to="/login">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="
+                    px-5 py-2 border border-white/40 text-white
+                    hover:border-[var(--bg-primary)] hover:text-[var(--bg-ter)]
+                    rounded-[var(--radius)] font-semibold text-sm
+                    transition-all duration-200"
+                  >
+                    Login
+                  </motion.button>
+                </Link>
+
+                {/* Signup */}
+                <Link to="/signup">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="
+                    px-5 py-2
+                    bg-[var(--btn)]
+                    hover:bg-[var(--btn-hover)]
+                    text-white
+                    rounded-[var(--radius)]
+                    font-semibold text-sm
+                    transition-all duration-200
+                    shadow-[0_6px_18px_rgba(var(--shadow-rgb),0.35)]
+                  "
+                  >
+                    Sign Up
+                  </motion.button>
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</motion.nav>
-
+    </motion.nav>
   );
 };
 

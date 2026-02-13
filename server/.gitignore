@@ -24,6 +24,7 @@ Thumbs.db
 # Uploads
 uploads/*
 !uploads/.gitkeep
+seedData.js
 
 # Build
 dist/

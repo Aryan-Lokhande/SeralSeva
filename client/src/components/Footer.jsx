@@ -6,22 +6,22 @@ const Footer = () => {
   return (
     <footer
       className="
-        bg-gradient-to-tr
-        from-[var(--btn)]/50
-        via-[var(--bg-ter)]/50
-        to-[var(--btn)]/50
-        mt-auto
-        border-t-4 border-[var(--btn)]/60
-      "
+      relative mt-auto bg-gradient-to-tr from-[var(--nav)]/90 
+      via-[var(--nav-hover)] to-[var(--nav)]
+      border-t-4 border-[var(--btn)]
+      shadow-[0_-10px_40px_rgba(var(--shadow-rgb),0.25)]"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      {/* Soft Orange Glow */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[var(--btn)]/15 via-transparent to-[var(--btn)]/15 pointer-events-none" />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* About Section */}
           <div>
-            <h3 className="text-xl font-bold text-[var(--txt)] mb-4">
+            <h3 className="text-2xl font-bold text-white mb-4 tracking-wide">
               SaralSeva
             </h3>
-            <p className="text-[var(--txt-dim)] text-sm leading-relaxed">
+            <p className="text-white/70 text-sm leading-relaxed">
               Making government schemes and services accessible to every
               citizen. Your gateway to simplified governance.
             </p>
@@ -29,76 +29,46 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-lg font-semibold text-[var(--txt)] mb-4">
+            <h4 className="text-lg font-semibold text-white mb-4">
               Quick Links
             </h4>
             <ul className="space-y-2">
-              <li>
-                <Link
-                  to="/"
-                  className="
-                    text-[var(--txt-dim)]
-                    hover:text-[var(--btn)]
-                    transition-colors duration-200
-                  "
-                >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/schemes"
-                  className="
-                    text-[var(--txt-dim)]
-                    hover:text-[var(--btn)]
-                    transition-colors duration-200
-                  "
-                >
-                  Schemes
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/grievances"
-                  className="
-                    text-[var(--txt-dim)]
-                    hover:text-[var(--btn)]
-                    transition-colors duration-200
-                  "
-                >
-                  Grievances
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/success-stories"
-                  className="
-                    text-[var(--txt-dim)]
-                    hover:text-[var(--btn)]
-                    transition-colors duration-200
-                  "
-                >
-                  Success Stories
-                </Link>
-              </li>
+              {["Home", "Schemes", "Grievances", "Success Stories"].map(
+                (item, index) => (
+                  <li key={index}>
+                    <Link
+                      to={
+                        item === "Home"
+                          ? "/"
+                          : `/${item.toLowerCase().replace(" ", "-")}`
+                      }
+                      className="
+                      text-white/70
+                      hover:text-[var(--btn)]
+                      transition-colors duration-200
+                    "
+                    >
+                      {item}
+                    </Link>
+                  </li>
+                ),
+              )}
             </ul>
           </div>
 
           {/* Resources */}
           <div>
-            <h4 className="text-lg font-semibold text-[var(--txt)] mb-4">
-              Resources
-            </h4>
+            <h4 className="text-lg font-semibold text-white mb-4">Resources</h4>
             <ul className="space-y-2">
               {["FAQs", "Guidelines", "Help Center"].map((item) => (
                 <li key={item}>
                   <a
                     href="#"
                     className="
-                      text-[var(--txt-dim)]
-                      hover:text-[var(--btn)]
-                      transition-colors duration-200
-                    "
+                    text-white/70
+                    hover:text-[var(--btn)]
+                    transition-colors duration-200
+                  "
                   >
                     {item}
                   </a>
@@ -109,21 +79,19 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h4 className="text-lg font-semibold text-[var(--txt)] mb-4">
-              Contact
-            </h4>
-            <ul className="space-y-2 text-[var(--txt-dim)] text-sm">
+            <h4 className="text-lg font-semibold text-white mb-4">Contact</h4>
+            <ul className="space-y-2 text-white/70 text-sm">
               <li>
                 <Link
                   to="/contact"
                   className="
-                    text-[var(--txt-dim)]
-                    hover:text-[var(--btn)]
-                    transition-colors duration-200
-                    text-base
-                  "
+                  text-white/70
+                  hover:text-[var(--btn)]
+                  transition-colors duration-200
+                  text-base
+                "
                 >
-                  Contact US
+                  Contact Us
                 </Link>
               </li>
               <li>Email: support@saralseva.gov.in</li>
@@ -134,24 +102,24 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-8 pt-8 border-t border-[var(--bg-ter)]">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-[var(--txt-dim)] text-sm">
+        <div className="mt-10 pt-8 border-t border-white/20">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-white/60 text-sm">
               © {currentYear} SaralSeva. All rights reserved.
             </p>
 
-            <div className="flex space-x-6 mt-4 md:mt-0">
+            <div className="flex space-x-6">
               {["Privacy Policy", "Terms of Service", "Accessibility"].map(
                 (item) => (
                   <a
                     key={item}
                     href="#"
                     className="
-                      text-[var(--txt-dim)]
-                      hover:text-[var(--btn)]
-                      transition-colors duration-200
-                      text-sm
-                    "
+                    text-white/60
+                    hover:text-[var(--btn)]
+                    transition-colors duration-200
+                    text-sm
+                  "
                   >
                     {item}
                   </a>

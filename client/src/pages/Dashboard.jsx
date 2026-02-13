@@ -14,6 +14,7 @@ import {
   MessageSquare,
   Star,
 } from "lucide-react";
+import AdminDashboard from "./AdminDashboard";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -22,6 +23,11 @@ const Dashboard = () => {
   const [applications, setApplications] = useState([]);
   const [grievances, setGrievances] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+    // If user is admin, show AdminDashboard
+  if (isAuthenticated && user?.role === "admin") {
+    return <AdminDashboard />;
+  }
 
   const [stats, setStats] = useState({
     activeApplications: 0,

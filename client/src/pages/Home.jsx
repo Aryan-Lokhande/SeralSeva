@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import ImageSlider from "../components/ImageSlider.jsx";
 import Marquee from "../components/Marquee.jsx";
 import InfoCard from "../components/InfoCard.jsx";
-import StepCard from "../components/StepCard.jsx";
 
 import {
   ClipboardList,
@@ -76,7 +75,7 @@ const Home = () => {
       </section>
 
       {/* Marquee Section */}
-      <section className="mb-12">
+      <section className="mb-4">
         <Marquee />
       </section>
 
@@ -89,7 +88,7 @@ const Home = () => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-[var(--txt)] mb-4">
+          <h2 className="text-4xl md:text-5xl  font-extrabold text-[var(--txt)] mb-4">
             Explore Government Schemes
           </h2>
           <p className="text-[var(--txt-dim)] text-lg">
@@ -120,28 +119,56 @@ const Home = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="bg-[var(--bg-sec)] py-16 mt-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-[var(--txt)] mb-4">
-              HOW IT WORKS
-            </h2>
-            <p className="text-[var(--txt-dim)] text-xl">
-              Government Schemes, Simplified in 3 Steps
-            </p>
-          </motion.div>
+      <section className="py-16 bg-white relative overflow-hidden transition-colors duration-500">
+        <div className="relative z-10 text-center">
+          <p className="text-4xl font-bold text-amber-600 md:text-5xl lg:text-6xl tracking-widest">
+            HOW IT WORKS
+          </p>
+          <h1 className="mt-2 text-4xl font-extrabold  text-[var(--txt)] jost md:text-5xl">
+            Government Schemes, Simplified in 3 Steps
+          </h1>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mt-12">
-            {steps.map((step, index) => (
-              <StepCard key={index} {...step} delay={index * 0.2} />
-            ))}
-          </div>
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-16 mt-16 px-4">
+          {[
+            {
+              icon: PenLine,
+              title: "Enter Details",
+              description: "Start by providing your basic details.",
+              border: "border-amber-500",
+            },
+            {
+              icon: Search,
+              title: "Find Your Schemes",
+              description: "Shows the most relevant schemes.",
+              border: "border-orange-600",
+            },
+            {
+              icon: Sparkles,
+              title: "Select & Apply",
+              description: "Apply directly through our simplified portal.",
+              border: "border-red-800",
+            },
+          ].map((step, index) => (
+            <div
+              key={index}
+              className={`flex flex-col items-center p-8 text-center bg-white/60 backdrop-blur-md rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl border-t-4 ${step.border}`}
+            >
+              <div className={`p-4 rounded-full bg-[var(--btn)]/7`}>
+                <step.icon className="w-14 h-14 text-[var(--btn)]" />{" "}
+              </div>
+
+              <h3
+                className="mt-6 text-2xl font-bold text-orange-900 jost"
+                data-tooltip-id={`step-title-${index}`}
+                data-tooltip-content={`Step ${index + 1}:\n${step.description}`}
+              >
+                {step.title}
+              </h3>
+
+              <p className="mt-2 text-gray-600">{step.description}</p>
+            </div>
+          ))}
         </div>
       </section>
 
