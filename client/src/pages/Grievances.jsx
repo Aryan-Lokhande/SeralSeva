@@ -247,7 +247,7 @@ const Grievances = () => {
           <div className="flex flex-col md:flex-row justify-center gap-6 text-[var(--txt)]">
             <div className="flex items-center gap-2">
               <Mail size={18} className="text-[var(--btn)]" />
-              grievance@saralseva.gov.in
+              grievance@yojnasaathi.gov.in
             </div>
             <div className="flex items-center gap-2">
               <Phone size={18} className="text-[var(--btn)]" />

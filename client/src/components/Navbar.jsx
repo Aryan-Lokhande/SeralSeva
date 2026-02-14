@@ -44,7 +44,7 @@ const Navbar = () => {
               text-2xl font-extrabold tracking-wide text-white
               hover:text-[var(--bg-primary)] transition-colors duration-200 "
             >
-              SaralSeva
+              YojnaSaathi
             </Link>
 
             {/* Links */}

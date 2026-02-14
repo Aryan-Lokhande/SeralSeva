@@ -40,7 +40,7 @@ const Contact = () => {
     {
       icon: Mail,
       title: "Email",
-      details: ["support@saralseva.gov.in", "grievance@saralseva.gov.in"],
+      details: ["support@yojnasaathi.gov.in", "grievance@yojnasaathi.gov.in"],
     },
     {
       icon: Phone,
@@ -50,7 +50,7 @@ const Contact = () => {
     {
       icon: MapPin,
       title: "Office Address",
-      details: ["SaralSeva Bhavan", "Shivane, Pune – 411023", "India"],
+      details: ["YojnaSaathi Bhavan", "Shivane, Pune – 411023", "India"],
     },
     {
       icon: Clock,
@@ -62,22 +62,22 @@ const Contact = () => {
   const departments = [
     {
       name: "Technical Support",
-      email: "tech@saralseva.gov.in",
+      email: "tech@yojnasaathi.gov.in",
       phone: "1800-111-XXXX",
     },
     {
       name: "Grievance Redressal",
-      email: "grievance@saralseva.gov.in",
+      email: "grievance@yojnasaathi.gov.in",
       phone: "1800-222-XXXX",
     },
     {
       name: "Scheme Information",
-      email: "schemes@saralseva.gov.in",
+      email: "schemes@yojnasaathi.gov.in",
       phone: "1800-333-XXXX",
     },
     {
       name: "Media & Press",
-      email: "media@saralseva.gov.in",
+      email: "media@yojnasaathi.gov.in",
       phone: "1800-444-XXXX",
     },
   ];
@@ -85,7 +85,6 @@ const Contact = () => {
   return (
     <div className="min-h-screen py-12 bg-[var(--bg-primary)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -134,7 +133,6 @@ const Contact = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
           {/* Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -155,7 +153,12 @@ const Contact = () => {
             <form onSubmit={handleSubmit} className="space-y-5">
               {[
                 { label: "Full Name", name: "name", required: true },
-                { label: "Email Address", name: "email", type: "email", required: true },
+                {
+                  label: "Email Address",
+                  name: "email",
+                  type: "email",
+                  required: true,
+                },
                 { label: "Phone Number", name: "phone" },
                 { label: "Subject", name: "subject", required: true },
               ].map((field) => (
@@ -225,7 +228,6 @@ const Contact = () => {
 
           {/* Departments & Map */}
           <div className="space-y-6">
-
             {/* Departments */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
@@ -339,9 +341,7 @@ const Contact = () => {
                 <h3 className="font-semibold text-[var(--txt)] mb-1">
                   {item.q}
                 </h3>
-                <p className="text-sm text-[var(--txt-dim)]">
-                  {item.a}
-                </p>
+                <p className="text-sm text-[var(--txt-dim)]">{item.a}</p>
               </div>
             ))}
           </div>

@@ -1,7 +1,7 @@
 {
-  "name": "saralseva-backend",
+  "name": "yojnasaathi-backend",
   "version": "1.0.0",
-  "description": "SaralSeva Backend - Government Schemes & Grievances Portal API",
+  "description": "YojnaSaathi Backend - Government Schemes & Grievances Portal API",
   "main": "server.js",
   "type": "module",
   "scripts": {

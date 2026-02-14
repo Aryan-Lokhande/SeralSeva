@@ -72,7 +72,7 @@ const Login = () => {
                 Welcome Back
               </h2>
               <p className="text-[var(--txt-dim)] text-sm leading-relaxed max-w-sm">
-                Login to continue your journey with SaralSeva and track your
+                Login to continue your journey with YojnaSaathi and track your
                 applications and grievances easily.
               </p>
             </div>
