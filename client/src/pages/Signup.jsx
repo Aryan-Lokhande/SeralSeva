@@ -94,7 +94,7 @@ const Signup = () => {
 
             <div className="mt-10 text-center">
               <h2 className="text-3xl font-bold text-[var(--txt)] mb-3">
-                Join SaralSeva
+                Join YojnaSaathi
               </h2>
               <p className="text-[var(--txt-dim)] text-sm leading-relaxed max-w-sm">
                 Create your account to apply for schemes, track your
@@ -132,7 +132,7 @@ const Signup = () => {
                     Create Account
                   </h2>
                   <p className="text-[var(--txt-dim)] text-sm mt-1">
-                    Sign up to get started with SaralSeva
+                    Sign up to get started with YojnaSaathi
                   </p>
                 </div>
               </div>

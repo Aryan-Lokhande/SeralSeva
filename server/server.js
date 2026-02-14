@@ -62,7 +62,7 @@ app.use("/api/grievances", grievanceRoutes);
 app.get("/api/health", (req, res) => {
   res.status(200).json({
     success: true,
-    message: "SaralSeva API is running",
+    message: "YojnaSaathi API is running",
     timestamp: new Date().toISOString(),
   });
 });
@@ -89,7 +89,7 @@ const server = app.listen(PORT, () => {
   console.log(`
 ╔══════════════════════════════════════════════════════════════╗
 ║                                                               ║
-║      🚀 SaralSeva API Server Running                          ║
+║      🚀 YojnaSaathi API Server Running                          ║
 ║                                                               ║
 ║      Environment: ${process.env.NODE_ENV?.toUpperCase().padEnd(20) || "DEVELOPMENT".padEnd(20)}║
 ║      Port: ${PORT.toString().padEnd(31)}                      ║

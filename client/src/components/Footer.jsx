@@ -19,7 +19,7 @@ const Footer = () => {
           {/* About Section */}
           <div>
             <h3 className="text-2xl font-bold text-white mb-4 tracking-wide">
-              SaralSeva
+              YojnaSaathi
             </h3>
             <p className="text-white/70 text-sm leading-relaxed">
               Making government schemes and services accessible to every
@@ -94,7 +94,7 @@ const Footer = () => {
                   Contact Us
                 </Link>
               </li>
-              <li>Email: support@saralseva.gov.in</li>
+              <li>Email: support@yojnasaathi.gov.in</li>
               <li>Helpline: 1800-XXX-XXXX</li>
               <li>Timings: 9 AM – 6 PM (Mon–Fri)</li>
             </ul>
@@ -105,7 +105,7 @@ const Footer = () => {
         <div className="mt-10 pt-8 border-t border-white/20">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-white/60 text-sm">
-              © {currentYear} SaralSeva. All rights reserved.
+              © {currentYear} YojnaSaathi. All rights reserved.
             </p>
 
             <div className="flex space-x-6">
