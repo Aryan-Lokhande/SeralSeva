@@ -151,10 +151,10 @@ const GrievancesManagement = () => {
           <button
             onClick={fetchGrievances}
             className="
-            flex items-center space-x-2 px-4 py-2
-            bg-[var(--bg-sec)] border border-[var(--bg-ter)]
-            rounded-[var(--radius)] hover:bg-[var(--bg-ter)]
-            transition-colors text-[var(--txt-dim)]"
+              flex items-center space-x-2 px-4 py-2
+              bg-[var(--bg-sec)] border border-[var(--bg-ter)] 
+              rounded-[var(--radius)] hover:bg-[var(--bg-ter)] hover:border-[var(--txt-dim)] transition
+              transition-colors text-[var(--txt-dim)] text-sm"
           >
             <RefreshCw className="w-4 h-4" />
             <span className="text-sm">Refresh</span>
@@ -274,7 +274,7 @@ const GrievancesManagement = () => {
           bg-[var(--bg-sec)] border border-[var(--bg-ter)]
           rounded-[var(--radius)] text-center py-20"
         >
-          <MessageSquare className="w-12 h-12 text-[var(--txt-disabled)] mx-auto mb-3" />
+          <MessageSquare className="w-12 h-12 text-[var(--txt-dim)]/80 mx-auto mb-3" />
           <p className="text-[var(--txt)] font-medium">No grievances found</p>
           <p className="text-[var(--txt-dim)] text-sm mt-1">
             Try adjusting your filters
@@ -288,8 +288,7 @@ const GrievancesManagement = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
-              className="
-              bg-[var(--bg-sec)] border border-[var(--txt-dim)] p-5 
+              className="bg-[var(--bg-sec)] border border-[var(--txt-dim)] p-5 
               rounded-[var(--radius)] hover:border-[var(--btn)] transition-colors"
             >
               <div className="flex items-start justify-between gap-4">

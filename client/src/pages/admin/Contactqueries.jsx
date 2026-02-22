@@ -196,7 +196,7 @@ const ContactQueries = () => {
     });
 
   return (
-    <div className="p-6 bg-bg-primary min-h-screen">
+    <div className="p-6 bg-[var(--bg-primary)] min-h-screen">
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -204,14 +204,21 @@ const ContactQueries = () => {
       >
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-txt">Contact Queries</h1>
-            <p className="text-txt-dim text-sm mt-1">
+            <h1 className="text-2xl font-bold text-[var(--txt)] tracking-wide">
+              Contact Queries
+            </h1>
+            <p className="text-[var(--txt-dim)] text-sm mt-1">
               Manage and respond to user contact submissions
             </p>
           </div>
+
           <button
             onClick={fetchQueries}
-            className="flex items-center space-x-2 px-4 py-2 bg-bg-sec border border-[var(--border)] rounded-lg hover:bg-bg-ter transition-colors text-txt-dim"
+            className="
+              flex items-center space-x-2 px-4 py-2
+              bg-[var(--bg-sec)] border border-[var(--bg-ter)] 
+              rounded-[var(--radius)] hover:bg-[var(--bg-ter)] hover:border-[var(--txt-dim)] transition
+              transition-colors text-[var(--txt-dim)] text-sm"
           >
             <RefreshCw className="w-4 h-4" />
             <span className="text-sm">Refresh</span>
@@ -222,16 +229,21 @@ const ContactQueries = () => {
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-6">
         {[
-          { label: "Total Queries", value: stats.total, color: "text-txt" },
-          { label: "Open", value: stats.open, color: "text-orange-500" },
-          { label: "Resolved", value: stats.resolved, color: "text-green-600" },
+          { label: "Total Queries", value: stats.total },
+          { label: "Open", value: stats.open },
+          { label: "Resolved", value: stats.resolved },
         ].map((stat) => (
           <div
             key={stat.label}
-            className="bg-bg-sec border border-[var(--border)] rounded-lg p-4 flex items-center justify-between"
+            className="
+            bg-gradient-to-br from-[var(--btn)]/80 to-[var(--btn-hover)] 
+            border border-[var(--bg-ter)] rounded-[var(--radius)]
+            p-4 flex items-center justify-between "
           >
-            <span className="text-sm text-txt-dim">{stat.label}</span>
-            <span className={`text-2xl font-bold ${stat.color}`}>
+            <span className="text-sm text-white/90 font-medium">
+              {stat.label}
+            </span>
+            <span className={"text-2xl font-bold text-white"}>
               {stat.value}
             </span>
           </div>
@@ -239,21 +251,32 @@ const ContactQueries = () => {
       </div>
 
       {/* Filters */}
-      <div className="bg-bg-sec border border-[var(--border)] rounded-lg p-4 mb-4 flex items-center gap-4">
+      <div
+        className="bg-[var(--bg-sec)] border border-[var(--txt-dim)]
+      rounded-[var(--radius)] p-4 mb-4 flex items-center gap-4"
+      >
         <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-txt-dim" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--txt-dim)]" />
           <input
             type="text"
             placeholder="Search by name, email, subject..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-bg-ter border border-[var(--border)] rounded-lg text-sm text-txt placeholder-txt-disabled focus:outline-none focus:border-btn"
+            className="
+            w-full pl-9 pr-4 py-2 bg-[var(--bg-ter)]
+            border border-[var(--txt-dim)] rounded-[var(--radius)]
+            text-sm text-[var(--txt)] placeholder-[var(--txt-dim)]
+            focus:outline-none focus:border-[var(--btn)] transition-colors"
           />
         </div>
+
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="px-3 py-2 bg-bg-ter border border-[var(--border)] rounded-lg text-sm text-txt focus:outline-none focus:border-btn"
+          className="
+          px-3 py-2 bg-[var(--bg-ter)] border border-[var(--txt-dim)]
+          rounded-[var(--radius)] text-sm text-[var(--txt)]
+          focus:outline-none focus:border-[var(--btn)] transition-colors"
         >
           <option value="all">All Queries</option>
           <option value="Open">Open</option>
@@ -264,13 +287,17 @@ const ContactQueries = () => {
       {/* Query Cards */}
       {loading ? (
         <div className="flex items-center justify-center py-20">
-          <RefreshCw className="w-8 h-8 text-btn animate-spin" />
-          <span className="ml-3 text-txt-dim">Loading queries...</span>
+          <RefreshCw className="w-8 h-8 text-[var(--btn)] animate-spin" />
+          <span className="ml-3 text-[var(--txt-dim)]">Loading queries...</span>
         </div>
       ) : filtered.length === 0 ? (
-        <div className="bg-bg-sec border border-[var(--border)] rounded-lg text-center py-20">
-          <Mail className="w-12 h-12 text-txt-disabled mx-auto mb-3" />
-          <p className="text-txt font-medium">No contact queries</p>
+        <div
+          className="
+        bg-[var(--bg-sec)] border border-[var(--txt-dim)]
+        rounded-[var(--radius)] text-center py-20"
+        >
+          <Mail className="w-12 h-12 text-[var(--txt-dim)]/80 mx-auto mb-3" />
+          <p className="text-[var(--txt)] font-medium">No contact queries</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -280,41 +307,71 @@ const ContactQueries = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04 }}
-              className={`bg-bg-sec border rounded-lg p-5 transition-colors ${query.status === "Open" ? "border-btn/30 bg-accent/30" : "border-[var(--border)]"}`}
+              className={`
+              bg-[var(--bg-sec)]
+              border
+              rounded-[var(--radius)]
+              p-5
+              transition-colors
+              ${
+                query.status === "Open"
+                  ? "border-[var(--btn)] bg-[rgba(var(--shadow-rgb),0.12)]"
+                  : "border-[var(--txt-dim)]"
+              }
+            `}
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
                     <span
-                      className={`px-2.5 py-1 text-xs font-semibold rounded-full ${query.status === "Open" ? "bg-orange-100 text-orange-700" : "bg-green-100 text-green-700"}`}
+                      className={`
+                      px-2.5 py-1 text-xs font-semibold rounded-full
+                      ${
+                        query.status === "Open"
+                          ? "bg-[rgba(var(--shadow-rgb),0.2)] text-[var(--btn)]"
+                          : "bg-[rgba(var(--shadow-rgb),0.12)] text-[var(--accent)]"
+                      }
+                    `}
                     >
                       {query.status}
                     </span>
-                    <span className="text-xs text-txt-dim flex items-center gap-1">
-                      <Clock className="w-3 h-3" />{" "}
+
+                    <span className="text-xs text-[var(--txt-dim)] flex items-center gap-1">
+                      <Clock className="w-3 h-3" />
                       {formatDate(query.createdAt)}
                     </span>
                   </div>
-                  <h3 className="font-semibold text-txt mb-1">
+
+                  <h3 className="font-semibold text-[var(--txt)] mb-1">
                     {query.subject}
                   </h3>
-                  <p className="text-sm text-txt-dim line-clamp-2 mb-2">
+
+                  <p className="text-sm text-[var(--txt-dim)] line-clamp-2 mb-2">
                     {query.message}
                   </p>
-                  <div className="flex items-center gap-4 text-xs text-txt-dim">
+
+                  <div className="flex items-center gap-4 text-xs text-[var(--txt-dim)]">
                     <span>
-                      From:{" "}
-                      <span className="font-medium text-txt">{query.name}</span>
+                      From:
+                      <span className="font-medium text-[var(--txt)] ml-1">
+                        {query.name}
+                      </span>
                     </span>
                     <span>{query.email}</span>
                     {query.phone && <span>{query.phone}</span>}
                   </div>
+
                   {query.adminResponse && (
-                    <div className="mt-3 pt-3 border-t border-[var(--border)]">
-                      <p className="text-xs font-medium text-green-700 mb-1">
+                    <div
+                      className="
+                    mt-3 pt-3
+                    border-t border-[var(--txt-dim)]
+                  "
+                    >
+                      <p className="text-xs font-medium text-[var(--btn)] mb-1">
                         Your Response:
                       </p>
-                      <p className="text-sm text-txt-dim">
+                      <p className="text-sm text-[var(--txt-dim)]">
                         {query.adminResponse}
                       </p>
                     </div>
@@ -327,7 +384,18 @@ const ContactQueries = () => {
                       setSelectedQuery(query);
                       setShowReplyModal(true);
                     }}
-                    className="flex items-center space-x-2 px-4 py-2 bg-btn hover:bg-btn-hover text-white rounded-lg text-sm font-medium transition-colors flex-shrink-0"
+                    className="
+                    flex items-center space-x-2
+                    px-4 py-2
+                    bg-[var(--btn)]
+                    hover:bg-[var(--btn-hover)]
+                    text-white
+                    rounded-[var(--radius)]
+                    text-sm font-medium
+                    transition-all duration-200
+                    shadow-[0_6px_18px_rgba(var(--shadow-rgb),0.4)]
+                    flex-shrink-0
+                  "
                   >
                     <Send className="w-3.5 h-3.5" />
                     <span>Reply</span>

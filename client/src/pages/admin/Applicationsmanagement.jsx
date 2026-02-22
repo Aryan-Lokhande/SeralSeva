@@ -1,13 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import {
-  Search,
-  Filter,
-  Eye,
-  Check,
-  X,
-  RefreshCw,
-} from "lucide-react";
+import { Search, Filter, Eye, Check, X, RefreshCw } from "lucide-react";
 import { getAllApplications, updateApplicationStatus } from "../../utils/api";
 import ApproveRejectModal from "../../components/admin/ApproveRejectModal";
 import ViewDetailsModal from "../../components/admin/ViewDetailsModal";
@@ -19,7 +12,6 @@ const ITEMS_PER_PAGE = 10;
 const StatusBadge = ({ status }) => {
   const styles = {
     Submitted: "bg-blue-100 text-blue-700",
-    "Under Review": "bg-yellow-100 text-yellow-700",
     "Documents Required": "bg-orange-100 text-orange-700",
     Approved: "bg-green-100 text-green-700",
     Rejected: "bg-red-100 text-red-700",
@@ -105,7 +97,6 @@ const ApplicationsManagement = () => {
   const stats = {
     total: applications.length,
     submitted: applications.filter((a) => a.status === "Submitted").length,
-    underReview: applications.filter((a) => a.status === "Under Review").length,
     approved: applications.filter((a) => a.status === "Approved").length,
     rejected: applications.filter((a) => a.status === "Rejected").length,
   };
@@ -118,7 +109,7 @@ const ApplicationsManagement = () => {
     });
 
   return (
-    <div className="p-6 bg-bg-primary min-h-screen">
+    <div className="p-6 bg-[var(--bg-primary)] min-h-screen">
       {/* Page Header */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
@@ -127,64 +118,48 @@ const ApplicationsManagement = () => {
       >
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-txt">
+            <h1 className="text-2xl font-bold text-[var(--txt)] tracking-wide">
               Applications Management
             </h1>
-            <p className="text-txt-dim text-sm mt-1">
+            <p className="text-[var(--txt-dim)] text-sm mt-1">
               Review, approve or reject scheme applications
             </p>
           </div>
+
           <button
             onClick={fetchApplications}
             className="
               flex items-center space-x-2 px-4 py-2
-              bg-[var(--bg-sec)] border-2 border-[var(--bg-ter)] 
+              bg-[var(--bg-sec)] border border-[var(--bg-ter)] 
               rounded-[var(--radius)] hover:bg-[var(--bg-ter)] hover:border-[var(--txt-dim)] transition
               transition-colors text-[var(--txt-dim)] text-sm"
           >
             <RefreshCw className="w-4 h-4" />
-            <span className="text-sm">Refresh</span>
+            <span>Refresh</span>
           </button>
         </div>
       </motion.div>
 
       {/* Stats Row */}
-      <div className="grid grid-cols-5 gap-4 mb-6">
+      <div className="grid grid-cols-4 gap-4 mb-6">
         {[
-          {
-            label: "Total",
-            value: stats.total,
-            color: "bg-gray-100 text-gray-700",
-          },
-          {
-            label: "New",
-            value: stats.submitted,
-            color: "bg-blue-100 text-blue-700",
-          },
-          {
-            label: "Under Review",
-            value: stats.underReview,
-            color: "bg-yellow-100 text-yellow-700",
-          },
-          {
-            label: "Approved",
-            value: stats.approved,
-            color: "bg-green-100 text-green-700",
-          },
-          {
-            label: "Rejected",
-            value: stats.rejected,
-            color: "bg-red-100 text-red-700",
-          },
+          { label: "Total", value: stats.total },
+          { label: "New", value: stats.submitted },
+          { label: "Approved", value: stats.approved },
+          { label: "Rejected", value: stats.rejected },
         ].map((stat) => (
           <div
             key={stat.label}
-            className="bg-bg-sec border border-[var(--border)] rounded-lg p-4 text-center"
+            className="
+            bg-gradient-to-br from-[var(--btn)]/80 to-[var(--btn-hover)]
+            border border-[var(--bg-ter)] 
+            rounded-[var(--radius)] p-4 text-center"
           >
-            <div className="text-2xl font-bold text-txt">{stat.value}</div>
-            <span
-              className={`text-xs font-semibold px-2 py-0.5 rounded-full ${stat.color}`}
-            >
+            <div className="text-3xl font-bold text-white pb-2">
+              {stat.value}
+            </div>
+
+            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-white/20 text-white/80">
               {stat.label}
             </span>
           </div>
@@ -192,10 +167,10 @@ const ApplicationsManagement = () => {
       </div>
 
       {/* Filters Bar */}
-      <div className="bg-bg-sec border border-[var(--border)] rounded-lg p-4 mb-4 flex flex-wrap items-center gap-4">
+      <div className="bg-[var(--bg-sec)] border border-[var(--txt-dim)] rounded-[var(--radius)] p-4 mb-4 flex flex-wrap items-center gap-4">
         {/* Search */}
         <div className="flex-1 min-w-[200px] relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-txt-dim" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--txt-dim)]" />
           <input
             type="text"
             placeholder="Search by ID, name, email, scheme..."
@@ -204,47 +179,57 @@ const ApplicationsManagement = () => {
               setSearchQuery(e.target.value);
               setCurrentPage(1);
             }}
-            className="w-full pl-9 pr-4 py-2 bg-bg-ter border border-[var(--border)] rounded-lg text-sm text-txt placeholder-txt-disabled focus:outline-none focus:border-btn"
+            className="
+            w-full pl-9 pr-4 py-2 bg-[var(--bg-ter)]
+            border border-[var(--txt-dim)] rounded-[var(--radius)]
+            text-sm text-[var(--txt)] placeholder-[var(--txt-dim)]
+            focus:outline-none focus:border-[var(--btn)]"
           />
         </div>
 
         {/* Status Filter */}
         <div className="flex items-center space-x-2">
-          <Filter className="w-4 h-4 text-txt-dim" />
+          <Filter className="w-4 h-4 text-[var(--txt-dim)]" />
           <select
             value={statusFilter}
             onChange={(e) => {
               setStatusFilter(e.target.value);
               setCurrentPage(1);
             }}
-            className="px-3 py-2 bg-bg-ter border border-[var(--border)] rounded-lg text-sm text-txt focus:outline-none focus:border-btn"
+            className="
+            px-3 py-2 bg-[var(--bg-ter)] border border-[var(--txt-dim)]
+            rounded-[var(--radius)] text-sm text-[var(--txt)]
+            focus:outline-none focus:border-[var(--btn)]"
           >
             <option value="all">All Status</option>
             <option value="Submitted">Submitted</option>
-            <option value="Under Review">Under Review</option>
             <option value="Documents Required">Documents Required</option>
             <option value="Approved">Approved</option>
             <option value="Rejected">Rejected</option>
           </select>
         </div>
 
-        <span className="text-sm text-txt-dim ml-auto">
+        <span className="text-sm text-[var(--txt-dim)] ml-auto">
           {filtered.length} results
         </span>
       </div>
 
       {/* Table */}
-      <div className="bg-bg-sec border border-[var(--border)] rounded-lg overflow-hidden">
+      <div className="bg-[var(--bg-sec)] border border-[var(--txt-dim)] rounded-[var(--radius)] overflow-hidden">
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <RefreshCw className="w-8 h-8 text-btn animate-spin" />
-            <span className="ml-3 text-txt-dim">Loading applications...</span>
+            <RefreshCw className="w-8 h-8 text-[var(--btn)] animate-spin" />
+            <span className="ml-3 text-[var(--txt-dim)]">
+              Loading applications...
+            </span>
           </div>
         ) : paginated.length === 0 ? (
           <div className="text-center py-20">
-            <Filter className="w-12 h-12 text-txt-disabled mx-auto mb-3" />
-            <p className="text-txt font-medium">No applications found</p>
-            <p className="text-txt-dim text-sm mt-1">
+            <Filter className="w-12 h-12 text-[var(--txt-dim)]/80 mx-auto mb-3" />
+            <p className="text-[var(--txt)] font-medium">
+              No applications found
+            </p>
+            <p className="text-[var(--txt-dim)] text-sm mt-1">
               Try adjusting your filters
             </p>
           </div>
@@ -252,88 +237,100 @@ const ApplicationsManagement = () => {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-[var(--border)] bg-bg-ter">
-                  <th className="text-left py-3 px-4 text-xs font-semibold text-txt-dim uppercase tracking-wider">
-                    App ID
-                  </th>
-                  <th className="text-left py-3 px-4 text-xs font-semibold text-txt-dim uppercase tracking-wider">
-                    Applicant
-                  </th>
-                  <th className="text-left py-3 px-4 text-xs font-semibold text-txt-dim uppercase tracking-wider">
-                    Scheme
-                  </th>
-                  <th className="text-left py-3 px-4 text-xs font-semibold text-txt-dim uppercase tracking-wider">
-                    Date
-                  </th>
-                  <th className="text-left py-3 px-4 text-xs font-semibold text-txt-dim uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="text-left py-3 px-4 text-xs font-semibold text-txt-dim uppercase tracking-wider">
-                    Actions
-                  </th>
+                <tr className="border-b border-[var(--txt-dim)] bg-[var(--bg-ter)]">
+                  {[
+                    "App ID", "Applicant", "Scheme", 
+                    "Date", "Status", "Actions",
+                  ].map((head) => (
+                    <th
+                      key={head}
+                      className="
+                        text-left py-3 px-4 text-xs font-semibold
+                        text-[var(--txt-dim)] uppercase tracking-wider"
+                    >
+                      {head}
+                    </th>
+                  ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[var(--border)]">
+
+              <tbody className="divide-y divide-[var(--bg-ter)]">
                 {paginated.map((app, i) => (
                   <motion.tr
                     key={app._id}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.04 }}
-                    className="hover:bg-bg-ter transition-colors"
+                    className="hover:bg-[var(--bg-ter)] transition-colors"
                   >
                     <td className="py-3 px-4">
-                      <span className="font-mono text-sm font-medium text-txt">
+                      <span className="font-mono text-sm font-medium text-[var(--txt)]">
                         {app.applicationId}
                       </span>
                     </td>
+
                     <td className="py-3 px-4">
-                      <div className="font-medium text-txt text-sm">
+                      <div className="font-medium text-[var(--txt)] text-sm">
                         {app.user?.name}
                       </div>
-                      <div className="text-xs text-txt-dim">
+                      <div className="text-xs text-[var(--txt-dim)]">
                         {app.user?.email}
                       </div>
                     </td>
+
                     <td className="py-3 px-4">
-                      <div className="text-sm text-txt">
+                      <div className="text-sm text-[var(--txt)]">
                         {app.scheme?.title}
                       </div>
-                      <div className="text-xs text-txt-dim">
+                      <div className="text-xs text-[var(--txt-dim)]">
                         {app.scheme?.category}
                       </div>
                     </td>
-                    <td className="py-3 px-4 text-sm text-txt-dim whitespace-nowrap">
+
+                    <td className="py-3 px-4 text-sm text-[var(--txt-dim)] whitespace-nowrap">
                       {formatDate(app.createdAt)}
                     </td>
+
                     <td className="py-3 px-4">
                       <StatusBadge status={app.status} />
                     </td>
+
                     <td className="py-3 px-4">
                       <div className="flex items-center space-x-2">
+                        {/* View */}
                         <button
                           onClick={() => {
                             setSelectedApp(app);
                             setShowDetailsModal(true);
                           }}
-                          className="p-1.5 rounded-lg hover:bg-blue-50 text-blue-500 transition-colors"
+                          className="
+                          p-1.5 rounded-[var(--radius)]
+                          hover:bg-[rgba(var(--shadow-rgb),0.15)]
+                          text-[var(--btn)] transition-colors"
                           title="View Details"
                         >
                           <Eye className="w-4 h-4" />
                         </button>
+
+                        {/* Approve / Reject */}
                         {app.status !== "Approved" &&
                           app.status !== "Rejected" && (
                             <>
                               <button
                                 onClick={() => handleAction(app, "approve")}
-                                className="p-1.5 rounded-lg hover:bg-green-50 text-green-600 transition-colors"
+                                className="
+                                p-1.5 rounded-[var(--radius)] hover:bg-green-200/80
+                                text-green-500 bg-green-100 transition-colors"
                                 title="Approve"
                               >
                                 <Check className="w-4 h-4" />
                               </button>
+
                               <button
                                 onClick={() => handleAction(app, "reject")}
-                                className="p-1.5 rounded-lg hover:bg-red-50 text-red-500 transition-colors"
+                                className="
+                                p-1.5 rounded-[var(--radius)] hover:bg-red-200/80
+                                text-red-500 bg-red-100 transition-colors"
                                 title="Reject"
                               >
                                 <X className="w-4 h-4" />
@@ -368,6 +365,7 @@ const ApplicationsManagement = () => {
           type={modalType}
         />
       )}
+
       {showDetailsModal && (
         <ViewDetailsModal
           isOpen={showDetailsModal}

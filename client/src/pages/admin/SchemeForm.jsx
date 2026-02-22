@@ -131,13 +131,13 @@ const SchemeForm = ({ mode = "add" }) => {
   if (fetchingScheme) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="text-txt-dim">Loading scheme...</div>
+        <div className="text-[var(--txt-dim)]">Loading scheme...</div>
       </div>
     );
   }
 
   return (
-    <div className="p-6 bg-bg-primary min-h-screen">
+    <div className="p-6 bg-[var(--bg-primary)] min-h-screen">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
@@ -146,20 +146,27 @@ const SchemeForm = ({ mode = "add" }) => {
       >
         <button
           onClick={() => navigate("/admin/schemes")}
-          className="flex items-center space-x-2 text-txt-dim hover:text-txt mb-4 transition-colors"
+          className="
+          flex items-center space-x-2
+          text-[var(--txt-dim)]
+          hover:text-[var(--txt)]
+          mb-4
+          transition-colors
+        "
         >
           <ArrowLeft className="w-4 h-4" />
           <span className="text-sm">Back to Schemes</span>
         </button>
+
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-btn to-btn-hover rounded-lg flex items-center justify-center">
+          <div className="w-10 h-10 bg-gradient-to-br from-[var(--btn)] to-[var(--btn-hover)] rounded-[var(--radius)] flex items-center justify-center shadow-[0_6px_18px_rgba(var(--shadow-rgb),0.4)]">
             <Package className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-txt">
+            <h1 className="text-2xl font-bold text-[var(--txt)] tracking-wide">
               {mode === "add" ? "Add New Scheme" : "Edit Scheme"}
             </h1>
-            <p className="text-txt-dim text-sm">
+            <p className="text-[var(--txt-dim)] text-sm">
               {mode === "add"
                 ? "Create a new government scheme"
                 : `Editing: ${form.title}`}
@@ -170,46 +177,76 @@ const SchemeForm = ({ mode = "add" }) => {
 
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column - Main Info */}
+          {/* LEFT COLUMN */}
           <div className="lg:col-span-2 space-y-5">
             {/* Basic Info */}
-            <div className="bg-bg-sec border border-[var(--border)] rounded-lg p-6">
-              <h3 className="font-semibold text-txt mb-4">Basic Information</h3>
+            <div className="bg-[var(--bg-sec)] border border-[var(--txt-dim)] rounded-[var(--radius)] p-6 shadow-[0_8px_24px_rgba(var(--shadow-rgb),0.2)]">
+              <h3 className="text-lg font-semibold text-[var(--txt)] mb-4 tracking-wide">
+                Basic Information
+              </h3>
+
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-txt mb-1">
-                    Scheme Title <span className="text-red-500">*</span>
+                  <label className="block text-sm font-medium text-[var(--txt)] mb-1">
+                    Scheme Title <span className="text-[var(--btn)]">*</span>
                   </label>
                   <input
                     name="title"
                     value={form.title}
                     onChange={handleChange}
-                    placeholder="e.g. Pradhan Mantri Awas Yojana"
-                    className="w-full px-4 py-2.5 bg-bg-ter border border-[var(--border)] rounded-lg text-txt placeholder-txt-disabled focus:outline-none focus:border-btn"
+                    className="
+                    w-full px-4 py-2.5
+                    bg-[var(--bg-ter)]
+                    border border-[var(--txt-dim)]
+                    rounded-[var(--radius)]
+                    text-[var(--txt)]
+                    placeholder-[var(--txt-disabled)]
+                    focus:outline-none
+                    focus:border-[var(--btn)]
+                  "
                   />
                 </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-txt mb-1">
-                      Scheme Code <span className="text-red-500">*</span>
+                    <label className="block text-sm font-medium text-[var(--txt)] mb-1">
+                      Scheme Code <span className="text-[var(--btn)]">*</span>
                     </label>
                     <input
                       name="code"
                       value={form.code}
                       onChange={handleChange}
-                      placeholder="e.g. PMAY-2024"
-                      className="w-full px-4 py-2.5 bg-bg-ter border border-[var(--border)] rounded-lg text-txt placeholder-txt-disabled focus:outline-none focus:border-btn uppercase"
+                      className="
+                      w-full px-4 py-2.5
+                      bg-[var(--bg-ter)]
+                      border border-[var(--txt-dim)]
+                      rounded-[var(--radius)]
+                      text-[var(--txt)]
+                      placeholder-[var(--txt-disabled)]
+                      focus:outline-none
+                      focus:border-[var(--btn)]
+                      uppercase
+                    "
                     />
                   </div>
+
                   <div>
-                    <label className="block text-sm font-medium text-txt mb-1">
-                      Category <span className="text-red-500">*</span>
+                    <label className="block text-sm font-medium text-[var(--txt)] mb-1">
+                      Category <span className="text-[var(--btn)]">*</span>
                     </label>
                     <select
                       name="category"
                       value={form.category}
                       onChange={handleChange}
-                      className="w-full px-4 py-2.5 bg-bg-ter border border-[var(--border)] rounded-lg text-txt focus:outline-none focus:border-btn"
+                      className="
+                      w-full px-4 py-2.5
+                      bg-[var(--bg-ter)]
+                      border border-[var(--txt-dim)]
+                      rounded-[var(--radius)]
+                      text-[var(--txt)]
+                      focus:outline-none
+                      focus:border-[var(--btn)]
+                    "
                     >
                       <option value="">Select category</option>
                       {CATEGORIES.map((c) => (
@@ -220,122 +257,106 @@ const SchemeForm = ({ mode = "add" }) => {
                     </select>
                   </div>
                 </div>
+
                 <div>
-                  <label className="block text-sm font-medium text-txt mb-1">
-                    Description <span className="text-red-500">*</span>
+                  <label className="block text-sm font-medium text-[var(--txt)] mb-1">
+                    Description <span className="text-[var(--btn)]">*</span>
                   </label>
                   <textarea
                     name="description"
                     value={form.description}
                     onChange={handleChange}
                     rows="3"
-                    placeholder="Brief description of the scheme..."
-                    className="w-full px-4 py-2.5 bg-bg-ter border border-[var(--border)] rounded-lg text-txt placeholder-txt-disabled focus:outline-none focus:border-btn resize-none"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Eligibility & Benefits */}
-            <div className="bg-bg-sec border border-[var(--border)] rounded-lg p-6">
-              <h3 className="font-semibold text-txt mb-4">
-                Eligibility & Benefits
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-txt mb-1">
-                    Eligibility Criteria <span className="text-red-500">*</span>
-                  </label>
-                  <textarea
-                    name="eligibility"
-                    value={form.eligibility}
-                    onChange={handleChange}
-                    rows="4"
-                    placeholder="Who is eligible for this scheme? Include income limits, age criteria, etc."
-                    className="w-full px-4 py-2.5 bg-bg-ter border border-[var(--border)] rounded-lg text-txt placeholder-txt-disabled focus:outline-none focus:border-btn resize-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-txt mb-1">
-                    Benefits <span className="text-red-500">*</span>
-                  </label>
-                  <textarea
-                    name="benefits"
-                    value={form.benefits}
-                    onChange={handleChange}
-                    rows="4"
-                    placeholder="What benefits will the applicant receive? Include amounts, subsidies, etc."
-                    className="w-full px-4 py-2.5 bg-bg-ter border border-[var(--border)] rounded-lg text-txt placeholder-txt-disabled focus:outline-none focus:border-btn resize-none"
+                    className="
+                    w-full px-4 py-2.5 bg-[var(--bg-ter)] border border-[var(--txt-dim)]
+                    rounded-[var(--radius)] text-[var(--txt)] placeholder-[var(--txt-disabled)]
+                    focus:outline-none focus:border-[var(--btn)] resize-none"
                   />
                 </div>
               </div>
             </div>
 
             {/* Required Documents */}
-            <div className="bg-bg-sec border border-[var(--border)] rounded-lg p-6">
-              <h3 className="font-semibold text-txt mb-4">
+            <div className="bg-[var(--bg-sec)] border border-[var(--txt-dim)] rounded-[var(--radius)] p-6">
+              <h3 className="text-lg font-semibold text-[var(--txt)] mb-4 tracking-wide">
                 Required Documents
               </h3>
+
               <div className="grid grid-cols-2 gap-3">
                 {COMMON_DOCS.map((doc) => (
                   <label
                     key={doc}
-                    className="flex items-center space-x-3 cursor-pointer p-2 rounded-lg hover:bg-bg-ter transition-colors"
+                    className="
+                    flex items-center space-x-3
+                    cursor-pointer p-2
+                    rounded-[var(--radius)]
+                    hover:bg-[var(--bg-ter)]
+                    transition-colors
+                  "
                   >
                     <input
                       type="checkbox"
                       checked={form.documents.includes(doc)}
                       onChange={() => handleDocToggle(doc)}
-                      className="w-4 h-4 text-btn border-gray-300 rounded focus:ring-btn"
+                      className="
+                      w-4 h-4
+                      accent-[var(--btn)]
+                      border-[var(--txt-dim)]
+                      rounded
+                    "
                     />
-                    <span className="text-sm text-txt">{doc}</span>
+                    <span className="text-sm text-[var(--txt)]">{doc}</span>
                   </label>
                 ))}
               </div>
-              {form.documents.length > 0 && (
-                <div className="mt-3 pt-3 border-t border-[var(--border)]">
-                  <p className="text-xs text-txt-dim mb-2">
-                    Selected ({form.documents.length}):
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {form.documents.map((doc) => (
-                      <span
-                        key={doc}
-                        className="px-2.5 py-1 bg-accent text-txt text-xs rounded-full"
-                      >
-                        {doc}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
           </div>
 
-          {/* Right Column - Status & Actions */}
+          {/* RIGHT COLUMN */}
           <div className="space-y-5">
-            <div className="bg-bg-sec border border-[var(--border)] rounded-lg p-6">
-              <h3 className="font-semibold text-txt mb-4">Scheme Status</h3>
+            {/* Status Card */}
+            <div className="bg-[var(--bg-sec)] border-2 border-[var(--bg-ter)] rounded-[var(--radius)] p-6  shadow-[0_8px_24px_rgba(var(--shadow-rgb),0.2)]">
+              <h3 className="text-lg font-semibold text-[var(--txt)] mb-4 tracking-wide">
+                Scheme Status
+              </h3>
+
               <label className="flex items-center justify-between cursor-pointer">
                 <div>
-                  <p className="text-sm font-medium text-txt">Active Status</p>
-                  <p className="text-xs text-txt-dim mt-0.5">
+                  <p className="text-sm font-medium text-[var(--txt)]">
+                    Active Status
+                  </p>
+                  <p className="text-xs text-[var(--txt-dim)] mt-0.5">
                     Inactive schemes won't appear to users
                   </p>
                 </div>
+
                 <div
                   onClick={() =>
-                    setForm((prev) => ({ ...prev, isActive: !prev.isActive }))
+                    setForm((prev) => ({
+                      ...prev,
+                      isActive: !prev.isActive,
+                    }))
                   }
-                  className={`relative w-12 h-6 rounded-full transition-colors cursor-pointer ${form.isActive ? "bg-btn" : "bg-gray-300"}`}
+                  className={`
+                  relative w-12 h-6 rounded-full transition-colors cursor-pointer
+                  ${form.isActive ? "bg-[var(--btn)]" : "bg-[var(--bg-ter)]"}
+                `}
                 >
                   <div
-                    className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-transform ${form.isActive ? "translate-x-7" : "translate-x-1"}`}
+                    className={`
+                    absolute top-1 w-4 h-4 bg-white rounded-full shadow
+                    transition-transform
+                    ${form.isActive ? "translate-x-7" : "translate-x-1"}
+                  `}
                   />
                 </div>
               </label>
+
               <p
-                className={`text-sm font-medium mt-3 ${form.isActive ? "text-green-600" : "text-red-500"}`}
+                className={`
+                text-sm font-medium mt-3
+                ${form.isActive ? "text-green-500" : "text-yellow-500"}
+              `}
               >
                 {form.isActive
                   ? "● Active - Visible to users"
@@ -343,45 +364,23 @@ const SchemeForm = ({ mode = "add" }) => {
               </p>
             </div>
 
-            {/* Summary */}
-            <div className="bg-accent border border-btn/20 rounded-lg p-4">
-              <h4 className="text-sm font-semibold text-txt mb-3">
-                Scheme Summary
-              </h4>
-              <div className="space-y-2 text-xs">
-                <div className="flex justify-between">
-                  <span className="text-txt-dim">Title:</span>
-                  <span className="text-txt font-medium truncate ml-2">
-                    {form.title || "—"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-txt-dim">Code:</span>
-                  <span className="text-txt font-mono font-medium">
-                    {form.code ? form.code.toUpperCase() : "—"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-txt-dim">Category:</span>
-                  <span className="text-txt font-medium">
-                    {form.category || "—"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-txt-dim">Documents:</span>
-                  <span className="text-txt font-medium">
-                    {form.documents.length} selected
-                  </span>
-                </div>
-              </div>
-            </div>
-
             {/* Action Buttons */}
             <div className="space-y-3">
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-btn hover:bg-btn-hover text-white rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="
+                w-full flex items-center justify-center space-x-2
+                px-6 py-3
+                bg-[var(--btn)]
+                hover:bg-[var(--btn-hover)]
+                text-white
+                rounded-[var(--radius)]
+                font-semibold
+                transition-colors
+                disabled:opacity-50
+                disabled:cursor-not-allowed
+              "
               >
                 <Save className="w-4 h-4" />
                 <span>
@@ -392,10 +391,18 @@ const SchemeForm = ({ mode = "add" }) => {
                       : "Update Scheme"}
                 </span>
               </button>
+
               <button
                 type="button"
                 onClick={() => navigate("/admin/schemes")}
-                className="w-full px-6 py-3 border border-[var(--border)] rounded-lg text-txt-dim hover:bg-bg-ter transition-colors"
+                className="
+                w-full px-6 py-3
+                border border-[var(--bg-ter)]
+                rounded-[var(--radius)]
+                text-[var(--txt-dim)]
+                hover:bg-[var(--bg-ter)]
+                transition-colors
+              "
               >
                 Cancel
               </button>
