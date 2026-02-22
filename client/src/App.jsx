@@ -30,11 +30,11 @@ import SuccessStories from "./pages/SuccessStories";
 
 // Admin Pages
 import AdminDashboard from "./pages/Admindashboard";
-import ApplicationsManagement from "./pages/admin/ApplicationsManagement";
+import ApplicationsManagement from "./pages/admin/Applicationsmanagement";
 import GrievancesManagement from "./pages/admin/Grievancesmanagement";
-import SchemesManagement from "./pages/admin/SchemesManagement";
+import SchemesManagement from "./pages/admin/Schemesmanagement";
 import SchemeForm from "./pages/admin/SchemeForm";
-import ContactQueries from "./pages/admin/ContactQueries";
+import ContactQueries from "./pages/admin/Contactqueries";
 
 const toastOptions = {
   duration: 3000,
