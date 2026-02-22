@@ -408,3 +408,116 @@ export const updateGrievanceStatus = async (grievanceId, status, response) => {
     throw error;
   }
 };
+
+export const assignGrievance = async (grievanceId, adminId, priority) => {
+  try {
+    const response = await fetch(
+      `${API_URL}/grievances/${grievanceId}/assign`,
+      {
+        method: "PUT",
+        headers: getHeaders(true),
+        body: JSON.stringify({ adminId, priority }),
+      },
+    );
+
+    return await handleResponse(response);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getApplicationStats = async () => {
+  try {
+    const response = await fetch(`${API_URL}/applications/stats/overview`, {
+      method: "GET",
+      headers: getHeaders(true),
+    });
+
+    return await handleResponse(response);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getGrievanceStats = async () => {
+  try {
+    const response = await fetch(`${API_URL}/grievances/stats/overview`, {
+      method: "GET",
+      headers: getHeaders(true),
+    });
+
+    return await handleResponse(response);
+  } catch (error) {
+    throw error;
+  }
+};
+
+// ==================== CONTACT QUERY APIs ====================
+
+export const submitContactQuery = async (data) => {
+  try {
+    const response = await fetch(`${API_URL}/contact`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    return await handleResponse(response);
+  } catch (error) { throw error; }
+};
+
+export const getAllContactQueries = async (filters = {}) => {
+  try {
+    const queryParams = new URLSearchParams(filters).toString();
+    const url = queryParams ? `${API_URL}/contact?${queryParams}` : `${API_URL}/contact`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: getHeaders(true),
+    });
+    return await handleResponse(response);
+  } catch (error) { throw error; }
+};
+
+export const resolveContactQuery = async (id, adminResponse) => {
+  try {
+    const response = await fetch(`${API_URL}/contact/${id}/resolve`, {
+      method: 'PUT',
+      headers: getHeaders(true),
+      body: JSON.stringify({ response: adminResponse }),
+    });
+    return await handleResponse(response);
+  } catch (error) { throw error; }
+};
+
+// ==================== SCHEME CRUD (Admin) ====================
+
+export const createScheme = async (schemeData) => {
+  try {
+    const response = await fetch(`${API_URL}/schemes`, {
+      method: 'POST',
+      headers: getHeaders(true),
+      body: JSON.stringify(schemeData),
+    });
+    return await handleResponse(response);
+  } catch (error) { throw error; }
+};
+
+export const updateScheme = async (id, schemeData) => {
+  try {
+    const response = await fetch(`${API_URL}/schemes/${id}`, {
+      method: 'PUT',
+      headers: getHeaders(true),
+      body: JSON.stringify(schemeData),
+    });
+    return await handleResponse(response);
+  } catch (error) { throw error; }
+};
+
+export const deleteScheme = async (id) => {
+  try {
+    const response = await fetch(`${API_URL}/schemes/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders(true),
+    });
+    return await handleResponse(response);
+  } catch (error) { throw error; }
+};

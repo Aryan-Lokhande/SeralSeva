@@ -23,11 +23,13 @@ const Dashboard = () => {
   const [applications, setApplications] = useState([]);
   const [grievances, setGrievances] = useState([]);
   const [loading, setLoading] = useState(true);
-  
-    // If user is admin, show AdminDashboard
-  if (isAuthenticated && user?.role === "admin") {
-    return <AdminDashboard />;
-  }
+
+  // Redirect admin to the dedicated admin panel
+  useEffect(() => {
+    if (isAuthenticated && user?.role === "admin") {
+      navigate("/admin/dashboard", { replace: true });
+    }
+  }, [isAuthenticated, user, navigate]);
 
   const [stats, setStats] = useState({
     activeApplications: 0,
@@ -470,12 +472,7 @@ const Dashboard = () => {
               {
                 title: "Lodge Grievance",
                 desc: "Register a complaint and track resolution progress.",
-                icon: (
-                  <MessageSquare
-                    size={26}
-                    className="text-[var(--btn)]"
-                  />
-                ),
+                icon: <MessageSquare size={26} className="text-[var(--btn)]" />,
                 action: () => navigate("/lodge-grievance"),
               },
               {

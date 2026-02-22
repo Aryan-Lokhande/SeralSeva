@@ -15,6 +15,7 @@ import authRoutes from "./routes/authRoutes.js";
 import schemeRoutes from "./routes/schemeRoutes.js";
 import applicationRoutes from "./routes/applicationRoutes.js";
 import grievanceRoutes from "./routes/grievanceRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
 
 // Load environment variables
 dotenv.config();
@@ -34,7 +35,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // CORS
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:5173", process.env.FRONTEND_URL],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
 
 // Logging
 if (process.env.NODE_ENV === "development") {
@@ -57,6 +64,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/schemes", schemeRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/grievances", grievanceRoutes);
+app.use("/api/contact", contactRoutes);
 
 // Health check route
 app.get("/api/health", (req, res) => {

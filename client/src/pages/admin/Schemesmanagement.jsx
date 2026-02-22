@@ -1,0 +1,271 @@
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import {
+  Plus,
+  Edit,
+  ToggleLeft,
+  ToggleRight,
+  Search,
+  RefreshCw,
+  Package,
+} from "lucide-react";
+import { getSchemes, updateScheme } from "../../utils/api";
+import toast from "react-hot-toast";
+
+const SchemesManagement = () => {
+  const navigate = useNavigate();
+  const [schemes, setSchemes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+
+  const categories = [
+    "Housing",
+    "Healthcare",
+    "Agriculture",
+    "Social Security",
+    "Women Empowerment",
+    "Entrepreneurship",
+    "Employment",
+    "Education",
+  ];
+
+  useEffect(() => {
+    fetchSchemes();
+  }, []);
+
+  const fetchSchemes = async () => {
+    try {
+      setLoading(true);
+      const res = await getSchemes();
+      if (res.success) setSchemes(res.data);
+    } catch (err) {
+      toast.error("Failed to load schemes");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleToggleActive = async (scheme) => {
+    try {
+      const res = await updateScheme(scheme._id, {
+        isActive: !scheme.isActive,
+      });
+      if (res.success) {
+        toast.success(
+          `Scheme ${!scheme.isActive ? "activated" : "deactivated"}`,
+        );
+        fetchSchemes();
+      }
+    } catch (err) {
+      toast.error(err.message || "Failed to update scheme");
+    }
+  };
+
+  const filtered = schemes.filter((s) => {
+    const matchCat = categoryFilter === "all" || s.category === categoryFilter;
+    const q = searchQuery.toLowerCase();
+    const matchSearch =
+      !q ||
+      s.title?.toLowerCase().includes(q) ||
+      s.code?.toLowerCase().includes(q);
+    return matchCat && matchSearch;
+  });
+
+  const stats = {
+    total: schemes.length,
+    active: schemes.filter((s) => s.isActive).length,
+    inactive: schemes.filter((s) => !s.isActive).length,
+  };
+
+  return (
+    <div className="p-6 bg-bg-primary min-h-screen">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mb-6"
+      >
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-txt">Schemes Management</h1>
+            <p className="text-txt-dim text-sm mt-1">
+              Add, edit and manage government schemes
+            </p>
+          </div>
+          <div className="flex items-center space-x-3">
+            <button
+              onClick={fetchSchemes}
+              className="
+              flex items-center space-x-2 px-4 py-2
+              bg-[var(--bg-sec)] border-2 border-[var(--bg-ter)] 
+              rounded-[var(--radius)] hover:bg-[var(--bg-ter)] hover:border-[var(--txt-dim)] transition
+              transition-colors text-[var(--txt-dim)] text-sm"
+            >
+              <RefreshCw className="w-4 h-4" />
+              <span className="text-sm">Refresh</span>
+            </button>
+            <button
+              onClick={() => navigate("/admin/schemes/add")}
+              className="flex items-center space-x-2 px-4 py-2 bg-btn hover:bg-btn-hover text-white rounded-lg transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+              <span className="text-sm font-medium">Add Scheme</span>
+            </button>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Stats */}
+      <div className="grid grid-cols-3 gap-4 mb-6">
+        {[
+          { label: "Total Schemes", value: stats.total, color: "text-txt" },
+          { label: "Active", value: stats.active, color: "text-green-600" },
+          { label: "Inactive", value: stats.inactive, color: "text-red-500" },
+        ].map((stat) => (
+          <div
+            key={stat.label}
+            className="bg-bg-sec border border-[var(--border)] rounded-lg p-4 flex items-center justify-between"
+          >
+            <span className="text-sm text-txt-dim">{stat.label}</span>
+            <span className={`text-2xl font-bold ${stat.color}`}>
+              {stat.value}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* Filters */}
+      <div className="bg-bg-sec border border-[var(--border)] rounded-lg p-4 mb-4 flex flex-wrap items-center gap-4">
+        <div className="flex-1 min-w-[200px] relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-txt-dim" />
+          <input
+            type="text"
+            placeholder="Search by title or code..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-9 pr-4 py-2 bg-bg-ter border border-[var(--border)] rounded-lg text-sm text-txt placeholder-txt-disabled focus:outline-none focus:border-btn"
+          />
+        </div>
+        <select
+          value={categoryFilter}
+          onChange={(e) => setCategoryFilter(e.target.value)}
+          className="px-3 py-2 bg-bg-ter border border-[var(--border)] rounded-lg text-sm text-txt focus:outline-none focus:border-btn"
+        >
+          <option value="all">All Categories</option>
+          {categories.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
+        <span className="text-sm text-txt-dim ml-auto">
+          {filtered.length} schemes
+        </span>
+      </div>
+
+      {/* Table */}
+      <div className="bg-bg-sec border border-[var(--border)] rounded-lg overflow-hidden">
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <RefreshCw className="w-8 h-8 text-btn animate-spin" />
+            <span className="ml-3 text-txt-dim">Loading schemes...</span>
+          </div>
+        ) : filtered.length === 0 ? (
+          <div className="text-center py-20">
+            <Package className="w-12 h-12 text-txt-disabled mx-auto mb-3" />
+            <p className="text-txt font-medium">No schemes found</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-[var(--border)] bg-bg-ter">
+                  <th className="text-left py-3 px-4 text-xs font-semibold text-txt-dim uppercase tracking-wider">
+                    Scheme
+                  </th>
+                  <th className="text-left py-3 px-4 text-xs font-semibold text-txt-dim uppercase tracking-wider">
+                    Code
+                  </th>
+                  <th className="text-left py-3 px-4 text-xs font-semibold text-txt-dim uppercase tracking-wider">
+                    Category
+                  </th>
+                  <th className="text-left py-3 px-4 text-xs font-semibold text-txt-dim uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th className="text-left py-3 px-4 text-xs font-semibold text-txt-dim uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[var(--border)]">
+                {filtered.map((scheme, i) => (
+                  <motion.tr
+                    key={scheme._id}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: i * 0.03 }}
+                    className="hover:bg-bg-ter transition-colors"
+                  >
+                    <td className="py-3 px-4">
+                      <div className="font-medium text-txt text-sm">
+                        {scheme.title}
+                      </div>
+                      <div className="text-xs text-txt-dim line-clamp-1">
+                        {scheme.description}
+                      </div>
+                    </td>
+                    <td className="py-3 px-4">
+                      <span className="font-mono text-sm text-btn font-semibold">
+                        {scheme.code}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4">
+                      <span className="px-2.5 py-1 text-xs bg-accent text-txt rounded-full font-medium">
+                        {scheme.category}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4">
+                      <span
+                        className={`px-2.5 py-1 text-xs font-semibold rounded-full ${scheme.isActive ? "bg-green-100 text-green-700" : "bg-red-100 text-red-600"}`}
+                      >
+                        {scheme.isActive ? "Active" : "Inactive"}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4">
+                      <div className="flex items-center space-x-2">
+                        <button
+                          onClick={() =>
+                            navigate(`/admin/schemes/edit/${scheme._id}`)
+                          }
+                          className="p-1.5 rounded-lg hover:bg-blue-50 text-blue-500 transition-colors"
+                          title="Edit Scheme"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleToggleActive(scheme)}
+                          className={`p-1.5 rounded-lg transition-colors ${scheme.isActive ? "hover:bg-red-50 text-red-500" : "hover:bg-green-50 text-green-600"}`}
+                          title={scheme.isActive ? "Deactivate" : "Activate"}
+                        >
+                          {scheme.isActive ? (
+                            <ToggleRight className="w-4 h-4" />
+                          ) : (
+                            <ToggleLeft className="w-4 h-4" />
+                          )}
+                        </button>
+                      </div>
+                    </td>
+                  </motion.tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default SchemesManagement;
