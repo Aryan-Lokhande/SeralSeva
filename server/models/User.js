@@ -37,12 +37,30 @@ const userSchema = new mongoose.Schema(
       enum: ["user", "admin"],
       default: "user",
     },
+
+    // User status (for blocking)
+    status: {
+      type: String,
+      enum: ["Active", "Blocked"],
+      default: "Active",
+    },
+
     isVerified: {
       type: Boolean,
       default: false,
     },
+
+    // Admin settings (only for admins)
+    adminSettings: {
+      showSidebarBadges: {
+        type: Boolean,
+        default: true,
+      },
+    },
+
     resetPasswordToken: String,
     resetPasswordExpire: Date,
+    lastLogin: Date,
   },
   {
     timestamps: true,
@@ -50,10 +68,9 @@ const userSchema = new mongoose.Schema(
 );
 
 // Hash password before saving
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    next();
-  }
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
+  
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });

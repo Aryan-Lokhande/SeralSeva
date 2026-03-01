@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Save, Package } from "lucide-react";
+import { ArrowLeft, Save, Package, Calendar } from "lucide-react";
 import { createScheme, getSchemeById, updateScheme } from "../../utils/api";
 import toast from "react-hot-toast";
 
@@ -15,6 +15,7 @@ const CATEGORIES = [
   "Employment",
   "Education",
 ];
+
 const COMMON_DOCS = [
   "Aadhar Card",
   "PAN Card",
@@ -43,6 +44,8 @@ const SchemeForm = ({ mode = "add" }) => {
     benefits: "",
     documents: [],
     isActive: true,
+    applicationDeadline: "", // New field
+    foreverActive: true, // Checkbox for no deadline
   });
 
   useEffect(() => {
@@ -66,6 +69,10 @@ const SchemeForm = ({ mode = "add" }) => {
           benefits: s.benefits || "",
           documents: s.documents || [],
           isActive: s.isActive !== undefined ? s.isActive : true,
+          applicationDeadline: s.applicationDeadline
+            ? new Date(s.applicationDeadline).toISOString().split("T")[0]
+            : "",
+          foreverActive: !s.applicationDeadline,
         });
       }
     } catch (err) {
@@ -77,10 +84,19 @@ const SchemeForm = ({ mode = "add" }) => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+
+    if (name === "foreverActive") {
+      setForm((prev) => ({
+        ...prev,
+        foreverActive: checked,
+        applicationDeadline: checked ? "" : prev.applicationDeadline,
+      }));
+    } else {
+      setForm((prev) => ({
+        ...prev,
+        [name]: type === "checkbox" ? checked : value,
+      }));
+    }
   };
 
   const handleDocToggle = (doc) => {
@@ -94,6 +110,7 @@ const SchemeForm = ({ mode = "add" }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (
       !form.title ||
       !form.code ||
@@ -106,13 +123,44 @@ const SchemeForm = ({ mode = "add" }) => {
       return;
     }
 
+    // Validate deadline if not forever active
+    if (!form.foreverActive && !form.applicationDeadline) {
+      toast.error(
+        'Please select an application deadline or mark as "Forever Active"',
+      );
+      return;
+    }
+
+    // Check if deadline is in the past
+    if (!form.foreverActive && form.applicationDeadline) {
+      const deadlineDate = new Date(form.applicationDeadline);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      if (deadlineDate < today) {
+        toast.error("Application deadline cannot be in the past");
+        return;
+      }
+    }
+
     try {
       setLoading(true);
-      const payload = { ...form, code: form.code.toUpperCase() };
+      const payload = {
+        ...form,
+        code: form.code.toUpperCase(),
+        applicationDeadline: form.foreverActive
+          ? null
+          : form.applicationDeadline,
+      };
+
+      // Remove foreverActive from payload (it's UI-only)
+      delete payload.foreverActive;
+
       const res =
         mode === "add"
           ? await createScheme(payload)
           : await updateScheme(id, payload);
+
       if (res.success) {
         toast.success(
           `Scheme ${mode === "add" ? "created" : "updated"} successfully!`,
@@ -146,13 +194,7 @@ const SchemeForm = ({ mode = "add" }) => {
       >
         <button
           onClick={() => navigate("/admin/schemes")}
-          className="
-          flex items-center space-x-2
-          text-[var(--txt-dim)]
-          hover:text-[var(--txt)]
-          mb-4
-          transition-colors
-        "
+          className="flex items-center space-x-2 text-[var(--txt-dim)] hover:text-[var(--txt)] mb-4 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           <span className="text-sm">Back to Schemes</span>
@@ -194,16 +236,8 @@ const SchemeForm = ({ mode = "add" }) => {
                     name="title"
                     value={form.title}
                     onChange={handleChange}
-                    className="
-                    w-full px-4 py-2.5
-                    bg-[var(--bg-ter)]
-                    border border-[var(--txt-dim)]
-                    rounded-[var(--radius)]
-                    text-[var(--txt)]
-                    placeholder-[var(--txt-disabled)]
-                    focus:outline-none
-                    focus:border-[var(--btn)]
-                  "
+                    placeholder="e.g. Pradhan Mantri Awas Yojana"
+                    className="w-full px-4 py-2.5 bg-[var(--bg-ter)] border border-[var(--txt-dim)] rounded-[var(--radius)] text-[var(--txt)] placeholder-[var(--txt-disabled)] focus:outline-none focus:border-[var(--btn)]"
                   />
                 </div>
 
@@ -216,17 +250,8 @@ const SchemeForm = ({ mode = "add" }) => {
                       name="code"
                       value={form.code}
                       onChange={handleChange}
-                      className="
-                      w-full px-4 py-2.5
-                      bg-[var(--bg-ter)]
-                      border border-[var(--txt-dim)]
-                      rounded-[var(--radius)]
-                      text-[var(--txt)]
-                      placeholder-[var(--txt-disabled)]
-                      focus:outline-none
-                      focus:border-[var(--btn)]
-                      uppercase
-                    "
+                      placeholder="e.g. PMAY-2024"
+                      className="w-full px-4 py-2.5 bg-[var(--bg-ter)] border border-[var(--txt-dim)] uppercase rounded-[var(--radius)] text-[var(--txt)] placeholder-[var(--txt-disabled)] focus:outline-none focus:border-[var(--btn)]"
                     />
                   </div>
 
@@ -238,15 +263,7 @@ const SchemeForm = ({ mode = "add" }) => {
                       name="category"
                       value={form.category}
                       onChange={handleChange}
-                      className="
-                      w-full px-4 py-2.5
-                      bg-[var(--bg-ter)]
-                      border border-[var(--txt-dim)]
-                      rounded-[var(--radius)]
-                      text-[var(--txt)]
-                      focus:outline-none
-                      focus:border-[var(--btn)]
-                    "
+                      className="w-full px-4 py-2.5 bg-[var(--bg-ter)] border border-[var(--txt-dim)] rounded-[var(--radius)] text-[var(--txt)] focus:outline-none focus:border-[var(--btn)]"
                     >
                       <option value="">Select category</option>
                       {CATEGORIES.map((c) => (
@@ -267,10 +284,44 @@ const SchemeForm = ({ mode = "add" }) => {
                     value={form.description}
                     onChange={handleChange}
                     rows="3"
-                    className="
-                    w-full px-4 py-2.5 bg-[var(--bg-ter)] border border-[var(--txt-dim)]
-                    rounded-[var(--radius)] text-[var(--txt)] placeholder-[var(--txt-disabled)]
-                    focus:outline-none focus:border-[var(--btn)] resize-none"
+                    placeholder="Brief description of the scheme..."
+                    className="w-full px-4 py-2.5 bg-[var(--bg-ter)] border border-[var(--txt-dim)] rounded-[var(--radius)] text-[var(--txt)] placeholder-[var(--txt-disabled)] focus:outline-none focus:border-[var(--btn)] resize-none"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Eligibility & Benefits */}
+            <div className="bg-[var(--bg-sec)] border border-[var(--txt-dim)] rounded-[var(--radius)] p-6 shadow-[0_8px_24px_rgba(var(--shadow-rgb),0.2)]">
+              <h3 className="text-lg font-semibold text-[var(--txt)] mb-4 tracking-wide">
+                Eligibility & Benefits
+              </h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-[var(--txt)] mb-1">
+                    Eligibility Criteria{" "}
+                    <span className="text-[var(--btn)]">*</span>
+                  </label>
+                  <textarea
+                    name="eligibility"
+                    value={form.eligibility}
+                    onChange={handleChange}
+                    rows="4"
+                    placeholder="Who is eligible for this scheme? Include income limits, age criteria, etc."
+                    className="w-full px-4 py-2.5 bg-[var(--bg-ter)] border border-[var(--txt-dim)] rounded-[var(--radius)] text-[var(--txt)] placeholder-[var(--txt-disabled)] focus:outline-none focus:border-[var(--btn)] resize-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[var(--txt)] mb-1">
+                    Benefits <span className="text-[var(--btn)]">*</span>
+                  </label>
+                  <textarea
+                    name="benefits"
+                    value={form.benefits}
+                    onChange={handleChange}
+                    rows="4"
+                    placeholder="What benefits will the applicant receive? Include amounts, subsidies, etc."
+                    className="w-full px-4 py-2.5 bg-[var(--bg-ter)] border border-[var(--txt-dim)] rounded-[var(--radius)] text-[var(--txt)] placeholder-[var(--txt-disabled)] focus:outline-none focus:border-[var(--btn)] resize-none"
                   />
                 </div>
               </div>
@@ -286,36 +337,85 @@ const SchemeForm = ({ mode = "add" }) => {
                 {COMMON_DOCS.map((doc) => (
                   <label
                     key={doc}
-                    className="
-                    flex items-center space-x-3
-                    cursor-pointer p-2
-                    rounded-[var(--radius)]
-                    hover:bg-[var(--bg-ter)]
-                    transition-colors
-                  "
+                    className="flex items-center space-x-3 cursor-pointer p-2 rounded-[var(--radius)] hover:bg-[var(--bg-ter)] transition-colors"
                   >
                     <input
                       type="checkbox"
                       checked={form.documents.includes(doc)}
                       onChange={() => handleDocToggle(doc)}
-                      className="
-                      w-4 h-4
-                      accent-[var(--btn)]
-                      border-[var(--txt-dim)]
-                      rounded
-                    "
+                      className="w-4 h-4 accent-[var(--btn)] border-[var(--txt-dim)] rounded"
                     />
                     <span className="text-sm text-[var(--txt)]">{doc}</span>
                   </label>
                 ))}
               </div>
+
+              {form.documents.length > 0 && (
+                <div className="mt-3 pt-3 border-t border-[var(--txt-dim)]">
+                  <p className="text-xs text-[var(--txt-dim)] mb-2">
+                    Selected ({form.documents.length}):
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {form.documents.map((doc) => (
+                      <span
+                        key={doc}
+                        className="px-2.5 py-1 bg-[rgba(var(--shadow-rgb),0.15)] text-[var(--txt)] text-xs rounded-full"
+                      >
+                        {doc}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
           {/* RIGHT COLUMN */}
           <div className="space-y-5">
+            {/* Application Deadline */}
+            <div className="bg-[var(--bg-sec)] border-2 border-[var(--bg-ter)] rounded-[var(--radius)] p-6 shadow-[0_8px_24px_rgba(var(--shadow-rgb),0.2)]">
+              <h3 className="text-lg font-semibold text-[var(--txt)] mb-4 tracking-wide">
+                Application Deadline
+              </h3>
+
+              <div className="space-y-3">
+                <label className="flex items-center space-x-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    name="foreverActive"
+                    checked={form.foreverActive}
+                    onChange={handleChange}
+                    className="w-4 h-4 accent-[var(--btn)]"
+                  />
+                  <span className="text-sm text-[var(--txt)]">
+                    Forever Active (No Deadline)
+                  </span>
+                </label>
+
+                {!form.foreverActive && (
+                  <div>
+                    <label className="block text-sm font-medium text-[var(--txt)] mb-2">
+                      <Calendar className="w-4 h-4 inline mr-1" />
+                      Last Date to Apply
+                    </label>
+                    <input
+                      type="date"
+                      name="applicationDeadline"
+                      value={form.applicationDeadline}
+                      onChange={handleChange}
+                      min={new Date().toISOString().split("T")[0]}
+                      className="w-full px-4 py-2.5 bg-[var(--bg-ter)] border border-[var(--txt-dim)] rounded-[var(--radius)] text-[var(--txt)] focus:outline-none focus:border-[var(--btn)]"
+                    />
+                    <p className="text-xs text-[var(--txt-dim)] mt-2">
+                      Scheme will auto-deactivate after this date
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+
             {/* Status Card */}
-            <div className="bg-[var(--bg-sec)] border-2 border-[var(--bg-ter)] rounded-[var(--radius)] p-6  shadow-[0_8px_24px_rgba(var(--shadow-rgb),0.2)]">
+            <div className="bg-[var(--bg-sec)] border-2 border-[var(--bg-ter)] rounded-[var(--radius)] p-6 shadow-[0_8px_24px_rgba(var(--shadow-rgb),0.2)]">
               <h3 className="text-lg font-semibold text-[var(--txt)] mb-4 tracking-wide">
                 Scheme Status
               </h3>
@@ -337,26 +437,16 @@ const SchemeForm = ({ mode = "add" }) => {
                       isActive: !prev.isActive,
                     }))
                   }
-                  className={`
-                  relative w-12 h-6 rounded-full transition-colors cursor-pointer
-                  ${form.isActive ? "bg-[var(--btn)]" : "bg-[var(--bg-ter)]"}
-                `}
+                  className={`relative w-12 h-6 rounded-full transition-colors cursor-pointer ${form.isActive ? "bg-[var(--btn)]" : "bg-[var(--bg-ter)]"}`}
                 >
                   <div
-                    className={`
-                    absolute top-1 w-4 h-4 bg-white rounded-full shadow
-                    transition-transform
-                    ${form.isActive ? "translate-x-7" : "translate-x-1"}
-                  `}
+                    className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-transform ${form.isActive ? "translate-x-7" : "translate-x-1"}`}
                   />
                 </div>
               </label>
 
               <p
-                className={`
-                text-sm font-medium mt-3
-                ${form.isActive ? "text-green-500" : "text-yellow-500"}
-              `}
+                className={`text-sm font-medium mt-3 ${form.isActive ? "text-green-500" : "text-yellow-500"}`}
               >
                 {form.isActive
                   ? "● Active - Visible to users"
@@ -369,18 +459,7 @@ const SchemeForm = ({ mode = "add" }) => {
               <button
                 type="submit"
                 disabled={loading}
-                className="
-                w-full flex items-center justify-center space-x-2
-                px-6 py-3
-                bg-[var(--btn)]
-                hover:bg-[var(--btn-hover)]
-                text-white
-                rounded-[var(--radius)]
-                font-semibold
-                transition-colors
-                disabled:opacity-50
-                disabled:cursor-not-allowed
-              "
+                className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-[var(--btn)] hover:bg-[var(--btn-hover)] text-white rounded-[var(--radius)] font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Save className="w-4 h-4" />
                 <span>
@@ -401,8 +480,7 @@ const SchemeForm = ({ mode = "add" }) => {
                 rounded-[var(--radius)]
                 text-[var(--txt-dim)]
                 hover:bg-[var(--bg-ter)]
-                transition-colors
-              "
+                transition-colors"
               >
                 Cancel
               </button>

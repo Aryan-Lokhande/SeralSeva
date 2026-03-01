@@ -109,6 +109,9 @@ const Schemes = () => {
                   <th className="px-6 py-4 text-left text-sm font-bold uppercase tracking-wider">
                     Category
                   </th>
+                  <th className="px-6 py-4 text-center text-sm font-bold uppercase tracking-wider">
+                    Deadline
+                  </th>
                   <th className="px-6 py-4 text-left text-sm font-bold uppercase tracking-wider">
                     Brochure
                   </th>
@@ -135,7 +138,7 @@ const Schemes = () => {
                       <div>
                         <div
                           className="text-[var(--txt)] font-medium hover:text-[var(--btn)] cursor-pointer transition-colors duration-200"
-                          onClick={() => navigate(`/scheme/${scheme._id}`)}
+                          onClick={() => handleApply(scheme)}
                         >
                           {scheme.title}
                         </div>
@@ -149,6 +152,25 @@ const Schemes = () => {
                       <span className="px-3 py-1 text-xs font-semibold rounded-full bg-[var(--btn)]/20 text-[var(--btn)]">
                         {scheme.category}
                       </span>
+                    </td>
+
+                    {/* ✅ NEW DEADLINE COLUMN */}
+                    <td className="px-6 py-4 whitespace-nowrap text-[var(--txt)]">
+                      {scheme.applicationDeadline ? (
+                        <span className="font-medium">
+                          {new Date(
+                            scheme.applicationDeadline,
+                          ).toLocaleDateString("en-IN", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                          })}
+                        </span>
+                      ) : (
+                        <span className="text-green-400 text-sm">
+                          No Deadline Specified
+                        </span>
+                      )}
                     </td>
 
                     <td className="px-6 py-4 whitespace-nowrap">

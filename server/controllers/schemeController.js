@@ -1,8 +1,8 @@
 import Scheme from "../models/Scheme.js";
 
-// @desc    Get all schemes
-// @route   GET /api/schemes
-// @access  Public
+/* ================================
+   GET ALL SCHEMES (WITH FILTER + EXPIRY CHECK)
+================================ */
 export const getSchemes = async (req, res, next) => {
   try {
     const { category, search, isActive } = req.query;
@@ -24,6 +24,22 @@ export const getSchemes = async (req, res, next) => {
 
     const schemes = await Scheme.find(query).sort({ createdAt: -1 });
 
+    const now = new Date();
+
+    for (const scheme of schemes) {
+      if (
+        scheme.isActive &&
+        scheme.applicationDeadline &&
+        now > scheme.applicationDeadline &&
+        !scheme.autoDeactivated
+      ) {
+        scheme.isActive = false;
+        scheme.autoDeactivated = true;
+        scheme.deactivatedAt = now;
+        await scheme.save();
+      }
+    }
+
     res.status(200).json({
       success: true,
       count: schemes.length,
@@ -34,9 +50,9 @@ export const getSchemes = async (req, res, next) => {
   }
 };
 
-// @desc    Get single scheme
-// @route   GET /api/schemes/:id
-// @access  Public
+/* ================================
+   GET SINGLE SCHEME
+================================ */
 export const getScheme = async (req, res, next) => {
   try {
     const scheme = await Scheme.findById(req.params.id);
@@ -48,6 +64,20 @@ export const getScheme = async (req, res, next) => {
       });
     }
 
+    const now = new Date();
+
+    if (
+      scheme.isActive &&
+      scheme.applicationDeadline &&
+      now > scheme.applicationDeadline &&
+      !scheme.autoDeactivated
+    ) {
+      scheme.isActive = false;
+      scheme.autoDeactivated = true;
+      scheme.deactivatedAt = now;
+      await scheme.save();
+    }
+
     res.status(200).json({
       success: true,
       data: scheme,
@@ -57,12 +87,56 @@ export const getScheme = async (req, res, next) => {
   }
 };
 
-// @desc    Create scheme
-// @route   POST /api/schemes
-// @access  Private/Admin
+/* ================================
+   CREATE SCHEME
+================================ */
 export const createScheme = async (req, res, next) => {
   try {
-    const scheme = await Scheme.create(req.body);
+    const {
+      title,
+      code,
+      description,
+      category,
+      eligibility,
+      benefits,
+      documents,
+      isActive,
+      applicationDeadline,
+    } = req.body;
+
+    if (
+      !title ||
+      !code ||
+      !description ||
+      !category ||
+      !eligibility ||
+      !benefits
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide all required fields",
+      });
+    }
+
+    const existing = await Scheme.findOne({ code: code.toUpperCase() });
+    if (existing) {
+      return res.status(400).json({
+        success: false,
+        message: "Scheme code already exists",
+      });
+    }
+
+    const scheme = await Scheme.create({
+      title,
+      code: code.toUpperCase(),
+      description,
+      category,
+      eligibility,
+      benefits,
+      documents: documents || [],
+      isActive: isActive !== undefined ? isActive : true,
+      applicationDeadline: applicationDeadline || null,
+    });
 
     res.status(201).json({
       success: true,
@@ -74,15 +148,12 @@ export const createScheme = async (req, res, next) => {
   }
 };
 
-// @desc    Update scheme
-// @route   PUT /api/schemes/:id
-// @access  Private/Admin
+/* ================================
+   UPDATE SCHEME
+================================ */
 export const updateScheme = async (req, res, next) => {
   try {
-    const scheme = await Scheme.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const scheme = await Scheme.findById(req.params.id);
 
     if (!scheme) {
       return res.status(404).json({
@@ -90,6 +161,55 @@ export const updateScheme = async (req, res, next) => {
         message: "Scheme not found",
       });
     }
+
+    const now = new Date();
+    const {
+      title,
+      code,
+      description,
+      category,
+      eligibility,
+      benefits,
+      documents,
+      isActive,
+      applicationDeadline,
+    } = req.body;
+
+    if (
+      isActive === true &&
+      applicationDeadline &&
+      new Date(applicationDeadline) < now
+    ) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Cannot activate scheme with past deadline. Update deadline first.",
+      });
+    }
+
+    if (title) scheme.title = title;
+    if (code) scheme.code = code.toUpperCase();
+    if (description) scheme.description = description;
+    if (category) scheme.category = category;
+    if (eligibility) scheme.eligibility = eligibility;
+    if (benefits) scheme.benefits = benefits;
+    if (documents) scheme.documents = documents;
+
+    if (applicationDeadline !== undefined) {
+      scheme.applicationDeadline = applicationDeadline || null;
+
+      if (applicationDeadline && new Date(applicationDeadline) > now) {
+        scheme.autoDeactivated = false;
+        scheme.deactivatedAt = null;
+      }
+    }
+
+    if (isActive !== undefined) {
+      scheme.isActive = isActive;
+      if (isActive === true) scheme.autoDeactivated = false;
+    }
+
+    await scheme.save();
 
     res.status(200).json({
       success: true,
@@ -101,9 +221,9 @@ export const updateScheme = async (req, res, next) => {
   }
 };
 
-// @desc    Delete scheme
-// @route   DELETE /api/schemes/:id
-// @access  Private/Admin
+/* ================================
+   DELETE SCHEME
+================================ */
 export const deleteScheme = async (req, res, next) => {
   try {
     const scheme = await Scheme.findByIdAndDelete(req.params.id);
@@ -124,9 +244,9 @@ export const deleteScheme = async (req, res, next) => {
   }
 };
 
-// @desc    Get scheme categories
-// @route   GET /api/schemes/categories/all
-// @access  Public
+/* ================================
+   GET CATEGORIES
+================================ */
 export const getCategories = async (req, res, next) => {
   try {
     const categories = await Scheme.distinct("category");
@@ -140,9 +260,9 @@ export const getCategories = async (req, res, next) => {
   }
 };
 
-// @desc    Get scheme statistics
-// @route   GET /api/schemes/stats/overview
-// @access  Public
+/* ================================
+   GET SCHEME STATS
+================================ */
 export const getSchemeStats = async (req, res, next) => {
   try {
     const totalSchemes = await Scheme.countDocuments();

@@ -66,6 +66,7 @@ export const trackGrievance = async (req, res, next) => {
     const grievance = await Grievance.findOne({
       trackingId: req.params.trackingId,
     }).populate("assignedTo", "name email");
+    console.log(grievance);
 
     if (!grievance) {
       return res.status(404).json({

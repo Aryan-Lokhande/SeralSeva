@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard,
@@ -10,19 +10,33 @@ import {
   Users,
   BarChart3,
   Settings,
-  ChevronLeft,
-  ChevronRight,
   LogOut,
   Shield,
+  ChevronLeft,
+  ChevronRight,
   ArrowLeft,
+  RefreshCw,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
+import { getBadgeStats } from "../../utils/api";
 
 const AdminSidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuth();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [badges, setBadges] = useState({
+    applications: 0,
+    grievances: 0,
+    queries: 0,
+  });
+  const [refreshing, setRefreshing] = useState(false);
+
+  // Check if badges should be shown (from user settings or localStorage)
+  const [showBadges, setShowBadges] = useState(() => {
+    const saved = localStorage.getItem("showSidebarBadges");
+    return saved !== null ? JSON.parse(saved) : true;
+  });
 
   const menuItems = [
     { path: "/admin/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -30,18 +44,52 @@ const AdminSidebar = () => {
       path: "/admin/applications",
       icon: FileText,
       label: "Applications",
-      badge: 1,
+      badgeKey: "applications",
     },
     {
       path: "/admin/grievances",
       icon: MessageSquare,
       label: "Grievances",
+      badgeKey: "grievances",
     },
     { path: "/admin/schemes", icon: Package, label: "Schemes" },
     { path: "/admin/queries", icon: Mail, label: "Contact Queries" },
     { path: "/admin/users", icon: Users, label: "Users" },
     { path: "/admin/analytics", icon: BarChart3, label: "Analytics" },
   ];
+
+  // Fetch badge counts on mount
+  useEffect(() => {
+    fetchBadgeCounts();
+    const handleStorageChange = () => {
+      const saved = localStorage.getItem("showSidebarBadges");
+      setShowBadges(saved !== null ? JSON.parse(saved) : true);
+    };
+
+    window.addEventListener("badgeToggleChange", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("badgeToggleChange", handleStorageChange);
+    };
+  }, []);
+
+  const fetchBadgeCounts = async () => {
+    try {
+      setRefreshing(true);
+      const res = await getBadgeStats();
+      if (res.success) {
+        setBadges(res.data);
+      }
+    } catch (err) {
+      console.error("Failed to fetch badge counts:", err);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
+  const handleRefresh = () => {
+    fetchBadgeCounts();
+  };
 
   const isActive = (path) => location.pathname === path;
 
@@ -112,6 +160,23 @@ const AdminSidebar = () => {
               <p className="text-xs text-white/70">{user?.email}</p>
             </div>
           </div>
+
+          {/* Manual Refresh Button */}
+          <button
+            onClick={handleRefresh}
+            disabled={refreshing}
+            className="
+              mt-3 w-full flex items-center justify-center gap-2
+              px-3 py-1.5 bg-white/10 hover:bg-white/20
+              rounded-lg text-xs text-white/80 transition
+              disabled:opacity-50"
+            title="Refresh badge counts"
+          >
+            <RefreshCw
+              className={`w-3.5 h-3.5 ${refreshing ? "animate-spin" : ""}`}
+            />
+            {refreshing ? "Refreshing..." : "Refresh Badges"}
+          </button>
         </div>
       )}
 
@@ -121,6 +186,8 @@ const AdminSidebar = () => {
           {menuItems.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.path);
+            const badgeCount = item.badgeKey ? badges[item.badgeKey] : 0;
+            const hasBadge = showBadges && badgeCount > 0;
 
             return (
               <li key={item.path}>
@@ -142,14 +209,16 @@ const AdminSidebar = () => {
                     <span className="font-medium">{item.label}</span>
                   )}
 
-                  {!isCollapsed && item.badge && (
+                  {/* Badge - Full Sidebar */}
+                  {!isCollapsed && hasBadge && (
                     <span className="ml-auto bg-white text-[var(--nav)] text-xs px-2 py-0.5 rounded-full font-semibold">
-                      {item.badge}
+                      {badgeCount}
                     </span>
                   )}
 
-                  {isCollapsed && item.badge && (
-                    <span className="absolute top-1 right-1 w-2 h-2 bg-[var(--btn)] rounded-full" />
+                  {/* Badge - Collapsed Sidebar (red dot) */}
+                  {isCollapsed && hasBadge && (
+                    <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border border-white" />
                   )}
                 </Link>
               </li>

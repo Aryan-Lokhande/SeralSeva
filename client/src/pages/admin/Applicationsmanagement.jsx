@@ -237,7 +237,7 @@ const ApplicationsManagement = () => {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-[var(--txt-dim)] bg-[var(--bg-ter)]">
+                <tr className="border-b border-[var(--bg-ter)] bg-[var(--nav)]">
                   {[
                     "App ID", "Applicant", "Scheme", 
                     "Date", "Status", "Actions",
@@ -246,7 +246,7 @@ const ApplicationsManagement = () => {
                       key={head}
                       className="
                         text-left py-3 px-4 text-xs font-semibold
-                        text-[var(--txt-dim)] uppercase tracking-wider"
+                        text-white/80 uppercase tracking-wider"
                     >
                       {head}
                     </th>

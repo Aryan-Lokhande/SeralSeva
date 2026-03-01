@@ -44,7 +44,7 @@ const SuccessStories = () => {
       story:
         "After living in a kutcha house for 20 years, I finally have my own pucca home. The PMAY scheme changed my family's life.",
       impact: "Received ₹2.5 lakh subsidy, built a 2-room house",
-      year: "2024",
+      year: "2025",
     },
     {
       id: 2,
@@ -68,7 +68,7 @@ const SuccessStories = () => {
       story:
         "The ₹6000 per year from PM-KISAN helps me buy better quality seeds and fertilizers.",
       impact: "Increased crop yield by 25%",
-      year: "2024",
+      year: "2025",
     },
     {
       id: 4,
@@ -92,7 +92,7 @@ const SuccessStories = () => {
       story:
         "During drought season, NREGA gave me stable work and income to support my family.",
       impact: "Earned ₹18,000 in one season",
-      year: "2024",
+      year: "2025",
     },
   ];
 

@@ -191,25 +191,20 @@ const Dashboard = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="
-                bg-[var(--bg-sec)]
-                border border-[var(--bg-ter)]
-                rounded-[var(--radius)]
-                shadow-lg
-                p-6
-                hover:border-[var(--btn)]
-                transition-all duration-200
-              "
+              className="                
+                bg-gradient-to-br from-[var(--txt)] to-[var(--txt-dim)]
+                rounded-[var(--radius)] p-5 text-white
+                shadow-[0_10px_30px_rgba(var(--shadow-rgb),0.35)]"
               style={{
                 boxShadow: "0 8px 20px rgba(var(--shadow-rgb), 0.12)",
               }}
             >
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-[var(--txt-dim)] text-sm font-medium">
+                  <p className="text-white text-lg font-medium tracking-wide">
                     {item.title}
                   </p>
-                  <h3 className="text-4xl font-bold text-[var(--txt)] mt-2">
+                  <h3 className="text-4xl font-bold text-white mt-2">
                     {item.value}
                   </h3>
                 </div>
@@ -219,7 +214,7 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              <p className="text-[var(--txt-dim)] text-sm">{item.desc}</p>
+              <p className="text-white/70 text-sm">{item.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -249,7 +244,7 @@ const Dashboard = () => {
 
           {applications.length === 0 ? (
             <div className="text-center py-12">
-              <div className="w-16 h-16 bg-[var(--btn)]/15 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-[var(--btn)]/15 rounded-xl flex items-center justify-center mx-auto mb-4">
                 <FileText size={30} className="text-[var(--btn)]" />
               </div>
 
@@ -271,9 +266,9 @@ const Dashboard = () => {
               </motion.button>
             </div>
           ) : (
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto rounded-[var(--radius)] overflow-hidden border border-[var(--txt-dim)]">
               <table className="w-full">
-                <thead className="bg-[var(--bg-ter)]">
+                <thead className="bg-[var(--nav)]">
                   <tr>
                     {[
                       "Application ID",
@@ -284,7 +279,7 @@ const Dashboard = () => {
                     ].map((head) => (
                       <th
                         key={head}
-                        className="px-6 py-4 text-left text-xs font-semibold text-[var(--txt)] uppercase tracking-wider"
+                        className="px-6 py-4 text-left text-xs font-semibold text-white/80 uppercase tracking-wider"
                       >
                         {head}
                       </th>
@@ -292,7 +287,7 @@ const Dashboard = () => {
                   </tr>
                 </thead>
 
-                <tbody className="divide-y divide-[var(--bg-ter)]">
+                <tbody className="divide-y divide-[var(--txt-dim)]">
                   {applications.slice(0, 5).map((app, index) => (
                     <motion.tr
                       key={app._id}
@@ -401,7 +396,7 @@ const Dashboard = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.05 }}
-                  className="bg-[var(--bg-ter)] p-6 rounded-[var(--radius)] hover:bg-[var(--bg-ter)]/80 transition-colors"
+                  className="bg-[var(--bg-ter)] p-6 border border-[var(--txt-dim)] rounded-[var(--radius)] hover:bg-white/80 transition-colors"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
@@ -488,13 +483,10 @@ const Dashboard = () => {
                 whileTap={{ scale: 0.98 }}
                 onClick={card.action}
                 className="
-                  bg-[var(--bg-sec)]
-                  border border-[var(--bg-ter)]
-                  p-6 rounded-[var(--radius)]
-                  shadow-lg cursor-pointer
-                  transition-all duration-200
-                  hover:border-[var(--btn)]
-                "
+                  bg-[var(--bg-sec)] border border-[var(--bg-ter)]
+                  p-6 rounded-[var(--radius)] shadow-lg cursor-pointer
+                  transition-all duration-200 hover:border-[var(--btn)]
+                  hover:bg-white/80"
                 style={{
                   boxShadow: "0 10px 25px rgba(var(--shadow-rgb), 0.12)",
                 }}

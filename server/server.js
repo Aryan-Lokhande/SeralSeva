@@ -16,6 +16,7 @@ import schemeRoutes from "./routes/schemeRoutes.js";
 import applicationRoutes from "./routes/applicationRoutes.js";
 import grievanceRoutes from "./routes/grievanceRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 // Load environment variables
 dotenv.config();
@@ -54,7 +55,7 @@ const limiter = rateLimit({
   max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 100,
   message: "Too many requests from this IP, please try again later",
 });
-app.use("/api/", limiter);
+// app.use("/api/", limiter);
 
 // Serve static files (uploads)
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
@@ -65,6 +66,8 @@ app.use("/api/schemes", schemeRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/grievances", grievanceRoutes);
 app.use("/api/contact", contactRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/users", adminRoutes); // For user management (admin only)
 
 // Health check route
 app.get("/api/health", (req, res) => {

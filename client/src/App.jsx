@@ -35,6 +35,7 @@ import GrievancesManagement from "./pages/admin/Grievancesmanagement";
 import SchemesManagement from "./pages/admin/Schemesmanagement";
 import SchemeForm from "./pages/admin/SchemeForm";
 import ContactQueries from "./pages/admin/Contactqueries";
+import Settings from "./pages/admin/Settings";
 
 const toastOptions = {
   duration: 3000,
@@ -191,7 +192,7 @@ function App() {
             <Route
               path="settings"
               element={
-                <div className="p-8 text-txt-dim">Settings — Coming Soon</div>
+                <Settings/>
               }
             />
           </Route>

@@ -218,13 +218,13 @@ const AdminDashboard = () => {
         <div className="lg:col-span-2 space-y-4">
           {/* Recent Applications */}
           <div className="bg-[var(--bg-sec)] border border-[var(--txt-dim)] rounded-xl overflow-hidden">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--border)]">
-              <h2 className="font-bold  text-[var(--txt)]">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--border)] bg-[var(--nav)]">
+              <h2 className="font-bold  text-white/90">
                 Recent Applications
               </h2>
               <button
                 onClick={() => navigate("/admin/applications")}
-                className="text-sm  text-[var(--txt)] hover:text-[var(--txt-dim)] font-medium flex items-center gap-1"
+                className="text-sm  text-white/80 hover:text-white font-medium flex items-center gap-1"
               >
                 View all <ArrowRight className="w-3.5 h-3.5" />
               </button>
@@ -269,13 +269,13 @@ const AdminDashboard = () => {
 
           {/* Recent Grievances */}
           <div className="bg-[var(--bg-sec)] border border-[var(--txt-dim)] rounded-xl overflow-hidden">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--border)]">
-              <h2 className="font-bold  text-[var(--txt)]">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--border)] bg-[var(--nav)]">
+              <h2 className="font-bold  text-white/90">
                 Recent Grievances
               </h2>
               <button
                 onClick={() => navigate("/admin/grievances")}
-                className="text-sm  text-[var(--txt)] hover:text-[var(--txt-dim)] font-medium flex items-center gap-1"
+                className="text-sm  text-white/80 hover:text-white font-medium flex items-center gap-1"
               >
                 View all <ArrowRight className="w-3.5 h-3.5" />
               </button>

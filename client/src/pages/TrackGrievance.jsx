@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { trackGrievance } from "../utils/api";
 import {
   ArrowLeft,
   CheckCircle,
@@ -21,54 +22,69 @@ const TrackGrievance = () => {
   const [grievance, setGrievance] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    setLoading(true);
+  const handleSearch = async (e) => {
+  e.preventDefault();
+  setLoading(true);
 
-    setTimeout(() => {
-      const grievances = JSON.parse(localStorage.getItem("grievances") || "[]");
-      const found = grievances.find((g) => g.id === trackingId);
+  try {
+    const found = await trackGrievance(trackingId);
+    const data= found.data;
+    console.log("Grievance data:", data);
 
-      if (found) {
-        const timeline = [
-          {
-            status: "Submitted",
-            date: found.submittedDate,
-            description:
-              "Your grievance has been successfully submitted and registered.",
-            completed: true,
-          },
-          {
-            status: "Under Review",
-            date: new Date(Date.now() + 86400000).toISOString(),
-            description:
-              "Your grievance is currently being reviewed by the department.",
-            completed: true,
-          },
-          {
-            status: "In Progress",
-            date: new Date(Date.now() + 172800000).toISOString(),
-            description: "Corrective action is in progress.",
-            completed: false,
-          },
-          {
-            status: "Resolved",
-            date: null,
-            description:
-              "Your grievance will be closed once the issue is resolved.",
-            completed: false,
-          },
-        ];
+    if (!found.success || !data._id) {
+      toast.error("No grievance found with this Tracking ID");
+      setGrievance(null);
+      return;
+    }
 
-        setGrievance({ ...found, timeline });
-        toast.success("Grievance found");
-      } else {
-        setGrievance(null);
-        toast.error("No grievance found with this Tracking ID");
-      }
-      setLoading(false);
-    }, 1000);
-  };
+    const timeline = [
+      {
+        status: "Submitted",
+        date: data.createdAt,
+        description:
+          "Your grievance has been successfully submitted and registered.",
+        completed: true,
+      },
+      {
+        status: "Under Review",
+        date: data.status !== "Submitted" ? data.updatedAt : null,
+        description:
+          "Your grievance is currently being reviewed by the department.",
+        completed:
+          data.status === "Under Review" ||
+          data.status === "In Progress" ||
+          data.status === "Resolved",
+      },
+      {
+        status: "In Progress",
+        date:
+          data.status === "In Progress" || data.status === "Resolved"
+            ? data.updatedAt
+            : null,
+        description: "Corrective action is in progress.",
+        completed:
+          data.status === "In Progress" ||
+          data.status === "Resolved",
+      },
+      {
+        status: "Resolved",
+        date: data.status === "Resolved" ? data.updatedAt : null,
+        description:
+          "Your grievance has been successfully resolved.",
+        completed: data.status === "Resolved",
+      },
+    ];
+
+    setGrievance({ ...data, timeline });
+    toast.success("Grievance found");
+
+  } catch (error) {
+    toast.error("Error fetching grievance");
+    setGrievance(null);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const statusStyle = (completed) =>
     completed
@@ -164,7 +180,7 @@ const TrackGrievance = () => {
         {grievance && (
           <div className="space-y-6">
             {/* Details */}
-            <div className="bg-[var(--bg-sec)] rounded-[var(--radius)] p-6 border border-[var(--bg-ter)]">
+            <div className="bg-[var(--bg-sec)] rounded-[var(--radius)] p-6 border border-[var(--txt-dim)]">
               <h2 className="text-2xl font-bold text-[var(--txt)] mb-4">
                 Grievance Details
               </h2>
@@ -173,7 +189,7 @@ const TrackGrievance = () => {
                 <div>
                   <p className="text-[var(--txt-dim)]">ID</p>
                   <p className="text-[var(--txt)] font-medium">
-                    {grievance.id}
+                    {grievance._id}
                   </p>
                 </div>
                 <div>
@@ -184,13 +200,13 @@ const TrackGrievance = () => {
                 </div>
                 <div className="md:col-span-2">
                   <p className="text-[var(--txt-dim)]">Subject</p>
-                  <p className="text-[var(--txt)]">{grievance.subject}</p>
+                  <p className="text-[var(--txt)] font-medium">{grievance.subject}</p>
                 </div>
               </div>
             </div>
 
             {/* Timeline */}
-            <div className="bg-[var(--bg-sec)] rounded-[var(--radius)] p-6 border border-[var(--bg-ter)]">
+            <div className="bg-[var(--bg-sec)] rounded-[var(--radius)] p-6 border border-[var(--txt-dim)] shadow-[0_10px_30px_rgba(var(--shadow-rgb),0.25)]">
               <h3 className="text-xl font-bold text-[var(--txt)] mb-6">
                 Status Timeline
               </h3>

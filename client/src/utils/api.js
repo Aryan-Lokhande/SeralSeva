@@ -1,22 +1,22 @@
 // API Service - All backend API calls
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 // Helper function to get token from localStorage
 const getToken = () => {
-  return localStorage.getItem('token');
+  return localStorage.getItem("token");
 };
 
 // Helper function to get headers
 const getHeaders = (includeAuth = false) => {
   const headers = {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   };
 
   if (includeAuth) {
     const token = getToken();
     if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
+      headers["Authorization"] = `Bearer ${token}`;
     }
   }
 
@@ -26,11 +26,11 @@ const getHeaders = (includeAuth = false) => {
 // Handle API response
 const handleResponse = async (response) => {
   const data = await response.json();
-  
+
   if (!response.ok) {
-    throw new Error(data.message || 'Something went wrong');
+    throw new Error(data.message || "Something went wrong");
   }
-  
+
   return data;
 };
 
@@ -39,7 +39,7 @@ const handleResponse = async (response) => {
 export const registerUser = async (userData) => {
   try {
     const response = await fetch(`${API_URL}/auth/register`, {
-      method: 'POST',
+      method: "POST",
       headers: getHeaders(),
       body: JSON.stringify(userData),
     });
@@ -47,8 +47,8 @@ export const registerUser = async (userData) => {
     const data = await handleResponse(response);
 
     if (data.success && data.data.token) {
-      localStorage.setItem('token', data.data.token);
-      localStorage.setItem('user', JSON.stringify(data.data.user));
+      localStorage.setItem("token", data.data.token);
+      localStorage.setItem("user", JSON.stringify(data.data.user));
     }
 
     return data;
@@ -60,7 +60,7 @@ export const registerUser = async (userData) => {
 export const loginUser = async (email, password) => {
   try {
     const response = await fetch(`${API_URL}/auth/login`, {
-      method: 'POST',
+      method: "POST",
       headers: getHeaders(),
       body: JSON.stringify({ email, password }),
     });
@@ -68,8 +68,8 @@ export const loginUser = async (email, password) => {
     const data = await handleResponse(response);
 
     if (data.success && data.data.token) {
-      localStorage.setItem('token', data.data.token);
-      localStorage.setItem('user', JSON.stringify(data.data.user));
+      localStorage.setItem("token", data.data.token);
+      localStorage.setItem("user", JSON.stringify(data.data.user));
     }
 
     return data;
@@ -81,7 +81,7 @@ export const loginUser = async (email, password) => {
 export const getCurrentUser = async () => {
   try {
     const response = await fetch(`${API_URL}/auth/me`, {
-      method: 'GET',
+      method: "GET",
       headers: getHeaders(true),
     });
 
@@ -94,7 +94,7 @@ export const getCurrentUser = async () => {
 export const updateProfile = async (userData) => {
   try {
     const response = await fetch(`${API_URL}/auth/profile`, {
-      method: 'PUT',
+      method: "PUT",
       headers: getHeaders(true),
       body: JSON.stringify(userData),
     });
@@ -108,7 +108,7 @@ export const updateProfile = async (userData) => {
 export const changePassword = async (currentPassword, newPassword) => {
   try {
     const response = await fetch(`${API_URL}/auth/change-password`, {
-      method: 'PUT',
+      method: "PUT",
       headers: getHeaders(true),
       body: JSON.stringify({ currentPassword, newPassword }),
     });
@@ -124,10 +124,12 @@ export const changePassword = async (currentPassword, newPassword) => {
 export const getSchemes = async (filters = {}) => {
   try {
     const queryParams = new URLSearchParams(filters).toString();
-    const url = queryParams ? `${API_URL}/schemes?${queryParams}` : `${API_URL}/schemes`;
+    const url = queryParams
+      ? `${API_URL}/schemes?${queryParams}`
+      : `${API_URL}/schemes`;
 
     const response = await fetch(url, {
-      method: 'GET',
+      method: "GET",
       headers: getHeaders(),
     });
 
@@ -140,7 +142,7 @@ export const getSchemes = async (filters = {}) => {
 export const getSchemeById = async (id) => {
   try {
     const response = await fetch(`${API_URL}/schemes/${id}`, {
-      method: 'GET',
+      method: "GET",
       headers: getHeaders(),
     });
 
@@ -153,7 +155,7 @@ export const getSchemeById = async (id) => {
 export const getSchemeCategories = async () => {
   try {
     const response = await fetch(`${API_URL}/schemes/categories/all`, {
-      method: 'GET',
+      method: "GET",
       headers: getHeaders(),
     });
 
@@ -166,7 +168,7 @@ export const getSchemeCategories = async () => {
 export const getSchemeStats = async () => {
   try {
     const response = await fetch(`${API_URL}/schemes/stats/overview`, {
-      method: 'GET',
+      method: "GET",
       headers: getHeaders(),
     });
 
@@ -181,7 +183,7 @@ export const getSchemeStats = async () => {
 export const submitApplication = async (applicationData) => {
   try {
     const response = await fetch(`${API_URL}/applications`, {
-      method: 'POST',
+      method: "POST",
       headers: getHeaders(true),
       body: JSON.stringify(applicationData),
     });
@@ -195,7 +197,7 @@ export const submitApplication = async (applicationData) => {
 export const getMyApplications = async () => {
   try {
     const response = await fetch(`${API_URL}/applications/my-applications`, {
-      method: 'GET',
+      method: "GET",
       headers: getHeaders(true),
     });
 
@@ -208,7 +210,7 @@ export const getMyApplications = async () => {
 export const getApplicationById = async (id) => {
   try {
     const response = await fetch(`${API_URL}/applications/${id}`, {
-      method: 'GET',
+      method: "GET",
       headers: getHeaders(true),
     });
 
@@ -220,10 +222,13 @@ export const getApplicationById = async (id) => {
 
 export const trackApplication = async (applicationId) => {
   try {
-    const response = await fetch(`${API_URL}/applications/track/${applicationId}`, {
-      method: 'GET',
-      headers: getHeaders(true),
-    });
+    const response = await fetch(
+      `${API_URL}/applications/track/${applicationId}`,
+      {
+        method: "GET",
+        headers: getHeaders(true),
+      },
+    );
 
     return await handleResponse(response);
   } catch (error) {
@@ -234,20 +239,23 @@ export const trackApplication = async (applicationId) => {
 export const uploadApplicationDocuments = async (applicationId, files) => {
   try {
     const formData = new FormData();
-    
+
     // Append multiple files
     for (let i = 0; i < files.length; i++) {
-      formData.append('documents', files[i]);
+      formData.append("documents", files[i]);
     }
 
-    const response = await fetch(`${API_URL}/applications/${applicationId}/documents`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${getToken()}`,
-        // Don't set Content-Type for FormData - browser will set it with boundary
+    const response = await fetch(
+      `${API_URL}/applications/${applicationId}/documents`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+          // Don't set Content-Type for FormData - browser will set it with boundary
+        },
+        body: formData,
       },
-      body: formData,
-    });
+    );
 
     return await handleResponse(response);
   } catch (error) {
@@ -260,7 +268,7 @@ export const uploadApplicationDocuments = async (applicationId, files) => {
 export const submitGrievance = async (grievanceData) => {
   try {
     const response = await fetch(`${API_URL}/grievances`, {
-      method: 'POST',
+      method: "POST",
       headers: getHeaders(true),
       body: JSON.stringify(grievanceData),
     });
@@ -274,7 +282,7 @@ export const submitGrievance = async (grievanceData) => {
 export const getMyGrievances = async () => {
   try {
     const response = await fetch(`${API_URL}/grievances/my-grievances`, {
-      method: 'GET',
+      method: "GET",
       headers: getHeaders(true),
     });
 
@@ -287,7 +295,7 @@ export const getMyGrievances = async () => {
 export const trackGrievance = async (trackingId) => {
   try {
     const response = await fetch(`${API_URL}/grievances/track/${trackingId}`, {
-      method: 'GET',
+      method: "GET",
       headers: getHeaders(true),
     });
 
@@ -300,7 +308,7 @@ export const trackGrievance = async (trackingId) => {
 export const getGrievanceById = async (id) => {
   try {
     const response = await fetch(`${API_URL}/grievances/${id}`, {
-      method: 'GET',
+      method: "GET",
       headers: getHeaders(true),
     });
 
@@ -313,19 +321,22 @@ export const getGrievanceById = async (id) => {
 export const uploadGrievanceAttachments = async (grievanceId, files) => {
   try {
     const formData = new FormData();
-    
+
     // Append multiple files
     for (let i = 0; i < files.length; i++) {
-      formData.append('attachments', files[i]);
+      formData.append("attachments", files[i]);
     }
 
-    const response = await fetch(`${API_URL}/grievances/${grievanceId}/attachments`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${getToken()}`,
+    const response = await fetch(
+      `${API_URL}/grievances/${grievanceId}/attachments`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+        body: formData,
       },
-      body: formData,
-    });
+    );
 
     return await handleResponse(response);
   } catch (error) {
@@ -335,11 +346,14 @@ export const uploadGrievanceAttachments = async (grievanceId, files) => {
 
 export const submitGrievanceFeedback = async (grievanceId, rating, comment) => {
   try {
-    const response = await fetch(`${API_URL}/grievances/${grievanceId}/feedback`, {
-      method: 'POST',
-      headers: getHeaders(true),
-      body: JSON.stringify({ rating, comment }),
-    });
+    const response = await fetch(
+      `${API_URL}/grievances/${grievanceId}/feedback`,
+      {
+        method: "POST",
+        headers: getHeaders(true),
+        body: JSON.stringify({ rating, comment }),
+      },
+    );
 
     return await handleResponse(response);
   } catch (error) {
@@ -352,10 +366,12 @@ export const submitGrievanceFeedback = async (grievanceId, rating, comment) => {
 export const getAllApplications = async (filters = {}) => {
   try {
     const queryParams = new URLSearchParams(filters).toString();
-    const url = queryParams ? `${API_URL}/applications?${queryParams}` : `${API_URL}/applications`;
+    const url = queryParams
+      ? `${API_URL}/applications?${queryParams}`
+      : `${API_URL}/applications`;
 
     const response = await fetch(url, {
-      method: 'GET',
+      method: "GET",
       headers: getHeaders(true),
     });
 
@@ -365,13 +381,20 @@ export const getAllApplications = async (filters = {}) => {
   }
 };
 
-export const updateApplicationStatus = async (applicationId, status, remarks) => {
+export const updateApplicationStatus = async (
+  applicationId,
+  status,
+  remarks,
+) => {
   try {
-    const response = await fetch(`${API_URL}/applications/${applicationId}/status`, {
-      method: 'PUT',
-      headers: getHeaders(true),
-      body: JSON.stringify({ status, remarks }),
-    });
+    const response = await fetch(
+      `${API_URL}/applications/${applicationId}/status`,
+      {
+        method: "PUT",
+        headers: getHeaders(true),
+        body: JSON.stringify({ status, remarks }),
+      },
+    );
 
     return await handleResponse(response);
   } catch (error) {
@@ -382,10 +405,12 @@ export const updateApplicationStatus = async (applicationId, status, remarks) =>
 export const getAllGrievances = async (filters = {}) => {
   try {
     const queryParams = new URLSearchParams(filters).toString();
-    const url = queryParams ? `${API_URL}/grievances?${queryParams}` : `${API_URL}/grievances`;
+    const url = queryParams
+      ? `${API_URL}/grievances?${queryParams}`
+      : `${API_URL}/grievances`;
 
     const response = await fetch(url, {
-      method: 'GET',
+      method: "GET",
       headers: getHeaders(true),
     });
 
@@ -398,7 +423,7 @@ export const getAllGrievances = async (filters = {}) => {
 export const updateGrievanceStatus = async (grievanceId, status, response) => {
   try {
     const res = await fetch(`${API_URL}/grievances/${grievanceId}/status`, {
-      method: 'PUT',
+      method: "PUT",
       headers: getHeaders(true),
       body: JSON.stringify({ status, response }),
     });
@@ -457,35 +482,43 @@ export const getGrievanceStats = async () => {
 export const submitContactQuery = async (data) => {
   try {
     const response = await fetch(`${API_URL}/contact`, {
-      method: 'POST',
+      method: "POST",
       headers: getHeaders(),
       body: JSON.stringify(data),
     });
     return await handleResponse(response);
-  } catch (error) { throw error; }
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const getAllContactQueries = async (filters = {}) => {
   try {
     const queryParams = new URLSearchParams(filters).toString();
-    const url = queryParams ? `${API_URL}/contact?${queryParams}` : `${API_URL}/contact`;
+    const url = queryParams
+      ? `${API_URL}/contact?${queryParams}`
+      : `${API_URL}/contact`;
     const response = await fetch(url, {
-      method: 'GET',
+      method: "GET",
       headers: getHeaders(true),
     });
     return await handleResponse(response);
-  } catch (error) { throw error; }
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const resolveContactQuery = async (id, adminResponse) => {
   try {
     const response = await fetch(`${API_URL}/contact/${id}/resolve`, {
-      method: 'PUT',
+      method: "PUT",
       headers: getHeaders(true),
       body: JSON.stringify({ response: adminResponse }),
     });
     return await handleResponse(response);
-  } catch (error) { throw error; }
+  } catch (error) {
+    throw error;
+  }
 };
 
 // ==================== SCHEME CRUD (Admin) ====================
@@ -493,31 +526,132 @@ export const resolveContactQuery = async (id, adminResponse) => {
 export const createScheme = async (schemeData) => {
   try {
     const response = await fetch(`${API_URL}/schemes`, {
-      method: 'POST',
+      method: "POST",
       headers: getHeaders(true),
       body: JSON.stringify(schemeData),
     });
     return await handleResponse(response);
-  } catch (error) { throw error; }
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const updateScheme = async (id, schemeData) => {
   try {
     const response = await fetch(`${API_URL}/schemes/${id}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: getHeaders(true),
       body: JSON.stringify(schemeData),
     });
     return await handleResponse(response);
-  } catch (error) { throw error; }
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const deleteScheme = async (id) => {
   try {
     const response = await fetch(`${API_URL}/schemes/${id}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: getHeaders(true),
     });
     return await handleResponse(response);
-  } catch (error) { throw error; }
+  } catch (error) {
+    throw error;
+  }
+};
+
+// ==================== ADMIN BADGE STATS ====================
+
+export const getBadgeStats = async () => {
+  try {
+    const response = await fetch(`${API_URL}/admin/badge-stats`, {
+      method: "GET",
+      headers: getHeaders(true),
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateAdminSettings = async (settings) => {
+  try {
+    const response = await fetch(`${API_URL}/admin/settings`, {
+      method: "PUT",
+      headers: getHeaders(true),
+      body: JSON.stringify(settings),
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    throw error;
+  }
+};
+
+// ==================== ALL USER MANAGEMENT APIs ====================
+
+export const getAllUsers = async (filters = {}) => {
+  try {
+    const queryParams = new URLSearchParams(filters).toString();
+    const url = queryParams
+      ? `${API_URL}/users?${queryParams}`
+      : `${API_URL}/users`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: getHeaders(true),
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getUserById = async (id) => {
+  try {
+    const response = await fetch(`${API_URL}/users/${id}`, {
+      method: "GET",
+      headers: getHeaders(true),
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateUserRole = async (id, role) => {
+  try {
+    const response = await fetch(`${API_URL}/users/${id}/role`, {
+      method: "PUT",
+      headers: getHeaders(true),
+      body: JSON.stringify({ role }),
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateUserStatus = async (id, status) => {
+  try {
+    const response = await fetch(`${API_URL}/users/${id}/status`, {
+      method: "PUT",
+      headers: getHeaders(true),
+      body: JSON.stringify({ status }),
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteUser = async (id) => {
+  try {
+    const response = await fetch(`${API_URL}/users/${id}`, {
+      method: "DELETE",
+      headers: getHeaders(true),
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    throw error;
+  }
 };

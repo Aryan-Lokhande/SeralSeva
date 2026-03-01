@@ -39,6 +39,7 @@ const SchemesManagement = () => {
     try {
       setLoading(true);
       const res = await getSchemes();
+      console.log("Fetched schemes:", res);
       if (res.success) setSchemes(res.data);
     } catch (err) {
       toast.error("Failed to load schemes");
@@ -173,7 +174,7 @@ const SchemesManagement = () => {
             border border-[var(--txt-dim)]
             rounded-[var(--radius)]
             text-sm text-[var(--txt)]
-            placeholder:text-[var(--txt-disabled)]
+            placeholder:text-[var(--txt-dim)]
             focus:outline-none
             focus:border-[var(--btn)]
             transition-colors
@@ -225,7 +226,7 @@ const SchemesManagement = () => {
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-20">
-            <Package className="w-12 h-12 text-[var(--txt-disabled)] mx-auto mb-3" />
+            <Package className="w-12 h-12 text-[var(--txt-dim)] mx-auto mb-3" />
             <p className="text-[var(--txt)] font-medium">No schemes found</p>
           </div>
         ) : (

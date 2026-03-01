@@ -48,13 +48,28 @@ const schemeSchema = new mongoose.Schema(
     brochureUrl: {
       type: String,
     },
+
+    // Status Management
     isActive: {
       type: Boolean,
       default: true,
     },
+
+    // Auto-deactivation
     applicationDeadline: {
       type: Date,
+      default: null, // null = "forever active"
     },
+    autoDeactivated: {
+      type: Boolean,
+      default: false, // Track if scheme was auto-closed
+    },
+    deactivatedAt: {
+      type: Date,
+      default: null,
+    },
+
+    // Statistics
     targetBeneficiaries: {
       type: Number,
     },
@@ -70,6 +85,28 @@ const schemeSchema = new mongoose.Schema(
 
 // Index for search
 schemeSchema.index({ title: "text", description: "text", category: "text" });
+
+// Virtual for checking if deadline passed
+schemeSchema.virtual("isExpired").get(function () {
+  if (!this.applicationDeadline) return false;
+  return new Date() > this.applicationDeadline;
+});
+
+// Method to check and auto-deactivate if deadline passed
+schemeSchema.methods.checkAndDeactivate = async function () {
+  if (
+    this.applicationDeadline &&
+    new Date() > this.applicationDeadline &&
+    this.isActive
+  ) {
+    this.isActive = false;
+    this.autoDeactivated = true;
+    this.deactivatedAt = new Date();
+    await this.save();
+    return true;
+  }
+  return false;
+};
 
 const Scheme = mongoose.model("Scheme", schemeSchema);
 

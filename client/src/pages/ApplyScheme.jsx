@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { submitApplication } from "../utils/api";
 import toast from "react-hot-toast";
+import { ArrowLeft } from "lucide-react";
 
 const ApplyScheme = () => {
   const location = useLocation();
@@ -95,7 +96,18 @@ const ApplyScheme = () => {
   if (!scheme) return null;
 
   return (
-    <div className="min-h-screen py-12 bg-[var(--bg-primary)] text-[var(--txt)]">
+    <div className="min-h-screen py-8 bg-[var(--bg-primary)] text-[var(--txt)]">
+      {/* Back */}
+      <button
+        onClick={() => navigate(-1)}
+        className="
+          mb-6 ml-4 inline-flex items-center gap-2
+          text-[var(--btn)]
+          hover:text-[var(--btn-hover)]
+          font-medium transition-colors"
+      >
+        <ArrowLeft size={18} /> Back
+      </button>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -103,13 +115,11 @@ const ApplyScheme = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="
-            bg-gradient-to-r
+            bg-gradient-to-r mb-8
             from-[var(--btn)]/70
-            to-[var(--btn-hover)]
-            p-8
+            to-[var(--btn-hover)] p-8
             rounded-[var(--radius)]
             shadow-[0_12px_40px_rgba(var(--shadow-rgb),0.45)]
-            mb-8
           "
         >
           <h1 className="text-3xl font-bold text-white mb-2">
