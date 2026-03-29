@@ -17,6 +17,7 @@ import applicationRoutes from "./routes/applicationRoutes.js";
 import grievanceRoutes from "./routes/grievanceRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import recommendRoutes from "./routes/recommendRoutes.js";
 
 // Load environment variables
 dotenv.config();
@@ -68,6 +69,7 @@ app.use("/api/grievances", grievanceRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/users", adminRoutes); // For user management (admin only)
+app.use("/api/recommend", recommendRoutes);
 
 // Health check route
 app.get("/api/health", (req, res) => {

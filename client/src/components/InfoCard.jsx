@@ -10,7 +10,7 @@ const InfoCard = ({ icon, title, description, link }) => {
       whileTap={{ scale: 0.98 }}
       onClick={() => navigate(link)}
       className="
-    bg-[var(--accent)] hover:bg-[var(--bg-ter)]
+    bg-[rgba(var(--shadow-rgb),0.08)] hover:bg-[var(--bg-ter)]
     p-8 rounded-[var(--radius)] cursor-pointer
     transition-all duration-300 border border-[var(--bg-ter)]
     hover:border-[var(--btn)]

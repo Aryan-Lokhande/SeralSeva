@@ -655,3 +655,29 @@ export const deleteUser = async (id) => {
     throw error;
   }
 };
+
+// ========== Recommend Scheme ==========
+export const getRecommendations = async (payload) => {
+  try {
+    const response = await fetch(`${API_URL}/recommend`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(), // if you use auth
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const text = await response.text();
+
+    if (!text) {
+      throw new Error("Empty response from server");
+    }
+
+    const data = JSON.parse(text);
+
+    return data; // { success, data, message }
+  } catch (error) {
+    throw error;
+  }
+};

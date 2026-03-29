@@ -26,6 +26,10 @@ const COMMON_DOCS = [
   "Passport Photo",
   "Caste Certificate",
   "Disability Certificate",
+  "Husband's Death Certificate",
+  "Birth Certificate",
+  "Parent's Aadhar",
+  "Property Documents",
   "Land Documents",
 ];
 

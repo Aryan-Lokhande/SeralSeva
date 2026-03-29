@@ -27,6 +27,7 @@ import LodgeGrievance from "./pages/LodgeGrievance";
 import TrackGrievance from "./pages/TrackGrievance";
 import Contact from "./pages/Contact";
 import SuccessStories from "./pages/SuccessStories";
+import SuggestScheme from "./pages/SuggestScheme";
 
 // Admin Pages
 import AdminDashboard from "./pages/Admindashboard";
@@ -36,6 +37,7 @@ import SchemesManagement from "./pages/admin/Schemesmanagement";
 import SchemeForm from "./pages/admin/SchemeForm";
 import ContactQueries from "./pages/admin/Contactqueries";
 import Settings from "./pages/admin/Settings";
+import UsersManagement from "./pages/admin/Usersmanagement";
 
 const toastOptions = {
   duration: 3000,
@@ -69,6 +71,14 @@ function App() {
             element={
               <PublicLayout>
                 <Home />
+              </PublicLayout>
+            }
+          />
+          <Route
+            path="/suggest"
+            element={
+              <PublicLayout>
+                <SuggestScheme />
               </PublicLayout>
             }
           />
@@ -180,6 +190,7 @@ function App() {
               element={
                 <div className="p-8 text-txt-dim">
                   Users Management — Coming Soon
+                  {/* <UsersManagement/> */}
                 </div>
               }
             />
@@ -189,12 +200,7 @@ function App() {
                 <div className="p-8 text-txt-dim">Analytics — Coming Soon</div>
               }
             />
-            <Route
-              path="settings"
-              element={
-                <Settings/>
-              }
-            />
+            <Route path="settings" element={<Settings />} />
           </Route>
 
           {/* Catch-all */}

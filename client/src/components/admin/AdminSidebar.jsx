@@ -54,8 +54,8 @@ const AdminSidebar = () => {
     },
     { path: "/admin/schemes", icon: Package, label: "Schemes" },
     { path: "/admin/queries", icon: Mail, label: "Contact Queries" },
-    { path: "/admin/users", icon: Users, label: "Users" },
-    { path: "/admin/analytics", icon: BarChart3, label: "Analytics" },
+    // { path: "/admin/users", icon: Users, label: "Users" },
+    // { path: "/admin/analytics", icon: BarChart3, label: "Analytics" },
   ];
 
   // Fetch badge counts on mount

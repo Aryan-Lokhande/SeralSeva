@@ -115,7 +115,7 @@ const Grievances = () => {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15 }}
                 className="
-                  relative bg-[var(--accent)] border p-8
+                  relative bg-[rgba(var(--shadow-rgb),0.08)] border p-8
                   border-[var(--bg-ter)] rounded-[var(--radius)] 
                   shadow-[0_10px_30px_rgba(var(--shadow-rgb),0.25)]"
               >
