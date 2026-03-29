@@ -57,7 +57,7 @@ const Schemes = () => {
             initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-5xl md:text-6xl font-bold text-white"
+            className="text-3xl sm:text-4xl md:text-6xl font-bold text-white"
           >
             Government Schemes
           </motion.h1>
@@ -74,138 +74,162 @@ const Schemes = () => {
       </section>
 
       {/* Schemes Table Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-8"
-        >
-          <h2 className="text-3xl font-bold text-[var(--txt)] mb-2">
-            Available Schemes & Programmes
-          </h2>
-          <p className="text-[var(--txt-dim)]">
-            Browse through all available government schemes and apply online
-          </p>
-        </motion.div>
+      {/* Table */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="
+          bg-[var(--bg-sec)]
+          rounded-[var(--radius)]
+          border border-[var(--bg-ter)]
+          shadow-[0_12px_40px_rgba(var(--shadow-rgb),0.25)]
+          overflow-hidden
+        "
+      >
+        {/* Scroll only here */}
+        <div className="w-full overflow-x-auto ">
+          <table className="min-w-[950px] w-full table-auto ">
+            {/* Header */}
+            <thead className="sticky top-0 bg-[var(--btn)] text-white z-10">
+              <tr>
+                <th className="px-4 py-4 text-left text-sm font-semibold w-[70px]">
+                  Sr
+                </th>
 
-        {/* Table */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-[var(--bg-sec)] rounded-[var(--radius)] shadow-[0_12px_40px_rgba(var(--shadow-rgb),0.25)] overflow-hidden"
-        >
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-[var(--btn)]/90 text-white">
-                <tr>
-                  <th className="px-6 py-4 text-left text-sm font-bold uppercase tracking-wider">
-                    Sr. No
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-bold uppercase tracking-wider">
-                    Scheme Title
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-bold uppercase tracking-wider">
-                    Category
-                  </th>
-                  <th className="px-6 py-4 text-center text-sm font-bold uppercase tracking-wider">
-                    Deadline
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-bold uppercase tracking-wider">
-                    Brochure
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-bold uppercase tracking-wider">
-                    Action
-                  </th>
-                </tr>
-              </thead>
+                <th className="px-6 py-4 text-left text-sm font-semibold w-[30%]">
+                  Scheme
+                </th>
 
-              <tbody className="divide-y divide-[var(--bg-ter)]">
-                {schemes.map((scheme, index) => (
-                  <motion.tr
-                    key={scheme._id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.05 }}
-                    className="hover:bg-[var(--bg-ter)] transition-colors duration-200"
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap text-[var(--txt)]">
-                      {index + 1}
-                    </td>
+                <th className="px-4 py-4 text-left text-sm font-semibold w-[140px]">
+                  Category
+                </th>
 
-                    <td className="px-6 py-4">
-                      <div>
-                        <div
-                          className="text-[var(--txt)] font-medium hover:text-[var(--btn)] cursor-pointer transition-colors duration-200"
-                          onClick={() => handleApply(scheme)}
-                        >
-                          {scheme.title}
-                        </div>
-                        <div className="text-[var(--txt-dim)] text-sm mt-1">
-                          {scheme.description}
-                        </div>
-                      </div>
-                    </td>
+                <th className="px-4 py-4 text-center text-sm font-semibold w-[160px]">
+                  Deadline
+                </th>
 
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="px-3 py-1 text-xs font-semibold rounded-full bg-[var(--btn)]/20 text-[var(--btn)]">
-                        {scheme.category}
-                      </span>
-                    </td>
+                <th className="px-4 py-4 text-left text-sm font-semibold w-[150px]">
+                  Brochure
+                </th>
 
-                    {/* ✅ NEW DEADLINE COLUMN */}
-                    <td className="px-6 py-4 whitespace-nowrap text-[var(--txt)]">
-                      {scheme.applicationDeadline ? (
-                        <span className="font-medium">
-                          {new Date(
-                            scheme.applicationDeadline,
-                          ).toLocaleDateString("en-IN", {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric",
-                          })}
-                        </span>
-                      ) : (
-                        <span className="text-green-400 text-sm">
-                          No Deadline Specified
-                        </span>
-                      )}
-                    </td>
+                <th className="px-4 py-4 text-center text-sm font-semibold w-[160px]">
+                  Action
+                </th>
+              </tr>
+            </thead>
 
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <button
-                        onClick={() => handleDownloadBrochure(scheme)}
-                        className="text-[var(--btn)] hover:text-[var(--btn-hover)] font-medium flex items-center gap-2 transition-colors duration-200"
-                      >
-                        <Download size={18} />
-                        <span>Download</span>
-                      </button>
-                    </td>
+            {/* Body */}
+            <tbody className="divide-y divide-[var(--txt-dim)]/80">
+              {schemes.map((scheme, index) => (
+                <motion.tr
+                  key={scheme._id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  className="hover:bg-[var(--bg-ter)] transition-all duration-200"
+                >
+                  {/* Sr No */}
+                  <td className="px-4 py-4 text-[var(--txt)]">{index + 1}</td>
 
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                  {/* Scheme Title */}
+                  <td className="px-6 py-4">
+                    <div className="max-w-[300px]">
+                      <div
+                        className="
+                          text-[var(--txt)] font-medium
+                          hover:text-[var(--btn)]
+                          cursor-pointer
+                          transition-colors duration-200"
                         onClick={() => handleApply(scheme)}
-                        className="bg-[var(--btn)] hover:bg-[var(--btn-hover)] text-white px-6 py-2 rounded-[var(--radius)] font-medium transition-colors duration-200"
                       >
-                        Apply Now
-                      </motion.button>
-                    </td>
-                  </motion.tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </motion.div>
+                        {scheme.title}
+                      </div>
 
+                      <div className="text-[var(--txt-dim)] text-sm mt-1 line-clamp-2">
+                        {scheme.description}
+                      </div>
+                    </div>
+                  </td>
+
+                  {/* Category */}
+                  <td className="px-4 py-4">
+                    <span
+                      className="
+                        px-3 py-1
+                        text-xs font-semibold
+                        rounded-full
+                        bg-[rgba(var(--shadow-rgb),0.2)]
+                        text-[var(--btn)]
+                      "
+                    >
+                      {scheme.category}
+                    </span>
+                  </td>
+
+                  {/* Deadline */}
+                  <td className="px-4 py-4 text-center text-[var(--txt)]">
+                    {scheme.applicationDeadline ? (
+                      <span className="font-medium">
+                        {new Date(
+                          scheme.applicationDeadline,
+                        ).toLocaleDateString("en-IN", {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                        })}
+                      </span>
+                    ) : (
+                      <span className="text-[var(--txt-dim)] text-sm">
+                        No Deadline
+                      </span>
+                    )}
+                  </td>
+
+                  {/* Brochure */}
+                  <td className="px-4 py-4">
+                    <button
+                      onClick={() => handleDownloadBrochure(scheme)}
+                      className="
+                        text-[var(--btn)] font-medium
+                        hover:text-[var(--btn-hover)]
+                        flex items-center gap-2
+                        transition-colors duration-200"
+                    >
+                      <Download size={18} />
+                      <span>Download</span>
+                    </button>
+                  </td>
+
+                  {/* Action */}
+                  <td className="px-4 py-4 text-center">
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => handleApply(scheme)}
+                      className="
+                        bg-[var(--btn)] text-white 
+                        hover:bg-[var(--btn-hover)]
+                        rounded-[var(--radius)]
+                        px-5 py-2 font-medium
+                        transition-all duration-200
+                        shadow-[0_6px_18px_rgba(var(--shadow-rgb),0.4)]"
+                    >
+                      Apply
+                    </motion.button>
+                  </td>
+                </motion.tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <hr />
         {/* Info Box */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-8 bg-[var(--btn)]/10 border border-[var(--btn)] rounded-[var(--radius)] p-6"
+          className="my-6 mx-4 bg-[var(--btn)]/10 border border-[var(--btn)] rounded-[var(--radius)] p-6"
         >
           <div className="flex items-start gap-3">
             <Info size={22} className="text-[var(--btn)] mt-1" />
@@ -221,7 +245,7 @@ const Schemes = () => {
             </div>
           </div>
         </motion.div>
-      </section>
+      </motion.div>
     </div>
   );
 };

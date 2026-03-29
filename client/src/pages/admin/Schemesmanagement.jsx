@@ -39,7 +39,7 @@ const SchemesManagement = () => {
     try {
       setLoading(true);
       const res = await getSchemes();
-      console.log("Fetched schemes:", res);
+      // console.log("Fetched schemes:", res);
       if (res.success) setSchemes(res.data);
     } catch (err) {
       toast.error("Failed to load schemes");
@@ -88,50 +88,32 @@ const SchemesManagement = () => {
         animate={{ opacity: 1, y: 0 }}
         className="mb-6"
       >
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-[var(--txt)]">
+            <h1 className="text-xl sm:text-2xl font-bold text-[var(--txt)]">
               Schemes Management
             </h1>
-            <p className="text-[var(--txt-dim)] text-sm mt-1">
+            <p className="text-[var(--txt-dim)] text-xs sm:text-sm mt-1">
               Add, edit and manage government schemes
             </p>
           </div>
 
-          <div className="flex items-center space-x-3">
-            <button
-              onClick={fetchSchemes}
-              className="
-              flex items-center space-x-2 px-4 py-2
-              bg-[var(--bg-sec)] border border-[var(--bg-ter)] 
-              rounded-[var(--radius)] hover:bg-[var(--bg-ter)] hover:border-[var(--txt-dim)] transition
-              transition-colors text-[var(--txt-dim)] text-sm"
-            >
+          <div className="flex flex-wrap gap-2 sm:gap-3">
+            <button className="flex items-center space-x-2 px-3 sm:px-4 py-2 text-sm bg-[var(--bg-sec)] border border-[var(--bg-ter)] rounded-[var(--radius)] hover:bg-[var(--bg-ter)]">
               <RefreshCw className="w-4 h-4" />
               <span>Refresh</span>
             </button>
 
-            <button
-              onClick={() => navigate("/admin/schemes/add")}
-              className="
-              flex items-center space-x-2 px-4 py-2
-              bg-[var(--btn)]
-              hover:bg-[var(--btn-hover)]
-              text-white
-              rounded-[var(--radius)]
-              transition-all duration-200
-              shadow-[0_6px_18px_rgba(var(--shadow-rgb),0.35)]
-            "
-            >
+            <button className="flex items-center space-x-2 px-3 sm:px-4 py-2 text-sm bg-[var(--btn)] hover:bg-[var(--btn-hover)] text-white rounded-[var(--radius)] shadow-[0_6px_18px_rgba(var(--shadow-rgb),0.35)]">
               <Plus className="w-4 h-4" />
-              <span className="text-sm font-medium">Add Scheme</span>
+              <span>Add Scheme</span>
             </button>
           </div>
         </div>
       </motion.div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-6">
         {[
           { label: "Total Schemes", value: stats.total },
           { label: "Active", value: stats.active },
@@ -146,7 +128,7 @@ const SchemesManagement = () => {
           >
             <span className="text-sm text-white/90">{stat.label}</span>
 
-            <span className={"text-2xl font-bold text-white"}>
+            <span className={"text-3xl font-bold text-white"}>
               {stat.value}
             </span>
           </div>
@@ -156,10 +138,9 @@ const SchemesManagement = () => {
       {/* Filters */}
       <div
         className="
-        bg-[var(--bg-sec)] border border-[var(--txt-dim)]
-        rounded-[var(--radius)] p-4 mb-4
-        flex flex-wrap items-center gap-4
-      "
+          bg-[var(--bg-sec)] border border-[var(--txt-dim)]
+          rounded-[var(--radius)] p-3 sm:p-4 mb-4
+          flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4"
       >
         <div className="flex-1 min-w-[200px] relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--txt-dim)]" />
@@ -186,8 +167,7 @@ const SchemesManagement = () => {
           value={categoryFilter}
           onChange={(e) => setCategoryFilter(e.target.value)}
           className="
-          px-3 py-2
-          bg-[var(--bg-ter)]
+          px-3 py-2 bg-[var(--bg-ter)]
           border border-[var(--txt-dim)]
           rounded-[var(--radius)]
           text-sm text-[var(--txt)]
@@ -203,7 +183,7 @@ const SchemesManagement = () => {
           ))}
         </select>
 
-        <span className="text-sm text-[var(--txt-dim)] ml-auto">
+        <span className="text-xs sm:text-sm text-[var(--txt-dim)] sm:ml-auto">
           {filtered.length} schemes
         </span>
       </div>
@@ -231,7 +211,7 @@ const SchemesManagement = () => {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full min-w-[700px]">
               <thead>
                 <tr className="border-b border-[var(--bg-ter)] bg-[var(--nav)]">
                   {["Scheme", "Code", "Category", "Status", "Actions"].map(
@@ -258,7 +238,7 @@ const SchemesManagement = () => {
                     transition={{ delay: i * 0.03 }}
                     className="hover:bg-[var(--bg-ter)] transition-colors"
                   >
-                    <td className="py-3 px-4">
+                    <td className="py-3 px-4 sm:px-4">
                       <div className="font-medium text-[var(--txt)] text-sm">
                         {scheme.title}
                       </div>
@@ -303,7 +283,7 @@ const SchemesManagement = () => {
                     </td>
 
                     <td className="py-3 px-4">
-                      <div className="flex items-center space-x-2">
+                      <div className="flex items-center space-x-1 sm:space-x-2">
                         <button
                           onClick={() =>
                             navigate(`/admin/schemes/edit/${scheme._id}`)

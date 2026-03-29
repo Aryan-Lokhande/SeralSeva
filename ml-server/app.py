@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.responses import PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Dict, Any
@@ -23,9 +24,9 @@ class RecommendRequest(BaseModel):
     user: Dict[str, Any]
     schemes: List[Dict[str, Any]]
 
-@app.get("/")
+@app.get("/", response_class=PlainTextResponse)
 def home():
-    return {"message": "ML Recommendation Service Running"}
+    return "ML API is working"
 
 # Main recommendation API
 @app.post("/recommend")

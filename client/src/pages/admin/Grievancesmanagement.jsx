@@ -138,7 +138,7 @@ const GrievancesManagement = () => {
         animate={{ opacity: 1, y: 0 }}
         className="mb-6"
       >
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold text-[var(--txt)] tracking-wide">
               Grievances Management
@@ -151,9 +151,10 @@ const GrievancesManagement = () => {
           <button
             onClick={fetchGrievances}
             className="
-              flex items-center space-x-2 px-4 py-2
+              w-full sm:w-auto
+              flex items-center justify-center space-x-2 px-4 py-2
               bg-[var(--bg-sec)] border border-[var(--bg-ter)] 
-              rounded-[var(--radius)] hover:bg-[var(--bg-ter)] hover:border-[var(--txt-dim)] transition
+              rounded-[var(--radius)] hover:bg-[var(--bg-ter)] hover:border-[var(--txt-dim)]
               transition-colors text-[var(--txt-dim)] text-sm"
           >
             <RefreshCw className="w-4 h-4" />
@@ -163,7 +164,7 @@ const GrievancesManagement = () => {
       </motion.div>
 
       {/* Stats Row */}
-      <div className="grid grid-cols-5 gap-4 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-6">
         {[
           { label: "Total", value: stats.total },
           { label: "New", value: stats.submitted },
@@ -174,15 +175,20 @@ const GrievancesManagement = () => {
           <div
             key={stat.label}
             className="
-            bg-gradient-to-br from-[var(--btn)]/80 to-[var(--btn-hover)]
-            border border-[var(--bg-ter)] 
-            rounded-[var(--radius)] p-4 text-center"
+              bg-gradient-to-br from-[var(--btn)] to-[var(--btn-hover)]
+              border border-[var(--bg-ter)] rounded-[var(--radius)]
+              p-3 sm:p-4 text-center
+              shadow-[0_6px_20px_rgba(var(--shadow-rgb),0.35)]"
           >
-            <div className="text-3xl font-bold text-white pb-2">
+            <div className="text-2xl sm:text-3xl font-bold text-white pb-1 sm:pb-2">
               {stat.value}
             </div>
 
-            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-white/20 text-white/80">
+            <span
+              className="
+                text-[10px] sm:text-xs font-semibold px-2 py-0.5
+                rounded-full bg-white/20 text-white/80"
+            >
               {stat.label}
             </span>
           </div>
@@ -192,9 +198,8 @@ const GrievancesManagement = () => {
       {/* Filters */}
       <div
         className="
-        bg-[var(--bg-sec)] border border-[var(--txt-dim)]
-        rounded-[var(--radius)] p-4 mb-4
-        flex flex-wrap items-center gap-4"
+          bg-[var(--bg-sec)] border border-[var(--txt-dim)] rounded-[var(--radius)] p-4 mb-4
+          flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 sm:gap-4"
       >
         <div className="flex-1 min-w-[200px] relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--txt-dim)]" />
@@ -214,7 +219,7 @@ const GrievancesManagement = () => {
           />
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-2">
           <Filter className="w-4 h-4 text-[var(--txt-dim)]" />
 
           <select
@@ -255,7 +260,7 @@ const GrievancesManagement = () => {
           </select>
         </div>
 
-        <span className="text-sm text-[var(--txt-dim)] ml-auto">
+        <span className="text-sm text-[var(--txt-dim)] sm:ml-auto w-full sm:w-auto text-right">
           {filtered.length} results
         </span>
       </div>
@@ -291,7 +296,7 @@ const GrievancesManagement = () => {
               className="bg-[var(--bg-sec)] border border-[var(--txt-dim)] p-5 
               rounded-[var(--radius)] hover:border-[var(--btn)] transition-colors"
             >
-              <div className="flex items-start justify-between gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-2 mb-2">
                     <span className="font-mono text-sm font-semibold text-[var(--btn)]">

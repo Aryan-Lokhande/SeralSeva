@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { getRecommendations } from "../utils/api";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const SuggestScheme = () => {
   const [form, setForm] = useState({
@@ -35,6 +36,11 @@ const SuggestScheme = () => {
 
       setResults([]);
     }
+  };
+  const navigate = useNavigate();
+  const handleApply = (scheme) => {
+    console.log("Applying for scheme:", scheme);
+    navigate("/apply-scheme", { state: { scheme } });
   };
 
   return (
@@ -135,13 +141,16 @@ const SuggestScheme = () => {
                   hover:-translate-y-1 hover:border-none"
                 >
                   {/* Title */}
-                  <h2 className="text-lg font-semibold mb-2 text-[var(--txt)]">
+                  <h2 className="text-lg font-bold mb-2 text-[var(--txt)]">
                     {scheme.title}
                   </h2>
 
                   {/* Description */}
                   <p className="text-[var(--txt-dim)] text-sm line-clamp-3 mb-3">
                     {scheme.description}
+                  </p>
+                  <p className="text-[var(--txt] text-sm font-semibold mb-3">
+                    <span className="font-medium">Code:</span> {scheme.code}
                   </p>
 
                   {/* Footer */}
@@ -154,6 +163,12 @@ const SuggestScheme = () => {
                       {scheme.category}
                     </span>
                   </div>
+                  <button
+                    onClick={() => handleApply(scheme)}
+                    className="mt-4 bg-[var(--btn)] hover:bg-[var(--btn-hover)] text-white py-2 px-4 rounded-[var(--radius)] font-semibold transition-all duration-200"
+                  >
+                    Apply Now
+                  </button>
                 </div>
               ))}
             </div>

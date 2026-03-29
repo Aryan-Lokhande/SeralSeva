@@ -28,6 +28,7 @@ def recommend_schemes(user_input, schemes):
             "title": item[0].get("title"),
             "category": item[0].get("category"),
             "description": item[0].get("description"),
+            "code": item[0].get("code"),
         }
         for item in recommended[:3]
     ]

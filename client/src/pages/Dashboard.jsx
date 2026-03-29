@@ -366,16 +366,24 @@ const Dashboard = () => {
           </div>
 
           {grievances.length === 0 ? (
-            <div className="text-center py-12">
-              <div className="w-16 h-16 bg-[var(--btn)]/15 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MessageSquare size={30} className="text-[var(--btn)]" />
+            <div className="text-center py-10 sm:py-12 px-4">
+              <div
+                className="
+        w-14 h-14 sm:w-16 sm:h-16
+        bg-[rgba(var(--shadow-rgb),0.15)]
+        rounded-full
+        flex items-center justify-center
+        mx-auto mb-4
+      "
+              >
+                <MessageSquare size={28} className="text-[var(--btn)]" />
               </div>
 
-              <h3 className="text-xl font-semibold text-[var(--txt)] mb-2">
+              <h3 className="text-lg sm:text-xl font-semibold text-[var(--txt)] mb-2">
                 No Grievances Filed
               </h3>
 
-              <p className="text-[var(--txt-dim)] mb-6">
+              <p className="text-[var(--txt-dim)] text-sm sm:text-base mb-6">
                 Lodge a grievance anytime and track its resolution.
               </p>
 
@@ -383,7 +391,16 @@ const Dashboard = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => navigate("/lodge-grievance")}
-                className="bg-[var(--btn)] hover:bg-[var(--btn-hover)] text-white px-6 py-3 rounded-[var(--radius)] font-semibold transition-colors"
+                className="
+        bg-[var(--btn)]
+        hover:bg-[var(--btn-hover)]
+        text-white
+        px-5 py-2.5 sm:px-6 sm:py-3
+        rounded-[var(--radius)]
+        font-semibold
+        text-sm sm:text-base
+        transition-colors
+      "
               >
                 Lodge Grievance
               </motion.button>
@@ -396,46 +413,75 @@ const Dashboard = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.05 }}
-                  className="bg-[var(--bg-ter)] p-6 border border-[var(--txt-dim)] rounded-[var(--radius)] hover:bg-white/80 transition-colors"
+                  className="
+                    bg-[var(--bg-ter)]
+                    p-4 sm:p-6
+                    border border-[var(--bg-ter)]
+                    rounded-[var(--radius)]
+                    hover:bg-[rgba(var(--shadow-rgb),0.08)]
+                    transition-colors
+                  "
                 >
-                  <div className="flex items-start justify-between gap-4">
+                  {/* STACK ON MOBILE */}
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                     <div className="flex-1">
-                      <div className="flex flex-wrap items-center gap-2 mb-3">
-                        <span className="text-[var(--txt)] font-mono text-sm font-semibold">
+                      {/* Top Row */}
+                      <div className="flex flex-wrap items-center gap-2 mb-2 sm:mb-3">
+                        <span className="text-[var(--txt)] font-mono text-xs sm:text-sm font-semibold">
                           {grievance.trackingId}
                         </span>
 
                         <span
-                          className={`px-3 py-1 text-xs font-semibold rounded-full ${getStatusColor(grievance.status)}`}
+                          className={`px-2 sm:px-3 py-1 text-[10px] sm:text-xs font-semibold rounded-full ${getStatusColor(
+                            grievance.status,
+                          )}`}
                         >
                           {grievance.status}
                         </span>
 
-                        <span className="px-3 py-1 text-xs font-semibold rounded-full bg-[var(--bg-sec)] text-[var(--txt-dim)] border border-[var(--bg-ter)]">
+                        <span
+                          className="
+                            px-2 sm:px-3 py-1 text-[10px] sm:text-xs
+                            font-semibold rounded-full
+                            bg-[var(--txt-dim)]/14
+                            text-[var(--txt-dim)]
+                            border border-[var(--txt-dim)]/80"
+                        >
                           {grievance.category}
                         </span>
                       </div>
 
-                      <h3 className="text-[var(--txt)] font-semibold mb-2">
+                      {/* Title */}
+                      <h3 className="text-[var(--txt)] text-sm sm:text-base font-semibold mb-1 sm:mb-2">
                         {grievance.subject}
                       </h3>
 
-                      <p className="text-[var(--txt-dim)] text-sm leading-relaxed mb-3 line-clamp-2">
+                      {/* Description */}
+                      <p
+                        className="
+                          text-[var(--txt-dim)] text-xs sm:text-sm
+                          leading-relaxed mb-2 sm:mb-3 line-clamp-2"
+                      >
                         {grievance.description}
                       </p>
 
-                      <p className="text-xs text-[var(--txt-dim)]">
+                      {/* Date */}
+                      <p className="text-[10px] sm:text-xs text-[var(--txt-dim)]">
                         Submitted: {formatDate(grievance.createdAt)}
                       </p>
                     </div>
 
+                    {/* Button (moves below on mobile) */}
                     <button
                       onClick={() =>
                         navigate("/track-grievance", {
                           state: { trackingId: grievance.trackingId },
                         })
                       }
-                      className="text-[var(--btn)] hover:text-[var(--btn-hover)] font-medium text-sm whitespace-nowrap transition-colors"
+                      className="
+                        self-start sm:self-auto text-[var(--btn)]
+                        font-medium hover:text-[var(--btn-hover)]
+                        text-xs sm:text-sm transition-colors"
                     >
                       Track →
                     </button>

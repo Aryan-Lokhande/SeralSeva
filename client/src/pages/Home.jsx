@@ -199,13 +199,24 @@ const Home = () => {
             whileTap={{ scale: 0.95 }}
             onClick={() => (window.location.href = "/schemes")}
             className="
-              bg-[var(--bg-primary)] text-[var(--btn)]
+              bg-[var(--bg-primary)] text-[var(--btn)] mx-3
               px-8 py-3 rounded-[var(--radius)] font-bold text-lg
               hover:shadow-[0_8px_24px_rgba(var(--shadow-rgb),0.35)]
-              transition-all duration-200
-            "
+              transition-all duration-200"
           >
             Browse Schemes
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => (window.location.href = "/suggest")}
+            className="
+              bg-[var(--bg-primary)] text-[var(--btn)] mx-3 mt-2
+              px-8 py-3 rounded-[var(--radius)] font-bold text-lg
+              hover:shadow-[0_8px_24px_rgba(var(--shadow-rgb),0.35)]
+              transition-all duration-200"
+          >
+            Suggest Scheme
           </motion.button>
         </motion.div>
       </section>

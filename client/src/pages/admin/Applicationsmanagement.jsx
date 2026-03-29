@@ -116,7 +116,7 @@ const ApplicationsManagement = () => {
         animate={{ opacity: 1, y: 0 }}
         className="mb-6"
       >
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold text-[var(--txt)] tracking-wide">
               Applications Management
@@ -129,9 +129,10 @@ const ApplicationsManagement = () => {
           <button
             onClick={fetchApplications}
             className="
-              flex items-center space-x-2 px-4 py-2
+              w-full sm:w-auto
+              flex items-center justify-center space-x-2 px-4 py-2
               bg-[var(--bg-sec)] border border-[var(--bg-ter)] 
-              rounded-[var(--radius)] hover:bg-[var(--bg-ter)] hover:border-[var(--txt-dim)] transition
+              rounded-[var(--radius)] hover:bg-[var(--bg-ter)] hover:border-[var(--txt-dim)]
               transition-colors text-[var(--txt-dim)] text-sm"
           >
             <RefreshCw className="w-4 h-4" />
@@ -141,7 +142,7 @@ const ApplicationsManagement = () => {
       </motion.div>
 
       {/* Stats Row */}
-      <div className="grid grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6">
         {[
           { label: "Total", value: stats.total },
           { label: "New", value: stats.submitted },
@@ -151,15 +152,27 @@ const ApplicationsManagement = () => {
           <div
             key={stat.label}
             className="
-            bg-gradient-to-br from-[var(--btn)]/80 to-[var(--btn-hover)]
-            border border-[var(--bg-ter)] 
-            rounded-[var(--radius)] p-4 text-center"
+              bg-gradient-to-br from-[var(--btn)] to-[var(--btn-hover)]
+              border border-[var(--bg-ter)] rounded-[var(--radius)]
+              p-3 sm:p-4
+              text-center
+              shadow-[0_6px_20px_rgba(var(--shadow-rgb),0.35)]
+      "
           >
-            <div className="text-3xl font-bold text-white pb-2">
+            <div className="text-2xl sm:text-3xl font-bold text-white pb-1 sm:pb-2">
               {stat.value}
             </div>
 
-            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-white/20 text-white/80">
+            <span
+              className="
+          text-[10px] sm:text-xs
+          font-semibold
+          px-2 py-0.5
+          rounded-full
+          bg-white/20
+          text-white/80
+        "
+            >
               {stat.label}
             </span>
           </div>
@@ -167,7 +180,14 @@ const ApplicationsManagement = () => {
       </div>
 
       {/* Filters Bar */}
-      <div className="bg-[var(--bg-sec)] border border-[var(--txt-dim)] rounded-[var(--radius)] p-4 mb-4 flex flex-wrap items-center gap-4">
+      <div
+        className="
+    bg-[var(--bg-sec)] border border-[var(--txt-dim)]
+    rounded-[var(--radius)] p-4 mb-4
+    flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 sm:gap-4
+  "
+      >
+        {" "}
         {/* Search */}
         <div className="flex-1 min-w-[200px] relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--txt-dim)]" />
@@ -186,7 +206,6 @@ const ApplicationsManagement = () => {
             focus:outline-none focus:border-[var(--btn)]"
           />
         </div>
-
         {/* Status Filter */}
         <div className="flex items-center space-x-2">
           <Filter className="w-4 h-4 text-[var(--txt-dim)]" />
@@ -208,7 +227,6 @@ const ApplicationsManagement = () => {
             <option value="Rejected">Rejected</option>
           </select>
         </div>
-
         <span className="text-sm text-[var(--txt-dim)] ml-auto">
           {filtered.length} results
         </span>
@@ -239,8 +257,12 @@ const ApplicationsManagement = () => {
               <thead>
                 <tr className="border-b border-[var(--bg-ter)] bg-[var(--nav)]">
                   {[
-                    "App ID", "Applicant", "Scheme", 
-                    "Date", "Status", "Actions",
+                    "App ID",
+                    "Applicant",
+                    "Scheme",
+                    "Date",
+                    "Status",
+                    "Actions",
                   ].map((head) => (
                     <th
                       key={head}
