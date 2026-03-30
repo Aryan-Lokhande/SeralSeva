@@ -1,5 +1,6 @@
 import Application from "../models/Application.js";
 import Scheme from "../models/Scheme.js";
+import sendEmail from "../utils/sendEmail.js";
 
 // @desc    Submit application
 // @route   POST /api/applications
@@ -40,8 +41,24 @@ export const submitApplication = async (req, res, next) => {
       bankDetails,
     });
 
-    // Populate scheme details
-    await application.populate("scheme", "title code category");
+    // After saving application
+    const populatedApp = await application.populate("scheme");
+
+    await sendEmail({
+      email: application.personalInfo.email,
+      subject: "Application Submitted Successfully",
+      message: `
+    <h2 style="color:#ee5f0e;">Yojna Saathi</h2>
+    <p>Dear ${populatedApp.personalInfo.fullName},</p>
+    <p>Your application has been submitted successfully.</p>
+    <hr/>
+    <p><strong>Application ID:</strong> ${populatedApp.applicationId}</p>
+    <p><strong>Scheme:</strong> ${populatedApp.scheme.title}</p>
+    <p><strong>Code:</strong> ${populatedApp.scheme.code}</p>
+    <hr/>
+    <p>We will notify you once it is reviewed.</p>
+  `,
+    });
 
     res.status(201).json({
       success: true,

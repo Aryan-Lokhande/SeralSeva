@@ -211,7 +211,7 @@ const Schemes = () => {
                         bg-[var(--btn)] text-white 
                         hover:bg-[var(--btn-hover)]
                         rounded-[var(--radius)]
-                        px-5 py-2 font-medium
+                        px-7 py-2 font-medium
                         transition-all duration-200
                         shadow-[0_6px_18px_rgba(var(--shadow-rgb),0.4)]"
                     >

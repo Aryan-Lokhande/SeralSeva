@@ -48,11 +48,8 @@ const Pagination = ({
   return (
     <div
       className="
-      flex items-center justify-between
-      px-4 py-3
-      bg-[var(--bg-sec)]
-      border-t border-[var(--bg-ter)]
-    "
+      flex items-center justify-between px-4 py-3
+      bg-[var(--bg-sec)] border-t border-[var(--bg-ter)] "
     >
       {/* Info */}
       <div className="text-sm text-[var(--txt-dim)]">
@@ -100,7 +97,8 @@ const Pagination = ({
             onClick={() => typeof page === "number" && onPageChange(page)}
             disabled={page === "..."}
             className={`
-            px-4 py-2
+            px-2 py-1
+            md:px-4 md:py-2
             rounded-[var(--radius)]
             border
             transition-all duration-200
