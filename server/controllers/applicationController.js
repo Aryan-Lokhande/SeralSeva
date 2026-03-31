@@ -161,6 +161,8 @@ export const trackApplication = async (req, res, next) => {
   }
 };
 
+// =========== Admin Controllers ===========
+
 // @desc    Get all applications (Admin)
 // @route   GET /api/applications
 // @access  Private/Admin
@@ -194,7 +196,10 @@ export const updateApplicationStatus = async (req, res, next) => {
   try {
     const { status, remarks } = req.body;
 
-    const application = await Application.findById(req.params.id);
+    const application = await Application.findById(req.params.id).populate(
+      "scheme",
+      "title",
+    );
 
     if (!application) {
       return res.status(404).json({
@@ -209,6 +214,44 @@ export const updateApplicationStatus = async (req, res, next) => {
     application.reviewedBy = req.user.id;
 
     await application.save();
+    if (status === "Approved") {
+      await sendEmail({
+        email: application.personalInfo.email,
+        subject: `Application Approved - ${application.scheme.title}`,
+        message: `
+          <h2 style="color:green;">Application Approved</h2>
+          <p>Dear ${application.personalInfo.fullName},</p>
+          
+          <p>Your application for ${application.scheme.title} has been successfully approved.</p>
+          
+          <p><strong>Application ID:</strong> ${application.applicationId}</p>
+          
+          <p>You will receive further updates soon.</p>
+          <br/>
+          <p>Thank you for using Yojna Sathi.</p>
+        `,
+      });
+    }
+
+    if (status === "Rejected") {
+      await sendEmail({
+        email: application.personalInfo.email,
+        subject: `Application Rejected - ${application.scheme.title}`,
+        message: `
+          <h2 style="color:red;">Application Rejected</h2>
+          <p>Dear ${application.personalInfo.fullName},</p>
+          
+          <p>We regret to inform you that your application has been rejected.</p>
+          
+          <p><strong>Application ID:</strong> ${application.applicationId}</p>
+          <p><strong>Reason:</strong> ${remarks || "Not specified"}</p>
+          
+          <p>You may reapply after correcting the issue.</p>
+          <br/>
+          <p>Thank you for using Yojna Sathi.</p>
+        `,
+      });
+    }
 
     res.status(200).json({
       success: true,
