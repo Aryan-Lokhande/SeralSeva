@@ -17,7 +17,7 @@ import upload from '../middleware/upload.js';
 const router = express.Router();
 
 // User routes
-router.post('/', protect, submitGrievance);
+router.post("/", protect, upload.array("attachments", 3), submitGrievance);
 router.get('/my-grievances', protect, getMyGrievances);
 router.get('/track/:trackingId', protect, trackGrievance);
 router.get('/:id', protect, getGrievance);

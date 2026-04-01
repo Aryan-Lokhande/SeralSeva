@@ -23,9 +23,25 @@ const getHeaders = (includeAuth = false) => {
   return headers;
 };
 
+// Headers for multipart/form-data (file uploads) — NO Content-Type, browser sets it
+const getMultipartHeaders = () => {
+  const headers = {};
+  const token = getToken();
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+  return headers;
+};
+
 // Handle API response
 const handleResponse = async (response) => {
-  const data = await response.json();
+  let data;
+
+  try {
+    data = await response.json();
+  } catch (error) {
+    throw new Error("Invalid server response");
+  }
 
   if (!response.ok) {
     throw new Error(data.message || "Something went wrong");
@@ -33,7 +49,6 @@ const handleResponse = async (response) => {
 
   return data;
 };
-
 // ==================== AUTH APIs ====================
 
 export const registerUser = async (userData) => {
@@ -265,19 +280,29 @@ export const uploadApplicationDocuments = async (applicationId, files) => {
 
 // ==================== GRIEVANCE APIs ====================
 
-export const submitGrievance = async (grievanceData) => {
-  try {
-    const response = await fetch(`${API_URL}/grievances`, {
-      method: "POST",
-      headers: getHeaders(true),
-      body: JSON.stringify(grievanceData),
-    });
+export const submitGrievance = async (formData) => {
+  const response = await fetch(`${API_URL}/grievances`, {
+    method: "POST",
+    headers: getMultipartHeaders(),
+    body: formData,
+  });
 
-    return await handleResponse(response);
-  } catch (error) {
-    throw error;
-  }
+  return handleResponse(response);
 };
+
+// export const submitGrievance = async (grievanceData) => {
+//   try {
+//     const response = await fetch(`${API_URL}/grievances`, {
+//       method: "POST",
+//       headers: getHeaders(true),
+//       body: JSON.stringify(grievanceData),
+//     });
+
+//     return await handleResponse(response);
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
 export const getMyGrievances = async () => {
   try {

@@ -1,5 +1,6 @@
 import Grievance from "../models/Grievance.js";
 import crypto from "crypto";
+import upload from "../middleware/upload.js";
 
 // @desc    Submit grievance
 // @route   POST /api/grievances
@@ -18,6 +19,17 @@ export const submitGrievance = async (req, res, next) => {
     const trackingId =
       "GRV-" + crypto.randomBytes(4).toString("hex").toUpperCase();
 
+    // 🔥 Handle attachments (Cloudinary URLs)
+    let attachments = [];
+
+    if (req.files && req.files.length > 0) {
+      attachments = req.files.map((file) => ({
+        name: file.originalname,
+        url: file.path, // Cloudinary URL
+        type: file.mimetype,
+      }));
+    }
+
     const grievance = await Grievance.create({
       user: req.user.id,
       trackingId,
@@ -26,7 +38,8 @@ export const submitGrievance = async (req, res, next) => {
       schemeName,
       subject,
       description,
-      personalInfo,
+      personalInfo: JSON.parse(personalInfo), // ⚠️ IMPORTANT
+      attachments,
     });
 
     res.status(201).json({

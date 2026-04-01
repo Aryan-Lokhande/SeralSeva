@@ -50,40 +50,47 @@ const LodgeGrievance = () => {
     setSubmitting(true);
 
     try {
-      const grievanceData = {
-        category: formData.category,
-        grievanceType: formData.grievanceType,
-        schemeName: formData.schemeName || undefined,
-        subject: formData.subject,
-        description: formData.description,
-        personalInfo: {
+      const formDataToSend = new FormData();
+
+      // Normal fields
+      formDataToSend.append("category", formData.category);
+      formDataToSend.append("grievanceType", formData.grievanceType);
+      formDataToSend.append("schemeName", formData.schemeName || "");
+      formDataToSend.append("subject", formData.subject);
+      formDataToSend.append("description", formData.description);
+
+      // 🔥 Personal info (stringify)
+      formDataToSend.append(
+        "personalInfo",
+        JSON.stringify({
           fullName: formData.fullName,
           email: formData.email,
           phone: formData.phone,
           state: formData.state,
           district: formData.district,
           pincode: formData.pincode,
-          address: formData.address || undefined,
-        },
-      };
+          address: formData.address || "",
+        }),
+      );
 
-      const response = await submitGrievance(grievanceData);
+      if (formData.attachments) {
+        formDataToSend.append("attachments", formData.attachments);
+      }
 
-      if (response.success) {
+      const data = await submitGrievance(formDataToSend);
+
+      if (data.success) {
         toast.success(
-          `Grievance lodged successfully! Tracking ID: ${response.data.trackingId}`,
-          { duration: 5000 },
+          `Grievance lodged successfully! Tracking ID: ${data.data.trackingId}`,
         );
 
         navigate("/track-grievance", {
-          state: { trackingId: response.data.trackingId },
+          state: { trackingId: data.data.trackingId },
         });
-      } else {
-        toast.error(response.message || "Failed to submit grievance");
       }
     } catch (error) {
-      toast.error(error.message || "Failed to submit grievance");
-      console.error("Grievance submission error:", error);
+      toast.error("Failed to submit grievance");
+      console.error(error);
     } finally {
       setSubmitting(false);
     }
