@@ -36,7 +36,13 @@ const Login = () => {
 
       if (result.success) {
         toast.success("Logged in successfully!");
-        navigate("/dashboard");
+        
+        // Redirect based on role
+        if (result.user.role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/dashboard");
+        }
       } else {
         toast.error(result.message || "Invalid credentials");
       }

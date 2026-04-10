@@ -9,6 +9,7 @@ const ConfirmModal = ({
   message,
   confirmText = "Confirm",
   confirmColor = "red",
+  icon: Icon = AlertTriangle,
 }) => {
   if (!isOpen) return null;
 
@@ -16,6 +17,28 @@ const ConfirmModal = ({
     red: "bg-red-600 hover:bg-red-700",
     green: "bg-green-600 hover:bg-green-700",
     blue: "bg-blue-600 hover:bg-blue-700",
+    purple: "bg-purple-600 hover:bg-purple-700",
+  };
+
+  const headerBgClasses = {
+    red: "bg-red-50",
+    green: "bg-green-50",
+    blue: "bg-blue-50",
+    purple: "bg-purple-50",
+  };
+
+  const iconColorClasses = {
+    red: "text-red-600",
+    green: "text-green-600",
+    blue: "text-blue-600",
+    purple: "text-purple-600",
+  };
+
+  const iconBgClasses = {
+    red: "bg-red-100",
+    green: "bg-green-100",
+    blue: "bg-blue-100",
+    purple: "bg-purple-100",
   };
 
   return (
@@ -36,16 +59,16 @@ const ConfirmModal = ({
           className="relative bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 overflow-hidden"
         >
           {/* Header */}
-          <div className="px-6 py-4 border-b border-[var(--bg-ter)] bg-red-50 flex items-center justify-between">
+          <div className={`px-6 py-4 border-b border-[var(--bg-ter)] ${headerBgClasses[confirmColor]} flex items-center justify-between`}>
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-                <AlertTriangle className="w-5 h-5 text-red-600" />
+              <div className={`w-10 h-10 ${iconBgClasses[confirmColor]} rounded-full flex items-center justify-center`}>
+                <Icon className={`w-5 h-5 ${iconColorClasses[confirmColor]}`} />
               </div>
               <h3 className="font-bold text-[var(--txt)]">{title}</h3>
             </div>
             <button
               onClick={onClose}
-              className="p-1 hover:bg-red-100 rounded transition-colors"
+              className={`p-1 hover:${iconBgClasses[confirmColor]} rounded transition-colors`}
             >
               <X className="w-5 h-5 text-[var(--txt-dim)]" />
             </button>

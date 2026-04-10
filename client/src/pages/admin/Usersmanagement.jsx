@@ -7,6 +7,8 @@ import {
   Eye,
   Shield,
   ShieldAlert,
+  ShieldCheck,
+  UserCog,
   Lock,
   Unlock,
   Trash2,
@@ -57,16 +59,7 @@ const UsersManagement = () => {
   };
 
   const handleToggleRole = async (user) => {
-    const newRole = user.role === "admin" ? "user" : "admin";
-    try {
-      const res = await updateUserRole(user._id, newRole);
-      if (res.success) {
-        toast.success(`User role changed to ${newRole}`);
-        fetchUsers();
-      }
-    } catch (err) {
-      toast.error(err.message || "Failed to update role");
-    }
+    setConfirmAction({ type: "role", user });
   };
 
   const handleToggleStatus = async (user) => {
@@ -88,16 +81,29 @@ const UsersManagement = () => {
     setConfirmAction({ type: "delete", user });
   };
 
-  const confirmDelete = async () => {
+  const handleConfirmAction = async () => {
+    if (!confirmAction) return;
+    const { type, user } = confirmAction;
+
     try {
-      const res = await deleteUser(confirmAction.user._id);
-      if (res.success) {
-        toast.success("User deleted successfully");
-        fetchUsers();
-        setConfirmAction(null);
+      if (type === "delete") {
+        const res = await deleteUser(user._id);
+        if (res.success) {
+          toast.success("User deleted successfully");
+          fetchUsers();
+        }
+      } else if (type === "role") {
+        const newRole = user.role === "admin" ? "user" : "admin";
+        const res = await updateUserRole(user._id, newRole);
+        if (res.success) {
+          toast.success(`User role changed to ${newRole}`);
+          fetchUsers();
+        }
       }
+      setConfirmAction(null);
     } catch (err) {
-      toast.error(err.message || "Failed to delete user");
+      toast.error(err.message || "Action failed");
+      setConfirmAction(null);
     }
   };
 
@@ -162,40 +168,42 @@ const UsersManagement = () => {
       </motion.div>
 
       {/* Stats */}
-      <div className="grid grid-cols-5 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
         {[
           {
             label: "Total Users",
             value: stats.total,
-            color: "from-[var(--btn)]/80 to-[var(--btn-hover)]",
+            color: "text-[var(--btn)]",
           },
           {
             label: "Admins",
             value: stats.admins,
-            color: "from-purple-400 to-purple-600",
+            color: "text-purple-600",
           },
           {
             label: "Regular Users",
             value: stats.users,
-            color: "from-blue-400 to-blue-600",
+            color: "text-blue-600",
           },
           {
             label: "Active",
             value: stats.active,
-            color: "from-green-400 to-green-600",
+            color: "text-green-600",
           },
           {
             label: "Blocked",
             value: stats.blocked,
-            color: "from-red-400 to-red-600",
+            color: "text-red-600",
           },
         ].map((stat) => (
           <div
             key={stat.label}
-            className={`bg-gradient-to-br ${stat.color} border border-[var(--bg-ter)] rounded-[var(--radius)] p-4 text-center`}
+            className="bg-[var(--bg-sec)] border border-[var(--txt-dim)] rounded-[var(--radius)] p-5 transition-all hover:shadow-md"
           >
-            <div className="text-2xl font-bold text-white">{stat.value}</div>
-            <span className="text-xs font-medium text-white/90">
+            <div className={`text-3xl font-bold ${stat.color}`}>
+              {stat.value}
+            </div>
+            <span className="text-xs font-semibold text-[var(--txt-dim)]/80 uppercase tracking-wider">
               {stat.label}
             </span>
           </div>
@@ -322,9 +330,9 @@ const UsersManagement = () => {
 
                     <td className="py-3 px-4">
                       <span
-                        className={`px-2.5 py-1 text-xs font-semibold rounded-full ${user.role === "admin" ? "bg-purple-100 text-purple-700 border border-purple-300" : "bg-blue-100 text-blue-700 border border-blue-300"}`}
+                        className={`px-2.5 py-1 text-xs font-semibold rounded-full ${user.role === "admin" ? "bg-purple-100 text-purple-700 border border-purple-300" : "bg-[var(--bg-ter)] text-[var(--txt-dim)] border"}`}
                       >
-                        {user.role === "admin" ? "👑 Admin" : "User"}
+                        {user.role === "admin" ? "Admin" : "User"}
                       </span>
                     </td>
 
@@ -415,11 +423,24 @@ const UsersManagement = () => {
         <ConfirmModal
           isOpen={!!confirmAction}
           onClose={() => setConfirmAction(null)}
-          onConfirm={confirmDelete}
-          title="Delete User"
-          message={`Are you sure you want to delete ${confirmAction.user.name}? This action cannot be undone.`}
-          confirmText="Delete"
-          confirmColor="red"
+          onConfirm={handleConfirmAction}
+          title={
+            confirmAction.type === "delete" ? "Delete User" : "Change User Role"
+          }
+          message={
+            confirmAction.type === "delete"
+              ? `Are you sure you want to delete ${confirmAction.user.name}? This action cannot be undone.`
+              : `Are you sure you want to ${confirmAction.user.role === "admin" ? "demote" : "promote"} ${confirmAction.user.name} ${confirmAction.user.role === "admin" ? "to regular User" : "to Admin"}?`
+          }
+          confirmText={
+            confirmAction.type === "delete"
+              ? "Delete"
+              : confirmAction.user.role === "admin"
+                ? "Demote"
+                : "Promote"
+          }
+          confirmColor={confirmAction.type === "delete" ? "red" : "purple"}
+          icon={confirmAction.type === "delete" ? ShieldAlert : UserCog}
         />
       )}
     </div>

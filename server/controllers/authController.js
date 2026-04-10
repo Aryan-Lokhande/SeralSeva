@@ -79,6 +79,14 @@ export const login = async (req, res, next) => {
       });
     }
 
+    // Check if user is blocked
+    if (user.status === "Blocked") {
+      return res.status(403).json({
+        success: false,
+        message: "Your account has been blocked. Please contact support.",
+      });
+    }
+
     // Check password
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {

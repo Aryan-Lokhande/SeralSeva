@@ -184,16 +184,7 @@ function App() {
               element={<SchemeForm mode="edit" />}
             />
             <Route path="queries" element={<ContactQueries />} />
-            {/* Placeholder routes for future pages */}
-            <Route
-              path="users"
-              element={
-                <div className="p-8 text-txt-dim">
-                  Users Management — Coming Soon
-                  {/* <UsersManagement/> */}
-                </div>
-              }
-            />
+            <Route path="users" element={<UsersManagement />} />
             <Route
               path="analytics"
               element={

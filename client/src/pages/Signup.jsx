@@ -61,7 +61,13 @@ const Signup = () => {
 
       if (result.success) {
         toast.success("Account created successfully!");
-        navigate("/dashboard");
+        
+        // Redirect based on role
+        if (result.user.role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/dashboard");
+        }
       } else {
         toast.error(result.message || "Signup failed");
       }

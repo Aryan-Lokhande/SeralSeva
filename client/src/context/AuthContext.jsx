@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }) => {
       const response = await apiLogin(email, password);
       if (response.success) {
         setUser(response.data.user);
-        return { success: true };
+        return { success: true, user: response.data.user };
       }
       return { success: false, message: response.message };
     } catch (error) {
@@ -73,7 +73,7 @@ export const AuthProvider = ({ children }) => {
       const response = await apiRegister(userData);
       if (response.success) {
         setUser(response.data.user);
-        return { success: true };
+        return { success: true, user: response.data.user };
       }
       return { success: false, message: response.message };
     } catch (error) {

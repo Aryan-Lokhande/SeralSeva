@@ -146,7 +146,7 @@ const UserDetailsModal = ({ isOpen, onClose, user }) => {
                       <span
                         className={`inline-block px-3 py-1 text-xs font-semibold rounded-full ${userData?.role === "admin" ? "bg-purple-100 text-purple-700" : "bg-blue-100 text-blue-700"}`}
                       >
-                        {userData?.role === "admin" ? "👑 Admin" : "User"}
+                        {userData?.role === "admin" ? "Admin" : "User"}
                       </span>
                     </div>
                     <div>
