@@ -99,12 +99,18 @@ const SchemesManagement = () => {
           </div>
 
           <div className="flex flex-wrap gap-2 sm:gap-3">
-            <button className="flex items-center space-x-2 px-3 sm:px-4 py-2 text-sm bg-[var(--bg-sec)] border border-[var(--bg-ter)] rounded-[var(--radius)] hover:bg-[var(--bg-ter)]">
-              <RefreshCw className="w-4 h-4" />
+            <button 
+              onClick={fetchSchemes}
+              className="flex items-center space-x-2 px-3 sm:px-4 py-2 text-sm bg-[var(--bg-sec)] border border-[var(--bg-ter)] rounded-[var(--radius)] hover:bg-[var(--bg-ter)]"
+            >
+              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
               <span>Refresh</span>
             </button>
 
-            <button className="flex items-center space-x-2 px-3 sm:px-4 py-2 text-sm bg-[var(--btn)] hover:bg-[var(--btn-hover)] text-white rounded-[var(--radius)] shadow-[0_6px_18px_rgba(var(--shadow-rgb),0.35)]">
+            <button 
+              onClick={() => navigate("/admin/schemes/add")}
+              className="flex items-center space-x-2 px-3 sm:px-4 py-2 text-sm bg-[var(--btn)] hover:bg-[var(--btn-hover)] text-white rounded-[var(--radius)] shadow-[0_6px_18px_rgba(var(--shadow-rgb),0.35)]"
+            >
               <Plus className="w-4 h-4" />
               <span>Add Scheme</span>
             </button>

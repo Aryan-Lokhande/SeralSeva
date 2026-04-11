@@ -39,7 +39,6 @@ const SuggestScheme = () => {
   };
   const navigate = useNavigate();
   const handleApply = (scheme) => {
-    console.log("Applying for scheme:", scheme);
     navigate("/apply-scheme", { state: { scheme } });
   };
 

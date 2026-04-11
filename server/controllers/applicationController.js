@@ -7,7 +7,7 @@ import sendEmail from "../utils/sendEmail.js";
 // @access  Private
 export const submitApplication = async (req, res, next) => {
   try {
-    const { schemeId, personalInfo, address, bankDetails } = req.body;
+    const { schemeId, personalInfo, address, bankDetails, formData } = req.body;
 
     // Check if scheme exists
     const scheme = await Scheme.findById(schemeId);
@@ -39,17 +39,22 @@ export const submitApplication = async (req, res, next) => {
       personalInfo,
       address,
       bankDetails,
+      formData,
     });
 
     // After saving application
     const populatedApp = await application.populate("scheme");
 
+    // Email might fail if personalInfo is not provided, so check it
+    const emailTo = personalInfo?.email || req.user.email;
+    const nameTo = personalInfo?.fullName || req.user.name;
+
     await sendEmail({
-      email: application.personalInfo.email,
+      email: emailTo,
       subject: "Application Submitted Successfully",
       message: `
     <h2 style="color:#ee5f0e;">Yojna Saathi</h2>
-    <p>Dear ${populatedApp.personalInfo.fullName},</p>
+    <p>Dear ${nameTo},</p>
     <p>Your application has been submitted successfully.</p>
     <hr/>
     <p><strong>Application ID:</strong> ${populatedApp.applicationId}</p>

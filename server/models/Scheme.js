@@ -40,9 +40,29 @@ const schemeSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please provide benefit details"],
     },
-    documents: [
+    // Dynamic Form Fields
+    formFields: [
       {
-        type: String,
+        name: { type: String, required: true },
+        label: { type: String, required: true },
+        type: {
+          type: String,
+          required: true,
+          enum: ["text", "number", "email", "date", "select", "textarea", "checkbox"],
+        },
+        required: { type: Boolean, default: false },
+        options: [String], // For select type
+        placeholder: { type: String },
+        validation: { type: String }, // Regex pattern as string
+        section: { type: String, default: "General" }, // To group fields
+      },
+    ],
+    // Documents required for this scheme
+    requiredDocuments: [
+      {
+        name: { type: String, required: true },
+        description: { type: String },
+        required: { type: Boolean, default: true },
       },
     ],
     brochureUrl: {
