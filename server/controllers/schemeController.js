@@ -99,7 +99,8 @@ export const createScheme = async (req, res, next) => {
       category,
       eligibility,
       benefits,
-      documents,
+      formFields,
+      requiredDocuments,
       isActive,
       applicationDeadline,
     } = req.body;
@@ -133,7 +134,8 @@ export const createScheme = async (req, res, next) => {
       category,
       eligibility,
       benefits,
-      documents: documents || [],
+      formFields: formFields || [],
+      requiredDocuments: requiredDocuments || [],
       isActive: isActive !== undefined ? isActive : true,
       applicationDeadline: applicationDeadline || null,
     });
@@ -170,7 +172,8 @@ export const updateScheme = async (req, res, next) => {
       category,
       eligibility,
       benefits,
-      documents,
+      formFields,
+      requiredDocuments,
       isActive,
       applicationDeadline,
     } = req.body;
@@ -193,7 +196,8 @@ export const updateScheme = async (req, res, next) => {
     if (category) scheme.category = category;
     if (eligibility) scheme.eligibility = eligibility;
     if (benefits) scheme.benefits = benefits;
-    if (documents) scheme.documents = documents;
+    if (formFields) scheme.formFields = formFields;
+    if (requiredDocuments) scheme.requiredDocuments = requiredDocuments;
 
     if (applicationDeadline !== undefined) {
       scheme.applicationDeadline = applicationDeadline || null;

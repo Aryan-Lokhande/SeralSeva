@@ -219,13 +219,18 @@ export const updateApplicationStatus = async (req, res, next) => {
     application.reviewedBy = req.user.id;
 
     await application.save();
+
+    // Compute safe fallbacks for email
+    const emailTo = application.personalInfo?.email || req.user.email;
+    const nameTo = application.personalInfo?.fullName || req.user.name;
+
     if (status === "Approved") {
       await sendEmail({
-        email: application.personalInfo.email,
+        email: emailTo,
         subject: `Application Approved - ${application.scheme.title}`,
         message: `
           <h2 style="color:green;">Application Approved</h2>
-          <p>Dear ${application.personalInfo.fullName},</p>
+          <p>Dear ${nameTo},</p>
           
           <p>Your application for ${application.scheme.title} has been successfully approved.</p>
           
@@ -233,18 +238,18 @@ export const updateApplicationStatus = async (req, res, next) => {
           
           <p>You will receive further updates soon.</p>
           <br/>
-          <p>Thank you for using Yojna Sathi.</p>
+          <p>Thank you for using Yojna Saathi.</p>
         `,
       });
     }
 
     if (status === "Rejected") {
       await sendEmail({
-        email: application.personalInfo.email,
+        email: emailTo,
         subject: `Application Rejected - ${application.scheme.title}`,
         message: `
           <h2 style="color:red;">Application Rejected</h2>
-          <p>Dear ${application.personalInfo.fullName},</p>
+          <p>Dear ${nameTo},</p>
           
           <p>We regret to inform you that your application has been rejected.</p>
           
@@ -253,7 +258,7 @@ export const updateApplicationStatus = async (req, res, next) => {
           
           <p>You may reapply after correcting the issue.</p>
           <br/>
-          <p>Thank you for using Yojna Sathi.</p>
+          <p>Thank you for using Yojna Saathi.</p>
         `,
       });
     }

@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { submitApplication } from "../utils/api";
+import { submitApplication, uploadApplicationDocuments } from "../utils/api";
 import toast from "react-hot-toast";
-import { ArrowLeft, Upload, CheckCircle, AlertCircle } from "lucide-react";
+import { ArrowLeft, Upload, CheckCircle } from "lucide-react";
 
 const ApplyScheme = () => {
   const location = useLocation();
@@ -146,9 +146,14 @@ const ApplyScheme = () => {
           toast.loading("Uploading documents...", { id: "upload-toast" });
           try {
             await uploadApplicationDocuments(applicationId, fileList);
-            toast.success("Documents uploaded successfully!", { id: "upload-toast" });
+            toast.success("Documents uploaded successfully!", {
+              id: "upload-toast",
+            });
           } catch (uploadError) {
-            toast.error("Application submitted, but document upload failed. You can upload them later from the dashboard.", { id: "upload-toast", duration: 5000 });
+            toast.error(
+              "Application submitted, but document upload failed. You can upload them later from the dashboard.",
+              { id: "upload-toast", duration: 5000 },
+            );
             console.error("Document upload error:", uploadError);
           }
         }

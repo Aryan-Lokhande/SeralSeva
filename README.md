@@ -3,10 +3,15 @@
 A full-stack government service and grievance management platform designed to streamline citizen–government interactions through digital workflows, real-time tracking, and intelligent recommendations.
 
 ---
+## Live Project
+
+👉 [Visit Yojna Saathi](https://yojna-saathi.vercel.app/)
+
+---
 
 ## Overview
 
-## Yojna Saathi simplifies access to government schemes and enables citizens to apply, track applications, and raise grievances through a unified digital interface. The platform also equips administrators with powerful tools to manage applications, resolve issues, and monitor system activity efficiently.
+> Yojna Saathi simplifies access to government schemes and enables citizens to apply, track applications, and raise grievances through a unified digital interface. The platform also equips administrators with powerful tools to manage applications, resolve issues, and monitor system activity efficiently.
 
 ## Key Features
 
@@ -52,12 +57,6 @@ Node.js, Express.js, MongoDB, Mongoose
 
 **Integrations & Services:**
 Cloudinary, Nodemailer, FastAPI, Python (scikit-learn)
-
----
-
-## Live Project
-
-👉 [Visit Yojna Sathi](https://yojna-saathi.vercel.app/)
 
 ---
 

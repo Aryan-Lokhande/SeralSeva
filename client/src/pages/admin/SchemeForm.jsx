@@ -689,7 +689,7 @@ const Card = ({ title, icon, children, action }) => (
     <div className="px-6 py-4 bg-[var(--bg-ter)]/50 border-b border-[var(--bg-ter)] flex justify-between items-center">
       <div className="flex items-center gap-2">
         {icon && <span className="text-[var(--btn)]">{icon}</span>}
-        <h3 className="font-bold text-lg">{title}</h3>
+        <h3 className="font-bold text-lg text-[var(--txt)]">{title}</h3>
       </div>
       {action && action}
     </div>
