@@ -22,19 +22,15 @@ const applicationSchema = new mongoose.Schema(
     personalInfo: {
       fullName: {
         type: String,
-        required: [true, "Full name is required"],
       },
       email: {
         type: String,
-        required: [true, "Email is required"],
       },
       phone: {
         type: String,
-        required: [true, "Phone number is required"],
       },
       aadhar: {
         type: String,
-        required: [true, "Aadhar number is required"],
         match: [/^[0-9]{12}$/, "Please provide valid 12-digit Aadhar number"],
       },
       pan: {
@@ -46,38 +42,36 @@ const applicationSchema = new mongoose.Schema(
       },
       income: {
         type: Number,
-        required: [true, "Annual income is required"],
       },
     },
     address: {
       fullAddress: {
         type: String,
-        required: [true, "Address is required"],
       },
       city: {
         type: String,
-        required: [true, "City is required"],
       },
       state: {
         type: String,
-        required: [true, "State is required"],
       },
       pincode: {
         type: String,
-        required: [true, "Pincode is required"],
         match: [/^[0-9]{6}$/, "Please provide valid 6-digit pincode"],
       },
     },
     bankDetails: {
       accountNumber: {
         type: String,
-        required: [true, "Bank account number is required"],
       },
       ifsc: {
         type: String,
-        required: [true, "IFSC code is required"],
         match: [/^[A-Z]{4}0[A-Z0-9]{6}$/, "Please provide valid IFSC code"],
       },
+    },
+    // Dynamic Form Data
+    formData: {
+      type: Map,
+      of: mongoose.Schema.Types.Mixed,
     },
     documents: [
       {
