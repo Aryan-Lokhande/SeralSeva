@@ -7,7 +7,10 @@ A full-stack government service and grievance management platform designed to st
 
 👉 [Visit Yojna Saathi](https://yojna-saathi.vercel.app/)
 
----
+<!-- Coloured Line -->
+<h3 align="center"> 
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png">
+</h3> 
 
 ## Overview
 
@@ -68,7 +71,10 @@ Cloudinary, Nodemailer, FastAPI, Python (scikit-learn)
 - Integrates ML microservice for intelligent recommendations
 - Built with scalability and production-readiness in mind
 
----
+<!-- Coloured Line -->
+<h3 align="center"> 
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png">
+</h3>
 
 ## Author
 
