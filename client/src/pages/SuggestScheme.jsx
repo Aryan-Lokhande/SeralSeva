@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { getRecommendations } from "../utils/api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const SuggestScheme = () => {
   const [form, setForm] = useState({
@@ -43,33 +44,57 @@ const SuggestScheme = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--txt)] py-10 px-4">
-      {/* Header*/}
-      <div className="max-w-5xl mx-auto text-center mb-10">
-        <h1 className="text-3xl md:text-4xl font-bold mb-3">
-          Smart Scheme Suggestion
-        </h1>
-        <p className="text-[var(--txt-dim)]">
-          Find the most relevant government schemes based on your profile
-        </p>
-      </div>
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--txt)] pb-16">
+      {/* Banner Section */}
+      <section
+        className="py-20 mb-12"
+        style={{
+          background: `
+            linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+            linear-gradient(-45deg, #ff7e40, #7e2a0c)
+          `,
+          backgroundSize: "40px 40px, 40px 40px, cover",
+          backgroundAttachment: "scroll, scroll, fixed",
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: -30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-4"
+          >
+            Smart Scheme Suggestion
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-xl text-white/90"
+          >
+            Find the most relevant government schemes based on your profile
+          </motion.p>
+        </div>
+      </section>
 
-      {/* Form Card */}
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Form Card */}
+        <div className="max-w-2xl mx-auto ">
         <form
           onSubmit={handleSubmit}
           className="
           bg-[var(--bg-sec)] p-6 md:p-8 rounded-[var(--radius)]
-          border border-[var(--bg-ter)] space-y-5
+          border-1 border-t-4 border-[var(--txt)]/60 space-y-5
           shadow-[0_10px_30px_rgba(var(--shadow-rgb),0.25)]"
         >
-          <h2 className="text-lg font-semibold text-[var(--txt)] mb-2">
+          <h2 className="text-lg font-bold text-[var(--txt)] mb-2">
             Enter Your Details
           </h2>
 
           {/* Income */}
           <div>
-            <label className="block text-sm text-[var(--txt-dim)] mb-1">
+            <label className="block font-semibold text-sm text-[var(--txt-dim)] mb-1">
               Annual Income
             </label>
             <input
@@ -88,7 +113,7 @@ const SuggestScheme = () => {
 
           {/* Category */}
           <div>
-            <label className="block text-sm text-[var(--txt-dim)] mb-1">
+            <label className="block font-semibold text-sm text-[var(--txt-dim)] mb-1">
               Category
             </label>
             <select
@@ -180,6 +205,7 @@ const SuggestScheme = () => {
             No suggestions yet. Fill the form to get recommendations.
           </div>
         )}
+      </div>
       </div>
     </div>
   );

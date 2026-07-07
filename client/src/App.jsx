@@ -1,11 +1,14 @@
+import { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
+  useLocation,
 } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
+import { schemesData } from "./data/mockData";
 
 // Public Layout Components
 import Navbar from "./components/Navbar";
@@ -60,10 +63,59 @@ const PublicLayout = ({ children }) => (
   </div>
 );
 
+function PageTitleHandler() {
+  const location = useLocation();
+
+  useEffect(() => {
+    const pathname = location.pathname;
+    let title = "Yojna Saathi";
+
+    if (pathname !== "/") {
+      const routes = {
+        "/suggest": "Suggest Scheme",
+        "/schemes": "Schemes",
+        "/grievances": "Grievances",
+        "/dashboard": "Dashboard",
+        "/login": "Login",
+        "/signup": "Signup",
+        "/apply-scheme": "Apply Scheme",
+        "/lodge-grievance": "Lodge Grievance",
+        "/track-grievance": "Track Grievance",
+        "/contact": "Contact",
+        "/success-stories": "Success Stories",
+        "/admin/dashboard": "Admin Dashboard",
+        "/admin/applications": "Applications Management",
+        "/admin/grievances": "Grievances Management",
+        "/admin/schemes": "Schemes Management",
+        "/admin/schemes/add": "Add Scheme",
+        "/admin/queries": "Contact Queries",
+        "/admin/users": "Users Management",
+        "/admin/analytics": "Analytics",
+        "/admin/settings": "Settings",
+      };
+
+      if (routes[pathname]) {
+        title = `${routes[pathname]} | Yojna Saathi`;
+      } else if (pathname.startsWith("/scheme/")) {
+        const id = pathname.split("/").pop();
+        const scheme = schemesData.find((s) => s.id === parseInt(id));
+        title = scheme ? `${scheme.title} | Yojna Saathi` : "Scheme Details | Yojna Saathi";
+      } else if (pathname.startsWith("/admin/schemes/edit/")) {
+        title = "Edit Scheme | Yojna Saathi";
+      }
+    }
+
+    document.title = title;
+  }, [location]);
+
+  return null;
+}
+
 function App() {
   return (
     <AuthProvider>
       <Router>
+        <PageTitleHandler />
         <Routes>
           {/* ─── Public Routes (with Navbar + Footer) ─── */}
           <Route

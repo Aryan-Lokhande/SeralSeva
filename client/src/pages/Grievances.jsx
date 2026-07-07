@@ -66,7 +66,18 @@ const Grievances = () => {
   return (
     <div className="min-h-screen bg-[var(--bg-primary)]">
       {/* Hero */}
-      <section className="bg-gradient-to-r from-[var(--btn)] to-[var(--btn-hover)]/50 py-20">
+      <section
+        className="py-20"
+        style={{
+          background: `
+            linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+            linear-gradient(-45deg, #ff7e40, #7e2a0c)
+          `,
+          backgroundSize: "40px 40px, 40px 40px, cover",
+          backgroundAttachment: "scroll, scroll, fixed",
+        }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.h1
             initial={{ opacity: 0, y: -30 }}

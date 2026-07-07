@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import ImageSlider from "../components/ImageSlider.jsx";
 import Marquee from "../components/Marquee.jsx";
@@ -11,32 +12,34 @@ import {
   PenLine,
   Search,
   Sparkles,
+  ArrowRight,
 } from "lucide-react";
 
 const Home = () => {
+  const navigate = useNavigate();
   const infoCards = [
     {
-      icon: <ClipboardList size={50} className="text-[var(--btn)]" />,
+      icon: <ClipboardList size={28} className="text-[var(--btn)]" />,
       title: "Scheme Information",
       description:
         "Explore detailed information about all government schemes and their benefits",
       link: "/schemes",
     },
     {
-      icon: <BadgeCheck size={50} className="text-[var(--btn)]" />,
+      icon: <BadgeCheck size={28} className="text-[var(--btn)]" />,
       title: "Eligibility Criteria",
       description:
         "Check if you qualify for various government schemes and programs",
       link: "/schemes",
     },
     {
-      icon: <Users size={50} className="text-[var(--btn)]" />,
+      icon: <Users size={28} className="text-[var(--btn)]" />,
       title: "Beneficiaries",
       description: "Learn about who can benefit from different welfare schemes",
       link: "/schemes",
     },
     {
-      icon: <FileText size={50} className="text-[var(--btn)]" />,
+      icon: <FileText size={28} className="text-[var(--btn)]" />,
       title: "Application Process",
       description: "Step-by-step guide to apply for government schemes online",
       link: "/schemes",
@@ -96,24 +99,9 @@ const Home = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
           {infoCards.map((card, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="
-                h-full
-                flex
-                bg-[var(--bg-sec)]
-                border border-[var(--bg-ter)]
-                rounded-[var(--radius)]
-              "
-            >
-              <InfoCard {...card} className="flex-1" />
-            </motion.div>
+            <InfoCard key={index} {...card} index={index} />
           ))}
         </div>
       </section>
@@ -124,49 +112,64 @@ const Home = () => {
           <p className="text-4xl font-bold text-amber-600 md:text-5xl lg:text-6xl tracking-widest">
             HOW IT WORKS
           </p>
-          <h1 className="mt-2 text-4xl font-extrabold  text-[var(--txt)] jost md:text-5xl">
+          <h2 className="mt-2 text-4xl font-extrabold  text-[var(--txt)] jost md:text-5xl">
             Government Schemes, Simplified in 3 Steps
-          </h1>
+          </h2>
         </div>
 
-        <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-16 mt-16 px-4">
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 mt-16 px-4 max-w-7xl relative">
           {[
             {
               icon: PenLine,
               title: "Enter Details",
               description: "Start by providing your basic details.",
-              border: "border-amber-500",
+              border: "border-t-amber-500",
             },
             {
               icon: Search,
               title: "Find Your Schemes",
               description: "Shows the most relevant schemes.",
-              border: "border-orange-600",
+              border: "border-t-orange-600",
             },
             {
               icon: Sparkles,
               title: "Select & Apply",
               description: "Apply directly through our simplified portal.",
-              border: "border-red-800",
+              border: "border-t-red-800",
             },
           ].map((step, index) => (
             <div
               key={index}
-              className={`flex flex-col items-center p-8 text-center bg-white/60 backdrop-blur-md rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl border-t-4 ${step.border}`}
+              className={`relative flex flex-col items-center p-8 text-center bg-white border border-orange-100/80 border-t-4 ${step.border} rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:shadow-[0_20px_40px_rgba(169,116,95,0.08)] transition-all duration-300 group hover:-translate-y-1`}
             >
-              <div className={`p-4 rounded-full bg-[var(--btn)]/7`}>
-                <step.icon className="w-14 h-14 text-[var(--btn)]" />{" "}
+              {/* Step Connection Arrow (only on desktop and between items) */}
+              {index < 2 && (
+                <div className="hidden md:block absolute top-1/2 -right-6 translate-x-1/2 -translate-y-1/2 z-10 text-orange-200">
+                  <ArrowRight className="w-8 h-8 animate-pulse" />
+                </div>
+              )}
+
+              {/* Step Number Badge */}
+              <div className="absolute top-4 right-6 text-5xl font-extrabold text-orange-100/40 select-none group-hover:text-orange-200/50 transition-colors duration-300">
+                0{index + 1}
+              </div>
+
+              {/* Icon */}
+              <div className="p-4 rounded-2xl bg-[var(--accent)] text-[var(--btn)] group-hover:scale-110 transition-transform duration-300 shadow-sm border border-orange-50/50">
+                <step.icon className="w-10 h-10" />
               </div>
 
               <h3
-                className="mt-6 text-2xl font-bold text-orange-900 jost"
+                className="mt-6 text-xl font-bold text-[var(--txt)] tracking-tight cursor-pointer"
                 data-tooltip-id={`step-title-${index}`}
                 data-tooltip-content={`Step ${index + 1}:\n${step.description}`}
               >
                 {step.title}
               </h3>
 
-              <p className="mt-2 text-gray-600">{step.description}</p>
+              <p className="mt-3 text-sm text-[var(--txt-dim)] leading-relaxed">
+                {step.description}
+              </p>
             </div>
           ))}
         </div>
@@ -197,24 +200,24 @@ const Home = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => (window.location.href = "/schemes")}
+            onClick={() => navigate("/schemes")}
             className="
               bg-[var(--bg-primary)] text-[var(--btn)] mx-3
               px-8 py-3 rounded-[var(--radius)] font-bold text-lg
               hover:shadow-[0_8px_24px_rgba(var(--shadow-rgb),0.35)]
-              transition-all duration-200"
+              transition-all duration-200 cursor-pointer"
           >
             Browse Schemes
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => (window.location.href = "/suggest")}
+            onClick={() => navigate("/suggest")}
             className="
               bg-[var(--bg-primary)] text-[var(--btn)] mx-3 mt-2
               px-8 py-3 rounded-[var(--radius)] font-bold text-lg
               hover:shadow-[0_8px_24px_rgba(var(--shadow-rgb),0.35)]
-              transition-all duration-200"
+              transition-all duration-200 cursor-pointer"
           >
             Suggest Scheme
           </motion.button>
